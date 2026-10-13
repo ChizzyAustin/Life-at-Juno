@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Life at Juno: the community events calendar for Juno Karimu and Juno Emily Akinola, Yaba.">
+<meta name="theme-color" content="#14478C">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Life at Juno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Layout: header, then a Juno-blue countdown band carrying the Karimu facade's block pattern, then one view at a time — Today (giant date beside the agenda), Week (a lane per building across seven days), Month (grid with the chosen day listed below). */
+:root{
+  --bg:#F3F7FB; --surface:#FFFFFF; --surface-2:#E6EEF7; --ink:#16294A; --muted:#56677F; --line:#D8E3EF; --outline:#14478C;
+  --brand:#14478C; --brand-2:#1A64AC; --on-brand:#FFFFFF; --sun:#F9CB73; --sun-ink:#4A3300;
+  --facade-grey:#AFBBCA; --facade-deep:#0E3670;
+  --play:#DD5429; --play-wash:#FDEAE2;
+  --talk:#1A64AC; --talk-wash:#E2EDF9;
+  --move:#0F836A; --move-wash:#DCF2EB;
+  --sig:#C4870F; --sig-wash:#FEF2D6; --sig-ink:#5A3D00;
+  --scrim:rgba(10,24,48,.55);
+  --f-display:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-body:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1629; --surface:#10213D; --surface-2:#182E52; --ink:#EEF4FB; --muted:#9DB0C9; --line:#223B63; --outline:#5E92D2;
+    --brand:#17468A; --brand-2:#2F7AC6; --on-brand:#FFFFFF; --sun:#F9CB73; --sun-ink:#2A1C00;
+    --facade-grey:#6F82A0; --facade-deep:#0B2A57;
+    --play:#FF8A5E; --play-wash:#3A2015;
+    --talk:#74ADEB; --talk-wash:#132B4E;
+    --move:#43CFAA; --move-wash:#0E3329;
+    --sig:#F9CB73; --sig-wash:#3A2E10; --sig-ink:#FFE3A6;
+    --scrim:rgba(0,0,0,.65);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1629; --surface:#10213D; --surface-2:#182E52; --ink:#EEF4FB; --muted:#9DB0C9; --line:#223B63; --outline:#5E92D2;
+  --brand:#17468A; --brand-2:#2F7AC6; --on-brand:#FFFFFF; --sun:#F9CB73; --sun-ink:#2A1C00;
+  --facade-grey:#6F82A0; --facade-deep:#0B2A57;
+  --play:#FF8A5E; --play-wash:#3A2015;
+  --talk:#74ADEB; --talk-wash:#132B4E;
+  --move:#43CFAA; --move-wash:#0E3329;
+  --sig:#F9CB73; --sig-wash:#3A2E10; --sig-ink:#FFE3A6;
+  --scrim:rgba(0,0,0,.65);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brand-2);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 56px}
+@media (min-width:720px){.wrap{padding-inline:28px;padding-block:32px 72px}}
+
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.num-tab{font-variant-numeric:tabular-nums}
+
+/* Header */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px}
+.top h1{margin:6px 0 0;font-family:var(--f-display);font-weight:900;font-size:clamp(42px,8.5vw,96px);line-height:.9;letter-spacing:-.035em;color:var(--ink)}
+.top h1 .dot{color:var(--sun)}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px;max-width:100%}
+.seg button{border:0;background:transparent;color:var(--muted);font-weight:700;font-size:14.5px;padding:10px 18px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.seg button[aria-selected="true"]{background:var(--brand);color:var(--on-brand)}
+@media (max-width:420px){.seg button{padding:9px 12px;font-size:14px}}
+
+/* Countdown band */
+.next{position:relative;overflow:hidden;margin-top:24px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:6px 26px;width:100%;text-align:left;border:0;cursor:pointer;background:var(--brand);color:var(--on-brand);border-radius:28px;padding:22px 28px}
+.next > *:not(canvas){position:relative;z-index:1}
+.next canvas{position:absolute;top:0;right:0;height:100%;width:46%;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 38%);mask-image:linear-gradient(90deg,transparent 0,#000 38%)}
+.next .count{font-family:var(--f-display);font-weight:900;font-size:clamp(56px,8vw,92px);line-height:.85;color:var(--sun);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.next .count small{display:block;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--on-brand);opacity:.85;margin-top:8px}
+.next .what{min-width:0;display:grid;gap:4px}
+.next .what .eyebrow{color:var(--sun)}
+.next .what b{font-family:var(--f-display);font-weight:800;font-size:clamp(22px,3.2vw,34px);line-height:1.05;letter-spacing:-.015em}
+.next .what span.m{font-weight:500;opacity:.9}
+.next .go{justify-self:end;background:var(--sun);color:var(--sun-ink);font-weight:700;font-size:14px;border-radius:999px;padding:9px 16px}
+@media (max-width:560px){.next{grid-template-columns:auto minmax(0,1fr);padding:18px 20px;gap:6px 16px}.next .go{display:none}.next canvas{width:60%;opacity:.55}}
+
+/* Filters and key */
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin-top:22px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px solid var(--outline);background:transparent;color:var(--ink);border-radius:999px;padding:7px 16px;font-size:14px;font-weight:600;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.ico{display:inline-flex;width:18px;height:18px;color:var(--c);flex:none}
+.ico svg{width:100%;height:100%;display:block}
+
+/* View header */
+.vhead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:34px}
+.vhead h2{margin:4px 0 0;font-family:var(--f-display);font-weight:800;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.015em;line-height:1.05}
+.nav{display:flex;gap:6px}
+.nav button{border:1px solid var(--outline);background:transparent;border-radius:999px;height:40px;min-width:40px;padding:0 16px;cursor:pointer;font-weight:700;font-size:14px;color:var(--ink)}
+.nav button[disabled]{opacity:.35;cursor:default}
+
+/* Today */
+.today{display:grid;grid-template-columns:minmax(0,250px) minmax(0,1fr);gap:20px 44px;margin-top:34px;align-items:start}
+.datebig{display:grid;gap:4px}
+.datebig .num{font-family:var(--f-display);font-weight:900;font-size:clamp(130px,18vw,210px);line-height:.8;letter-spacing:-.06em;font-variant-numeric:tabular-nums;color:var(--brand-2)}
+@media (max-width:720px){
+  .today{grid-template-columns:minmax(0,1fr)}
+  .datebig{grid-template-columns:auto minmax(0,1fr);align-items:end;column-gap:16px}
+  .datebig .num{grid-row:1 / 3;font-size:108px}
+}
+.sect{margin:0 0 6px;font-family:var(--f-display);font-weight:800;font-size:24px;letter-spacing:-.015em}
+.lede{margin:0 0 16px;color:var(--muted);font-weight:500}
+.later{margin-top:36px}
+.later .sect{margin-bottom:14px}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:14px}
+.card{display:grid;grid-template-rows:6px auto;text-align:left;width:100%;padding:0;border:1px solid var(--line);border-radius:24px;background:var(--surface);overflow:hidden;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px var(--c)}
+.card .band{background:var(--c)}
+.card .body{display:grid;gap:8px;align-content:start;padding:16px 20px 20px;min-width:0}
+.card.is-sig{background:var(--sig-wash);border-color:transparent}
+.r1{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--muted);flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.card .title{font-family:var(--f-display);font-weight:800;font-size:21px;line-height:1.12;letter-spacing:-.015em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--surface-2);color:var(--ink);line-height:1.4}
+.pill.both{background:var(--sun);color:var(--sun-ink)}
+.pill.series{background:transparent;box-shadow:inset 0 0 0 1px var(--c)}
+.blurb{color:var(--muted);font-size:14.5px;font-weight:500}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+
+/* Week: lanes on wide screens */
+.wgrid{display:grid;grid-template-columns:100px repeat(7,minmax(0,1fr));gap:6px;margin-top:18px}
+.dh{padding:10px 12px 9px;border-radius:16px;display:grid;gap:2px}
+.dh .d{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dh .n{font-family:var(--f-display);font-weight:800;font-size:24px;line-height:1;font-variant-numeric:tabular-nums}
+.dh.is-today{background:var(--brand);color:var(--on-brand)}
+.dh.is-today .d{color:var(--sun)}
+.lane{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 4px 0;line-height:1.3}
+.lane small{display:block;font-weight:600;letter-spacing:.02em;text-transform:none;font-size:12px;margin-top:2px}
+.cell{background:var(--surface);border-radius:16px;min-height:78px;padding:6px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.cell.is-today{box-shadow:inset 0 0 0 2px var(--brand-2)}
+.ev{display:grid;gap:2px;text-align:left;width:100%;border:0;border-left:4px solid var(--c);background:var(--cw);border-radius:10px;padding:7px 9px;cursor:pointer;color:var(--ink);min-width:0}
+.ev .t{font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.ev .n{font-weight:700;font-size:13.5px;line-height:1.22;overflow-wrap:anywhere}
+.ev .w{font-size:12.5px;font-weight:500;color:var(--muted)}
+.ev.is-sig .n{font-weight:800}
+.ev:hover{filter:brightness(.97)}
+
+/* Week: day list on phones */
+.wlist{display:none}
+@media (max-width:780px){
+  .wgrid{display:none}
+  .wlist{display:grid;gap:14px;margin-top:18px}
+}
+.wday{display:grid;grid-template-columns:60px minmax(0,1fr);gap:12px;align-items:start}
+.wday .dh{text-align:center;padding:8px 4px;background:var(--surface)}
+.wday .dh.is-today{background:var(--brand)}
+.wday .items{display:grid;gap:8px;min-width:0}
+.ev.wide{padding:10px 12px}
+.ev.wide .n{font-size:15px}
+.empty{color:var(--muted);font-size:14px;font-weight:500;padding:12px 0}
+
+/* Month */
+.mgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:18px}
+.mdow{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 6px 2px}
+.mcell{display:flex;flex-direction:column;gap:4px;align-items:stretch;text-align:left;min-height:114px;padding:8px;border-radius:16px;border:2px solid transparent;background:var(--surface);cursor:pointer;min-width:0;color:var(--ink)}
+.mcell.out{background:transparent;color:var(--muted)}
+.mcell.has-sig{background:var(--sig-wash)}
+.mcell[aria-pressed="true"]{border-color:var(--brand-2)}
+.mcell .num{font-family:var(--f-display);font-weight:800;font-size:15px;width:30px;height:30px;display:grid;place-items:center;border-radius:999px;font-variant-numeric:tabular-nums}
+.mcell.is-today .num{background:var(--brand);color:var(--on-brand)}
+.mini{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;line-height:1.25;min-width:0}
+.mini i{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.mini span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.mini.sig span{font-weight:800}
+.more{font-size:12px;font-weight:600;color:var(--muted);padding-left:14px}
+.dots{display:none;gap:3px;flex-wrap:wrap;padding-left:2px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+@media (max-width:640px){
+  .mgrid{gap:4px}
+  .mcell{min-height:58px;padding:4px;border-radius:12px}
+  .mini,.more{display:none}
+  .dots{display:flex}
+  .mcell .num{width:26px;height:26px;font-size:13px}
+  .mdow{padding:0 2px;font-size:10.5px;letter-spacing:.04em}
+}
+.dayhead{margin-top:28px}
+.dayhead .sect{margin-bottom:14px}
+
+/* Event dialog */
+dialog{border:0;padding:0;border-radius:28px;width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 48px);background:var(--surface);color:var(--ink);overflow:auto}
+dialog::backdrop{background:var(--scrim)}
+.dtop{background:var(--cw);padding:22px 24px 20px;display:grid;gap:10px;border-top:8px solid var(--c)}
+.dtop h3{margin:0;font-family:var(--f-display);font-weight:800;font-size:28px;line-height:1.08;letter-spacing:-.02em;text-wrap:balance}
+.dwhen{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.dwhere{font-size:14px;font-weight:500;color:var(--muted)}
+.dbody{padding:18px 24px 22px;display:grid;gap:16px}
+.dbody p{margin:0;font-size:16px;font-weight:500;max-width:60ch}
+.dacts{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:0;border-radius:999px;padding:11px 18px;font-weight:700;font-size:14.5px;cursor:pointer;background:var(--sun);color:var(--sun-ink)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--outline)}
+.copybox{width:100%;min-height:130px;font:500 14px/1.45 var(--f-body);border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--bg);color:var(--ink);resize:vertical}
+
+/* Footer */
+.foot{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);display:grid;gap:8px;color:var(--muted);font-size:14px;font-weight:500}
+.foot p{margin:0;max-width:72ch}
+.foot strong{color:var(--ink);font-weight:800}
+.foot .credit{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;letter-spacing:.02em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Community calendar · Karimu &amp; Emily Akinola, Yaba</div>
+      <h1>Life at Juno<span class="dot">.</span></h1>
+    </div>
+    <div class="seg" role="tablist" aria-label="Calendar view">
+      <button type="button" role="tab" id="tab-today" data-view="today" aria-selected="true" aria-controls="view">Today</button>
+      <button type="button" role="tab" id="tab-week" data-view="week" aria-selected="false" aria-controls="view">This week</button>
+      <button type="button" role="tab" id="tab-month" data-view="month" aria-selected="false" aria-controls="view">This month</button>
+    </div>
+  </header>
+
+  <button type="button" class="next" id="next" hidden></button>
+
+  <div class="bar">
+    <div class="chips" role="group" aria-label="Show events at">
+      <button type="button" id="b-all" data-building="all" aria-pressed="true">All buildings</button>
+      <button type="button" id="b-karimu" data-building="karimu" aria-pressed="false">Karimu</button>
+      <button type="button" id="b-emily" data-building="emily" aria-pressed="false">Emily Akinola</button>
+    </div>
+    <div class="legend" id="legend" aria-label="Event types"></div>
+  </div>
+
+  <main id="view" role="tabpanel" aria-live="polite"></main>
+
+  <footer class="foot">
+    <p><strong>Check in with your room number at every event.</strong> Your room earns Juno Loyalty Points.</p>
+    <p>Karimu events are open to members of both buildings. Times can change; the Thursday weekend post confirms each weekend.</p>
+    <p id="updated"></p>
+    <p class="credit">Calendar by <strong>Chidiverse Consulting Ltd</strong></p>
+  </footer>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlg-title"><div id="dlg-body"></div></dialog>
+
+<script type="application/json" id="juno-events">{"updated":"2026-10-13","events":[{"id":"2026-10-16-karimu-rooftop-tales-powerpoint-night","date":"2026-10-16","title":"Rooftop Tales: PowerPoint Night","cat":"play","where":"karimu","blurb":"A PowerPoint night on the rooftop. Members present short, cheeky slideshows on random and silly topics, with music and a potluck, so bring a dish to share. An optional vote or roast at the end crowns the favourite presenter. Want to present? Message the community team.","time":"19:00","venue":"Rooftop"},{"id":"2026-10-16-emily-board-games-and-snooker-night","date":"2026-10-16","title":"Board games and snooker night","cat":"play","where":"emily","blurb":"A relaxed night in at Emily Akinola with snooker, cards and board games.","time":"19:30"},{"id":"2026-10-17-karimu-run-club","date":"2026-10-17","title":"Run club","cat":"move","where":"karimu","blurb":"An easy group run from Karimu. All paces welcome.","time":"07:00"},{"id":"2026-10-21-karimu-juno-connect-life","date":"2026-10-21","title":"Juno Connect: Life","cat":"talk","where":"karimu","blurb":"An open conversation on relationships, money, career and everyday pressure, with a guest host.","time":"19:00","series":"conv"},{"id":"2026-10-23-karimu-odogwu-or-not","date":"2026-10-23","title":"Odogwu or Not","cat":"play","where":"karimu","blurb":"Challenge night. Take on skill and nerve challenges, and the crowd decides who is odogwu.","time":"19:30"},{"id":"2026-10-23-emily-snooker-and-pool-night","date":"2026-10-23","title":"Snooker and pool night","cat":"play","where":"emily","blurb":"Snooker and pool at Emily Akinola for anyone who wants a game.","time":"19:30","venue":"Snooker table"},{"id":"2026-10-24-karimu-cardio-with-a-trainer","date":"2026-10-24","title":"Cardio with a trainer","cat":"move","where":"karimu","blurb":"A trainer-led cardio session. Bring water and a towel.","time":"07:30"},{"id":"2026-10-24-karimu-paint-and-sip","date":"2026-10-24","title":"Paint and Sip","cat":"play","where":"karimu","blurb":"An artist-led painting session on the rooftop, with drinks. No experience needed, and you take your canvas home. Seats are limited, so book with the community team.","time":"17:00","venue":"Rooftop","series":"sat"},{"id":"2026-10-26-all-memory-wall-opens","date":"2026-10-26","title":"Memory wall opens","cat":"sig","where":"all","blurb":"Juno turns five this week. Share your favourite Juno photos for the anniversary reel.","allDay":true,"joint":true,"series":"five"},{"id":"2026-10-28-karimu-juno-connect-five-years-of-juno","date":"2026-10-28","title":"Juno Connect: Five years of Juno","cat":"talk","where":"karimu","blurb":"Some of the longest-staying members share what five years of Juno has looked like.","time":"19:00","series":"five"},{"id":"2026-10-30-karimu-juno-at-five","date":"2026-10-30","title":"Juno at Five","cat":"sig","where":"karimu","blurb":"Juno turns five. Both buildings, one night: the photo reel, the year ahead, awards for the cleanest rooms and the longest-staying members, cake for October birthdays, the Derby Series launch, and the Ultimate Raffle. Every room is in the draw, and you have to be there to win.","time":"18:00","end":"22:00","venue":"Rooftop","joint":true,"big":true,"series":"five"},{"id":"2026-10-31-karimu-easy-run-and-stretch","date":"2026-10-31","title":"Easy run and stretch","cat":"move","where":"karimu","blurb":"A gentle run and stretch the morning after the anniversary.","time":"08:00"},{"id":"2026-11-01-emily-potluck-brunch","date":"2026-11-01","title":"Potluck brunch","cat":"play","where":"emily","blurb":"Bring a dish and share a slow Sunday at Emily Akinola.","time":"11:00"},{"id":"2026-11-03-karimu-yoga","date":"2026-11-03","title":"Yoga","cat":"move","where":"karimu","blurb":"A coach-led yoga class. Bring a mat or rent one on the night.","time":"18:30"},{"id":"2026-11-04-all-derby-series-sign-ups-close","date":"2026-11-04","title":"Derby Series sign-ups close","cat":"sig","where":"all","blurb":"Last day to sign up for snooker, tennis, chess and board games, and the Derby squads.","allDay":true,"joint":true,"series":"derby"},{"id":"2026-11-04-karimu-the-round-table","date":"2026-11-04","title":"The Round Table","cat":"talk","where":"karimu","blurb":"Builders, investors and ecosystem guests compare notes and make introductions.","time":"19:00","series":"conv"},{"id":"2026-11-05-emily-pilates","date":"2026-11-05","title":"Pilates","cat":"move","where":"emily","blurb":"A small coach-led Pilates class at Emily Akinola. Spaces are limited.","time":"18:30"},{"id":"2026-11-06-karimu-chess-and-board-games-round-1","date":"2026-11-06","title":"Chess and board games: round 1","cat":"play","where":"karimu","blurb":"Round 1 of the Derby Series chess and board games. Every win counts for your building.","time":"19:30","series":"derby"},{"id":"2026-11-06-emily-chess-and-board-games-round-1","date":"2026-11-06","title":"Chess and board games: round 1","cat":"play","where":"emily","blurb":"Round 1 of the Derby Series chess and board games for Emily Akinola players.","time":"19:30","series":"derby"},{"id":"2026-11-07-away-derby-training-1","date":"2026-11-07","title":"Derby training 1","cat":"move","where":"away","blurb":"Squad training for Derby Day. Anyone can join the session.","time":"07:00","venue":"Pitch to be announced","joint":true,"series":"derby"},{"id":"2026-11-07-karimu-tennis-round-1","date":"2026-11-07","title":"Tennis: round 1","cat":"move","where":"karimu","blurb":"Derby Series tennis on the Karimu court.","time":"10:00","venue":"Tennis court","series":"derby"},{"id":"2026-11-08-emily-snooker-round-1","date":"2026-11-08","title":"Snooker: round 1","cat":"play","where":"emily","blurb":"Derby Series snooker begins on the Emily Akinola table.","time":"16:00","venue":"Snooker table","series":"derby"},{"id":"2026-11-10-karimu-yoga","date":"2026-11-10","title":"Yoga","cat":"move","where":"karimu","blurb":"A coach-led yoga class. Bring a mat or rent one on the night.","time":"18:30"},{"id":"2026-11-10-emily-snooker-next-round","date":"2026-11-10","title":"Snooker: next round","cat":"play","where":"emily","blurb":"The Derby Series snooker continues.","time":"20:00","venue":"Snooker table","series":"derby"},{"id":"2026-11-11-karimu-juno-connect-mind","date":"2026-11-11","title":"Juno Connect: Mind","cat":"talk","where":"karimu","blurb":"A session led by a licensed therapist on looking after your mind.","time":"19:00","series":"conv"},{"id":"2026-11-12-emily-pilates","date":"2026-11-12","title":"Pilates","cat":"move","where":"emily","blurb":"A small coach-led Pilates class at Emily Akinola. Spaces are limited.","time":"18:30"},{"id":"2026-11-12-emily-snooker-semi-finals","date":"2026-11-12","title":"Snooker: semi-finals","cat":"play","where":"emily","blurb":"The Derby Series snooker semi-finals.","time":"20:00","venue":"Snooker table","series":"derby"},{"id":"2026-11-13-karimu-member-recognition-then-games-night","date":"2026-11-13","title":"Member Recognition, then games night","cat":"play","where":"karimu","blurb":"We celebrate the members who made the month, welcome the newest faces, then play.","time":"19:30"},{"id":"2026-11-13-emily-snooker-final","date":"2026-11-13","title":"Snooker final","cat":"play","where":"emily","blurb":"The Derby Series snooker final. Points go to the winner's building.","time":"19:30","venue":"Snooker table","series":"derby"},{"id":"2026-11-14-away-derby-training-2","date":"2026-11-14","title":"Derby training 2","cat":"move","where":"away","blurb":"The last squad session before Derby Day.","time":"07:00","venue":"Pitch to be announced","joint":true,"series":"derby"},{"id":"2026-11-14-karimu-tennis-final","date":"2026-11-14","title":"Tennis final","cat":"move","where":"karimu","blurb":"The Derby Series tennis final on the Karimu court.","time":"10:00","venue":"Tennis court","series":"derby"},{"id":"2026-11-17-karimu-yoga","date":"2026-11-17","title":"Yoga","cat":"move","where":"karimu","blurb":"A coach-led yoga class. Bring a mat or rent one on the night.","time":"18:30"},{"id":"2026-11-18-karimu-juno-connect-life","date":"2026-11-18","title":"Juno Connect: Life","cat":"talk","where":"karimu","blurb":"An open conversation on relationships, money, career and everyday pressure, with a guest host.","time":"19:00","series":"conv"},{"id":"2026-11-19-emily-pilates","date":"2026-11-19","title":"Pilates","cat":"move","where":"emily","blurb":"A small coach-led Pilates class at Emily Akinola. Spaces are limited.","time":"18:30"},{"id":"2026-11-20-karimu-derby-eve","date":"2026-11-20","title":"Derby Eve","cat":"play","where":"karimu","blurb":"Collect your kit, then Karimu takes on Emily Akinola in the Wizard of Juno quiz.","time":"19:30","joint":true,"series":"derby"},{"id":"2026-11-21-away-derby-day","date":"2026-11-21","title":"Derby Day","cat":"sig","where":"away","blurb":"Karimu against Emily Akinola. The football match, then side games, the chess final, the points tally, the Juno Derby Cup and the after-party.","joint":true,"big":true,"series":"derby"},{"id":"2026-11-22-emily-recovery-brunch","date":"2026-11-22","title":"Recovery brunch","cat":"play","where":"emily","blurb":"A slow Sunday brunch after Derby Day.","time":"11:00"},{"id":"2026-11-24-karimu-yoga","date":"2026-11-24","title":"Yoga","cat":"move","where":"karimu","blurb":"A coach-led yoga class. Bring a mat or rent one on the night.","time":"18:30"},{"id":"2026-11-25-karimu-juno-connect-faith-and-meaning","date":"2026-11-25","title":"Juno Connect: Faith and meaning","cat":"talk","where":"karimu","blurb":"An open, non-denominational conversation on faith, purpose and meaning.","time":"19:00","series":"conv"},{"id":"2026-11-26-emily-pilates","date":"2026-11-26","title":"Pilates","cat":"move","where":"emily","blurb":"A small coach-led Pilates class at Emily Akinola. Spaces are limited.","time":"18:30"},{"id":"2026-11-27-emily-movie-night","date":"2026-11-27","title":"Movie night","cat":"play","where":"emily","blurb":"A film night in at Emily Akinola.","time":"19:30"},{"id":"2026-11-27-karimu-music-night-and-november-birthdays","date":"2026-11-27","title":"Music night and November birthdays","cat":"play","where":"karimu","blurb":"Live music, food and drinks vendors, and cake for everyone with a November birthday.","time":"20:00"},{"id":"2026-11-28-karimu-run-club","date":"2026-11-28","title":"Run club","cat":"move","where":"karimu","blurb":"An easy group run from Karimu. All paces welcome.","time":"07:00"},{"id":"2026-11-30-all-entrepreneur-week-begins","date":"2026-11-30","title":"Entrepreneur Week begins","cat":"sig","where":"all","blurb":"A week for the builders at Juno: the Round Table, Pitch Night and the Juno Market.","allDay":true,"joint":true,"series":"ew"},{"id":"2026-12-01-karimu-yoga","date":"2026-12-01","title":"Yoga","cat":"move","where":"karimu","blurb":"A coach-led yoga class. Bring a mat or rent one on the night.","time":"18:30"},{"id":"2026-12-02-karimu-the-round-table-year-end","date":"2026-12-02","title":"The Round Table: year-end","cat":"talk","where":"karimu","blurb":"Builders, investors and ecosystem guests look back on the year and make introductions for the next.","time":"19:00","series":"ew"},{"id":"2026-12-03-emily-pilates","date":"2026-12-03","title":"Pilates","cat":"move","where":"emily","blurb":"A small coach-led Pilates class at Emily Akinola. Spaces are limited.","time":"18:30"},{"id":"2026-12-04-karimu-pitch-night","date":"2026-12-04","title":"Pitch Night","cat":"sig","where":"karimu","blurb":"Members present their businesses to peers and invited investors.","time":"19:30","series":"ew"},{"id":"2026-12-04-emily-snooker-and-pool-night","date":"2026-12-04","title":"Snooker and pool night","cat":"play","where":"emily","blurb":"Snooker and pool at Emily Akinola for anyone who wants a game.","time":"19:30","venue":"Snooker table"},{"id":"2026-12-05-karimu-cardio-with-a-trainer","date":"2026-12-05","title":"Cardio with a trainer","cat":"move","where":"karimu","blurb":"A trainer-led cardio session. Bring water and a towel.","time":"07:30"},{"id":"2026-12-05-karimu-juno-market","date":"2026-12-05","title":"Juno Market","cat":"sig","where":"karimu","blurb":"Member businesses take stands, followed by a rooftop hangout. Want a stand? Sign-ups open at Juno at Five.","time":"14:00","joint":true,"series":"ew"},{"id":"2026-12-08-karimu-yoga","date":"2026-12-08","title":"Yoga","cat":"move","where":"karimu","blurb":"A coach-led yoga class. Bring a mat or rent one on the night.","time":"18:30"},{"id":"2026-12-09-karimu-juno-connect-mind","date":"2026-12-09","title":"Juno Connect: Mind","cat":"talk","where":"karimu","blurb":"A session led by a licensed therapist on looking after your mind.","time":"19:00","series":"conv"},{"id":"2026-12-10-emily-pilates","date":"2026-12-10","title":"Pilates","cat":"move","where":"emily","blurb":"A small coach-led Pilates class at Emily Akinola. Spaces are limited.","time":"18:30"},{"id":"2026-12-11-karimu-ultimate-search","date":"2026-12-11","title":"Ultimate Search","cat":"play","where":"karimu","blurb":"A scavenger hunt across Karimu's shared spaces. Teams are drawn on the night.","time":"19:30"},{"id":"2026-12-11-emily-board-games-night","date":"2026-12-11","title":"Board games night","cat":"play","where":"emily","blurb":"Cards and board games at Emily Akinola.","time":"19:30"},{"id":"2026-12-12-karimu-run-club","date":"2026-12-12","title":"Run club","cat":"move","where":"karimu","blurb":"An easy group run from Karimu. All paces welcome.","time":"07:00"},{"id":"2026-12-12-karimu-end-of-year-party","date":"2026-12-12","title":"End-of-year party","cat":"sig","where":"karimu","blurb":"Both buildings close the year at Karimu with Raw Talent or Not, Members of the Year and the Room of the Quarter.","time":"19:00","joint":true,"big":true},{"id":"2026-12-15-karimu-yoga","date":"2026-12-15","title":"Yoga","cat":"move","where":"karimu","blurb":"A coach-led yoga class. Bring a mat or rent one on the night.","time":"18:30"},{"id":"2026-12-16-karimu-juno-connect-closing-the-year-well","date":"2026-12-16","title":"Juno Connect: Closing the year well","cat":"talk","where":"karimu","blurb":"An open conversation on ending the year well and planning the next one.","time":"19:00","series":"conv"},{"id":"2026-12-17-emily-pilates","date":"2026-12-17","title":"Pilates","cat":"move","where":"emily","blurb":"A small coach-led Pilates class at Emily Akinola. Spaces are limited.","time":"18:30"},{"id":"2026-12-18-emily-movie-night","date":"2026-12-18","title":"Movie night","cat":"play","where":"emily","blurb":"A film night in at Emily Akinola.","time":"19:30"},{"id":"2026-12-18-karimu-music-night-and-december-birthdays","date":"2026-12-18","title":"Music night and December birthdays","cat":"play","where":"karimu","blurb":"Live music, food and drinks vendors, and cake for everyone with a December birthday.","time":"20:00"},{"id":"2026-12-19-karimu-run-club","date":"2026-12-19","title":"Run club","cat":"move","where":"karimu","blurb":"An easy group run from Karimu. All paces welcome.","time":"07:00"},{"id":"2026-12-26-karimu-boxing-day-open-house","date":"2026-12-26","title":"Boxing Day open house","cat":"play","where":"karimu","blurb":"An open house at Karimu for members spending Christmas in Lagos.","time":"14:00","joint":true},{"id":"2026-12-31-karimu-rooftop-countdown","date":"2026-12-31","title":"Rooftop countdown","cat":"play","where":"karimu","blurb":"See in the new year on the Karimu rooftop.","time":"22:00","venue":"Rooftop","joint":true},{"id":"2027-01-01-karimu-new-year-s-day-brunch","date":"2027-01-01","title":"New Year's Day brunch","cat":"play","where":"karimu","blurb":"A late brunch for members in town on the first day of the year.","time":"12:00","joint":true},{"id":"2027-01-02-karimu-new-year-reset-run","date":"2027-01-02","title":"New Year reset run","cat":"move","where":"karimu","blurb":"Start the year with an easy group run from Karimu.","time":"08:00"}]}</script>
+<script>
+(function () {
+  "use strict";
+  const DATA = JSON.parse(document.getElementById("juno-events").textContent);
+  const EVENTS = DATA.events.slice().sort((a, b) => {
+    const ka = a.date + (a.time || "00:00"), kb = b.date + (b.time || "00:00");
+    return ka < kb ? -1 : ka > kb ? 1 : 0;
+  });
+  const BY_ID = {};
+  EVENTS.forEach(e => { BY_ID[e.id] = e; });
+
+  const svg = inner => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${inner}</svg>`;
+  const CATS = {
+    play: { label: "Play", icon: svg('<rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><circle cx="15" cy="9" r="1.5" fill="currentColor"/><circle cx="9" cy="15" r="1.5" fill="currentColor"/><circle cx="15" cy="15" r="1.5" fill="currentColor"/>') },
+    talk: { label: "Talk", icon: svg('<path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-7l-4.5 3.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>') },
+    move: { label: "Move", icon: svg('<path d="M2.5 12.5h4l2.5-6 4.5 11 2.5-5h5.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>') },
+    sig:  { label: "Signature", icon: svg('<path d="M12 3.2l2.6 5.6 6.1.7-4.5 4.2 1.2 6.1L12 16.8l-5.4 3 1.2-6.1-4.5-4.2 6.1-.7z" fill="currentColor"/>') }
+  };
+  const SERIES = { derby: "Derby Series", five: "Juno at Five", ew: "Entrepreneur Week", conv: "Juno Connect", sat: "Saturday Specials" };
+  const WHERE = { karimu: "Karimu", emily: "Emily Akinola", away: "Venue to be announced", all: "Both buildings" };
+  const WHERE_FULL = { karimu: "Juno Karimu Ikotun, Sabo, Yaba", emily: "Juno Emily Akinola, Akoka, Yaba", away: "Venue to be announced", all: "Juno Karimu and Juno Emily Akinola" };
+  const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const MONTH = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const DOWL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+  const $ = sel => document.querySelector(sel);
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const catStyle = c => `--c:var(--${c});--cw:var(--${c}-wash)`;
+
+  // Dates are handled as YYYY-MM-DD strings in Lagos time.
+  function todayISO() {
+    try {
+      const p = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Lagos", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date());
+      const g = t => p.find(x => x.type === t).value;
+      return g("year") + "-" + g("month") + "-" + g("day");
+    } catch (e) {
+      return new Date(Date.now() + 3600e3).toISOString().slice(0, 10);
+    }
+  }
+  const toDate = iso => new Date(Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)));
+  const toISO = d => d.toISOString().slice(0, 10);
+  const addDays = (iso, n) => { const d = toDate(iso); d.setUTCDate(d.getUTCDate() + n); return toISO(d); };
+  const dow = iso => toDate(iso).getUTCDay();
+  const mondayOf = iso => addDays(iso, -((dow(iso) + 6) % 7));
+  const dayNum = iso => +iso.slice(8, 10);
+  const monIdx = iso => +iso.slice(5, 7) - 1;
+  const fmtShort = iso => `${DOW[dow(iso)]} ${dayNum(iso)} ${MON[monIdx(iso)]}`;
+  const fmtLong = iso => `${DOWL[dow(iso)]} ${dayNum(iso)} ${MONTH[monIdx(iso)]}`;
+  const daysBetween = (a, b) => Math.round((toDate(b) - toDate(a)) / 864e5);
+  function fmtTime(t) {
+    let [h, m] = t.split(":").map(Number);
+    const ap = h >= 12 ? "pm" : "am";
+    h = h % 12 || 12;
+    return h + (m ? ":" + String(m).padStart(2, "0") : "") + ap;
+  }
+  function shiftMonth(ym, n) {
+    let y = +ym.slice(0, 4), m = +ym.slice(5, 7) + n;
+    while (m > 12) { m -= 12; y++; }
+    while (m < 1) { m += 12; y--; }
+    return y + "-" + String(m).padStart(2, "0");
+  }
+
+  const TODAY = todayISO();
+  const FIRST = EVENTS.length ? EVENTS[0].date : TODAY;
+  const LAST = EVENTS.length ? EVENTS[EVENTS.length - 1].date : TODAY;
+
+  const state = { view: "today", week: mondayOf(TODAY), month: TODAY.slice(0, 7), building: "all", day: null };
+  try { const b = localStorage.getItem("juno-building"); if (b === "karimu" || b === "emily" || b === "all") state.building = b; } catch (e) {}
+  const h0 = (location.hash || "").replace("#", "");
+  if (h0 === "today" || h0 === "week" || h0 === "month") state.view = h0;
+
+  // Events at Karimu are for everyone; joint, away and all-building events sit in their own lane.
+  const laneOf = ev => (ev.joint || ev.where === "away" || ev.where === "all") ? "both" : ev.where;
+  const visible = ev => state.building === "all" || laneOf(ev) === "both" || laneOf(ev) === state.building;
+  const eventsOn = iso => EVENTS.filter(e => e.date === iso && visible(e));
+
+  function timeLabel(ev) {
+    if (ev.allDay) return "All day";
+    if (!ev.time) return "Time to be announced";
+    return fmtTime(ev.time) + (ev.end ? "–" + fmtTime(ev.end) : "");
+  }
+  const whereText = ev => WHERE[ev.where] + (ev.venue ? " · " + ev.venue : "");
+  const fullWhere = ev => WHERE_FULL[ev.where] + (ev.venue ? " · " + ev.venue : "");
+  function laneLabel(ev) {
+    if (ev.where === "away") return "Venue to be announced · both buildings";
+    if (ev.where === "all") return "Both buildings";
+    if (ev.joint) return WHERE[ev.where] + " · both buildings";
+    return WHERE[ev.where];
+  }
+  function pills(ev) {
+    let out = `<span class="pill">${esc(whereText(ev))}</span>`;
+    if (ev.joint && ev.where !== "all") out += `<span class="pill both">Both buildings</span>`;
+    if (ev.series) out += `<span class="pill series">${esc(SERIES[ev.series])}</span>`;
+    return out;
+  }
+
+  function card(ev, withDate) {
+    return `<button type="button" class="card${ev.cat === "sig" ? " is-sig" : ""}" data-ev="${esc(ev.id)}" style="${catStyle(ev.cat)}">
+      <span class="band" aria-hidden="true"></span>
+      <span class="body">
+        <span class="r1"><span class="ico">${CATS[ev.cat].icon}</span><span>${withDate ? esc(fmtShort(ev.date)) + " · " : ""}${esc(timeLabel(ev))}</span></span>
+        <span class="title">${esc(ev.title)}</span>
+        <span class="meta">${pills(ev)}</span>
+        <span class="blurb">${esc(ev.blurb)}</span>
+      </span>
+    </button>`;
+  }
+  function chip(ev, wide) {
+    return `<button type="button" class="ev${ev.cat === "sig" ? " is-sig" : ""}${wide ? " wide" : ""}" data-ev="${esc(ev.id)}" style="${catStyle(ev.cat)}">
+      <span class="t">${esc(timeLabel(ev))}</span>
+      <span class="n">${esc(ev.title)}</span>
+      ${wide ? `<span class="w">${esc(laneLabel(ev))}</span>` : ""}
+    </button>`;
+  }
+
+  // The Karimu facade: stepped blue, yellow and grey blocks behind the countdown.
+  function drawFacade() {
+    const cv = document.querySelector("#next canvas");
+    if (!cv) return;
+    const rect = cv.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(rect.width * dpr); cv.height = Math.round(rect.height * dpr);
+    const ctx = cv.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const css = getComputedStyle(document.documentElement);
+    const col = n => css.getPropertyValue(n).trim();
+    const blue = col("--brand-2"), sun = col("--sun"), grey = col("--facade-grey"), deep = col("--facade-deep");
+    const s = 13, g = 2, cols = Math.ceil(rect.width / (s + g)) + 1, rows = Math.ceil(rect.height / (s + g)) + 1;
+    let seed = 7;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    for (let c = 0; c < cols; c++) {
+      const edge = Math.round(rows * 0.32 + 2 * Math.sin(c * 0.5) + ((c >> 2) % 2));
+      const edge2 = edge + 2 + ((c >> 3) % 2);
+      for (let r = 0; r < rows; r++) {
+        let fill;
+        if (r < edge) fill = rnd() < 0.82 ? grey : blue;
+        else if (r < edge2) fill = sun;
+        else fill = rnd() < 0.1 ? sun : rnd() < 0.3 ? deep : blue;
+        ctx.fillStyle = fill;
+        ctx.fillRect(c * (s + g), r * (s + g), s, s);
+      }
+    }
+  }
+
+  function renderNext() {
+    const el = $("#next");
+    const nx = EVENTS.find(e => e.big && e.date >= TODAY);
+    if (!nx) { el.hidden = true; return; }
+    const n = daysBetween(TODAY, nx.date);
+    el.hidden = false;
+    el.dataset.ev = nx.id;
+    el.setAttribute("aria-label", `${nx.title}, ${fmtLong(nx.date)}. Show details`);
+    el.innerHTML = `<canvas aria-hidden="true"></canvas>
+      <span class="count">${n === 0 ? "Today" : n}${n === 0 ? "" : `<small>${n === 1 ? "day to go" : "days to go"}</small>`}</span>
+      <span class="what"><span class="eyebrow">Next big night</span><b>${esc(nx.title)}</b><span class="m">${esc(fmtShort(nx.date))} · ${esc(timeLabel(nx))} · ${esc(laneLabel(nx))}</span></span>
+      <span class="go">Details</span>`;
+    drawFacade();
+  }
+
+  function renderToday() {
+    const list = eventsOn(TODAY);
+    let html = `<div class="today">
+      <div class="datebig"><span class="eyebrow">${DOWL[dow(TODAY)]}</span><span class="num">${dayNum(TODAY)}</span><span class="eyebrow">${MONTH[monIdx(TODAY)]} ${TODAY.slice(0, 4)}</span></div>
+      <div>`;
+    if (list.length) {
+      html += `<h2 class="sect">On today</h2><p class="lede">${list.length === 1 ? "One event" : list.length + " events"} at Juno today.</p><div class="cards">${list.map(e => card(e, false)).join("")}</div>`;
+    } else {
+      const up = EVENTS.filter(e => e.date > TODAY && visible(e)).slice(0, 3);
+      html += `<h2 class="sect">Nothing on today</h2><p class="lede">${up.length ? "Here is what comes next." : "Nothing further is on the calendar yet."}</p><div class="cards">${up.map(e => card(e, true)).join("")}</div>`;
+    }
+    html += `</div></div>`;
+    if (list.length) {
+      const sun = addDays(mondayOf(TODAY), 6);
+      const later = EVENTS.filter(e => e.date > TODAY && e.date <= sun && visible(e));
+      if (later.length) html += `<section class="later"><h2 class="sect">Later this week</h2><div class="cards">${later.map(e => card(e, true)).join("")}</div></section>`;
+    }
+    return html;
+  }
+
+  function renderWeek() {
+    const start = state.week, days = [0, 1, 2, 3, 4, 5, 6].map(i => addDays(start, i)), end = days[6];
+    const isNow = start === mondayOf(TODAY);
+    const range = monIdx(start) === monIdx(end)
+      ? `${dayNum(start)} – ${dayNum(end)} ${MONTH[monIdx(end)]}`
+      : `${dayNum(start)} ${MON[monIdx(start)]} – ${dayNum(end)} ${MON[monIdx(end)]}`;
+    const wk = EVENTS.filter(e => e.date >= start && e.date <= end && visible(e));
+    let html = `<div class="vhead"><div><div class="eyebrow">${isNow ? "This week" : "Week of " + esc(fmtShort(start))}</div><h2>${range}</h2></div>
+      <div class="nav"><button type="button" data-nav="-1" aria-label="Previous week"${start <= mondayOf(FIRST) ? " disabled" : ""}>←</button><button type="button" data-nav="0"${isNow ? " disabled" : ""}>This week</button><button type="button" data-nav="1" aria-label="Next week"${end >= LAST ? " disabled" : ""}>→</button></div></div>`;
+
+    const lanes = [["both", "Both buildings", ""], ["karimu", "Karimu", "Sabo, Yaba"], ["emily", "Emily Akinola", "Akoka, Yaba"]]
+      .filter(([k]) => state.building === "all" || k === "both" || k === state.building)
+      .filter(([k]) => k !== "both" || wk.some(e => laneOf(e) === "both"));
+
+    html += `<div class="wgrid"><div></div>`;
+    html += days.map(d => `<div class="dh${d === TODAY ? " is-today" : ""}"><span class="d">${DOW[dow(d)]}</span><span class="n">${dayNum(d)}</span></div>`).join("");
+    lanes.forEach(([k, label, area]) => {
+      html += `<div class="lane">${label}${area ? `<small>${area}</small>` : ""}</div>`;
+      days.forEach(d => {
+        const evs = wk.filter(e => e.date === d && laneOf(e) === k);
+        html += `<div class="cell${d === TODAY ? " is-today" : ""}">${evs.map(e => chip(e, false)).join("")}</div>`;
+      });
+    });
+    html += `</div><div class="wlist">`;
+    days.forEach(d => {
+      const evs = wk.filter(e => e.date === d);
+      html += `<div class="wday"><div class="dh${d === TODAY ? " is-today" : ""}"><span class="d">${DOW[dow(d)]}</span><span class="n">${dayNum(d)}</span></div>
+        <div class="items">${evs.length ? evs.map(e => chip(e, true)).join("") : `<div class="empty">Nothing on</div>`}</div></div>`;
+    });
+    html += `</div>`;
+    return html;
+  }
+
+  function renderMonth() {
+    const ym = state.month, first = ym + "-01";
+    const lastDay = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7), 0)).getUTCDate();
+    const last = ym + "-" + String(lastDay).padStart(2, "0");
+    const gStart = mondayOf(first), gEnd = addDays(mondayOf(last), 6);
+    const inMonth = iso => iso.slice(0, 7) === ym;
+    if (!state.day || !inMonth(state.day)) {
+      const from = inMonth(TODAY) ? TODAY : first;
+      const f = EVENTS.find(e => inMonth(e.date) && e.date >= from && visible(e));
+      state.day = inMonth(TODAY) && eventsOn(TODAY).length ? TODAY : f ? f.date : from;
+    }
+    const isNow = ym === TODAY.slice(0, 7);
+    let html = `<div class="vhead"><div><div class="eyebrow">${isNow ? "This month" : "Month"}</div><h2>${MONTH[+ym.slice(5, 7) - 1]} ${ym.slice(0, 4)}</h2></div>
+      <div class="nav"><button type="button" data-nav="-1" aria-label="Previous month"${ym <= FIRST.slice(0, 7) ? " disabled" : ""}>←</button><button type="button" data-nav="0"${isNow ? " disabled" : ""}>This month</button><button type="button" data-nav="1" aria-label="Next month"${ym >= LAST.slice(0, 7) ? " disabled" : ""}>→</button></div></div>`;
+    html += `<div class="mgrid">` + ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d => `<div class="mdow">${d}</div>`).join("");
+    for (let d = gStart; d <= gEnd; d = addDays(d, 1)) {
+      const evs = eventsOn(d);
+      const cls = ["mcell"];
+      if (!inMonth(d)) cls.push("out");
+      if (d === TODAY) cls.push("is-today");
+      if (evs.some(e => e.cat === "sig")) cls.push("has-sig");
+      const shown = evs.slice(0, 3);
+      html += `<button type="button" class="${cls.join(" ")}" data-day="${d}" aria-pressed="${d === state.day}" aria-label="${esc(fmtLong(d))}, ${evs.length ? evs.length + (evs.length === 1 ? " event" : " events") : "no events"}">
+        <span class="num">${dayNum(d)}</span>
+        ${shown.map(e => `<span class="mini${e.cat === "sig" ? " sig" : ""}" style="${catStyle(e.cat)}"><i></i><span>${esc(e.title)}</span></span>`).join("")}
+        ${evs.length > 3 ? `<span class="more">+${evs.length - 3} more</span>` : ""}
+        <span class="dots">${evs.map(e => `<i style="${catStyle(e.cat)}"></i>`).join("")}</span>
+      </button>`;
+    }
+    html += `</div>`;
+    const sel = eventsOn(state.day);
+    html += `<section class="dayhead"><h2 class="sect">${esc(fmtLong(state.day))}</h2>${sel.length ? `<div class="cards">${sel.map(e => card(e, false)).join("")}</div>` : `<p class="lede">Nothing on this day.</p>`}</section>`;
+    return html;
+  }
+
+  function render() {
+    document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.view === state.view)));
+    document.querySelectorAll("[data-building]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.building === state.building)));
+    $("#view").setAttribute("aria-labelledby", "tab-" + state.view);
+    $("#view").innerHTML = state.view === "week" ? renderWeek() : state.view === "month" ? renderMonth() : renderToday();
+  }
+
+  // Event details
+  const dlg = $("#dlg"), dlgBody = $("#dlg-body");
+  function shareText(ev) {
+    return `*${ev.title}*\n${fmtLong(ev.date)} · ${timeLabel(ev)}\n${fullWhere(ev)}${ev.joint && ev.where !== "all" ? " (both buildings)" : ""}\n\n${ev.blurb}`;
+  }
+  function openEvent(id) {
+    const ev = BY_ID[id];
+    if (!ev) return;
+    dlgBody.innerHTML = `<div class="dtop" style="${catStyle(ev.cat)}">
+        <div class="r1"><span class="ico">${CATS[ev.cat].icon}</span><span>${CATS[ev.cat].label}</span></div>
+        <h3 id="dlg-title">${esc(ev.title)}</h3>
+        <div class="dwhen">${esc(fmtLong(ev.date))} · ${esc(timeLabel(ev))}</div>
+        <div class="dwhere">${esc(fullWhere(ev))}</div>
+        <div class="meta">${pills(ev)}</div>
+      </div>
+      <div class="dbody">
+        <p>${esc(ev.blurb)}</p>
+        <div class="dacts"><button type="button" class="btn" id="copy" data-copy="${esc(ev.id)}">Copy for WhatsApp</button><button type="button" class="btn ghost" data-close>Close</button></div>
+        <textarea class="copybox" id="copybox" readonly hidden aria-label="Event details to copy"></textarea>
+      </div>`;
+    if (typeof dlg.showModal === "function") { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute("open", "");
+  }
+  function closeDialog() { if (typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open"); }
+  dlg.addEventListener("click", e => { if (e.target === dlg) closeDialog(); });
+
+  function copyFor(id, btn) {
+    const ev = BY_ID[id], text = shareText(ev), box = $("#copybox");
+    const fallback = () => {
+      box.hidden = false; box.value = text; box.focus(); box.select();
+      btn.textContent = "Text selected — copy it";
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => { btn.textContent = "Copied"; }, fallback);
+      } else fallback();
+    } catch (e) { fallback(); }
+  }
+
+  document.addEventListener("click", e => {
+    const t = e.target;
+    const cp = t.closest("[data-copy]"); if (cp) { copyFor(cp.dataset.copy, cp); return; }
+    if (t.closest("[data-close]")) { closeDialog(); return; }
+    const evb = t.closest("[data-ev]"); if (evb) { openEvent(evb.dataset.ev); return; }
+    const v = t.closest("[data-view]");
+    if (v) {
+      state.view = v.dataset.view;
+      if (state.view === "week") state.week = mondayOf(TODAY);
+      if (state.view === "month") { state.month = TODAY.slice(0, 7); state.day = null; }
+      try { history.replaceState(null, "", "#" + state.view); } catch (err) {}
+      render(); return;
+    }
+    const b = t.closest("[data-building]");
+    if (b) {
+      state.building = b.dataset.building;
+      try { localStorage.setItem("juno-building", state.building); } catch (err) {}
+      render(); return;
+    }
+    const nav = t.closest("[data-nav]");
+    if (nav && !nav.disabled) {
+      const n = +nav.dataset.nav;
+      if (state.view === "week") state.week = n === 0 ? mondayOf(TODAY) : addDays(state.week, 7 * n);
+      if (state.view === "month") { state.month = n === 0 ? TODAY.slice(0, 7) : shiftMonth(state.month, n); state.day = null; }
+      render(); return;
+    }
+    const day = t.closest("[data-day]");
+    if (day) {
+      const d = day.dataset.day;
+      if (d.slice(0, 7) !== state.month) state.month = d.slice(0, 7);
+      state.day = d; render();
+    }
+  });
+
+  let rt;
+  window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(drawFacade, 150); });
+  try {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", drawFacade);
+    new MutationObserver(drawFacade).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  } catch (e) {}
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawFacade);
+
+  $("#legend").innerHTML = Object.keys(CATS).map(k => `<span style="${catStyle(k)}"><span class="ico">${CATS[k].icon}</span>${CATS[k].label}</span>`).join("");
+  const up = DATA.updated;
+  $("#updated").textContent = `Updated ${dayNum(up)} ${MONTH[monIdx(up)]} ${up.slice(0, 4)}.`;
+  renderNext();
+  render();
+})();
+</script>
+</body>
+</html>
