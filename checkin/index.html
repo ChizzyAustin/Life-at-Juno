@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Check in to tonight's Life at Juno event with your room number and earn Juno Loyalty Points.">
+<meta name="theme-color" content="#050F26">
+<title>Check in · Life at Juno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap">
+<style>
+/* One screen, phone first: logo, tonight's event, a short form, then a confirmation. */
+:root{
+  --bg:#050F26; --panel:#0C1F45; --line:#1D3A6E; --ink:#EFF3FA; --muted:#A9B8D3;
+  --gold:#C9C490; --gold-ink:#050F26; --azure:#144587; --error:#FF9A7A;
+  --f:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+.wrap{max-width:520px;margin:0 auto;padding:28px max(20px,env(safe-area-inset-right,0px)) 40px max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:22px;min-height:100vh}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top svg{height:30px;width:auto;display:block}
+.top a{color:var(--muted);font-size:14px;font-weight:700;letter-spacing:.14em;text-decoration:none;text-transform:uppercase}
+h1{margin:6px 0 0;font-size:44px;line-height:1;font-weight:800;letter-spacing:-.03em}
+h1 .dot{color:var(--gold)}
+.lead{margin:0;color:var(--muted);font-size:17px;line-height:1.45}
+.event{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:6px}
+.eyebrow{margin:0;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.event b{font-size:22px;font-weight:800}
+.event span{color:var(--muted);font-size:15px}
+form{display:flex;flex-direction:column;gap:16px}
+label,.label{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.field{display:flex;flex-direction:column;gap:8px}
+input[type=text],select{font:inherit;font-size:18px;font-weight:600;color:var(--ink);background:#081734;border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;width:100%;min-height:52px}
+input[type=text]:focus,select:focus{outline:none;border-color:var(--gold)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg button{font:inherit;font-size:16px;font-weight:700;color:var(--ink);background:#081734;border:1.5px solid var(--line);border-radius:14px;padding:14px 10px;min-height:52px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--azure);border-color:var(--gold)}
+.check{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted)}
+.check input{width:20px;height:20px;accent-color:var(--gold)}
+.go{font:inherit;font-size:18px;font-weight:800;color:var(--gold-ink);background:var(--gold);border:0;border-radius:999px;padding:16px;min-height:56px;cursor:pointer}
+.go:disabled{opacity:.6;cursor:wait}
+.go:focus-visible,.seg button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.msg{margin:0;font-size:15px;line-height:1.4;color:var(--error)}
+.note{margin:0;font-size:13px;line-height:1.45;color:var(--muted)}
+.done{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--gold);display:grid;place-items:center}
+.done h2{margin:0;font-size:34px;line-height:1.05;font-weight:800;letter-spacing:-.02em}
+.done p{margin:0;font-size:17px;line-height:1.45;color:var(--muted)}
+.done strong{color:var(--ink)}
+.link{color:var(--gold);font-weight:800;text-decoration:none;font-size:17px}
+.foot{margin-top:auto;font-size:12px;color:var(--muted);opacity:.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <svg viewBox="0 0 987 347" role="img" aria-label="Juno" xmlns="http://www.w3.org/2000/svg"><path d="M439.12 94.5703C455.619 94.5704 468.994 107.945 468.994 124.444V234.539H468.993C468.971 250.783 465.428 266.829 458.604 281.566C451.76 296.35 441.781 309.462 429.362 319.99C416.944 330.519 402.384 338.21 386.695 342.53C371.007 346.851 354.566 347.695 338.519 345.006C322.471 342.316 307.201 336.157 293.771 326.957C280.342 317.757 269.076 305.736 260.757 291.732C252.438 277.729 247.266 262.077 245.601 245.868C245.209 242.06 244.877 238.274 245.021 234.539H244.983V124.444C244.983 107.945 258.358 94.5705 274.857 94.5703C291.357 94.5703 304.732 107.945 304.732 124.444V234.539H304.248C304.648 236.266 304.933 238.012 305.11 239.736C305.886 247.287 308.295 254.577 312.17 261.101C316.045 267.624 321.293 273.223 327.549 277.509C333.804 281.794 340.917 284.663 348.393 285.916C355.868 287.169 363.526 286.775 370.834 284.763C378.142 282.75 384.924 279.167 390.709 274.263C396.494 269.358 401.142 263.25 404.33 256.364C407.518 249.478 409.17 241.979 409.17 234.389H409.246V124.444C409.246 107.945 422.621 94.5703 439.12 94.5703Z" fill="#EFF3FA"/><path d="M194.011 94.5703C210.537 94.5703 223.935 107.968 223.936 124.494L223.935 234.539C223.913 250.783 220.363 266.829 213.528 281.566C206.673 296.35 196.677 309.462 184.237 319.99C171.798 330.518 157.214 338.21 141.499 342.53C125.784 346.851 109.316 347.695 93.2412 345.006C77.1665 342.316 61.8708 336.157 48.4189 326.957C34.9672 317.757 23.6817 305.736 15.3486 291.732C7.14589 277.947 0.802155 261.158 0.0322266 244.934L0 244.161V243.266C0 226.739 13.398 213.341 29.9248 213.341C45.0502 213.341 57.5519 224.563 59.5635 239.136C59.6408 239.318 59.7124 239.517 59.7764 239.736C60.5534 247.287 62.967 254.577 66.8486 261.101C70.7303 267.624 75.9869 273.223 82.2529 277.509C88.519 281.794 95.644 284.663 103.132 285.916C110.62 287.169 118.291 286.775 125.611 284.763C132.931 282.75 139.725 279.167 145.52 274.263C151.314 269.358 155.97 263.25 159.163 256.364C162.356 249.478 164.011 241.979 164.011 234.389H164.087V124.494C164.087 107.968 177.484 94.5705 194.011 94.5703Z" fill="#EFF3FA"/><rect x="157.108" width="71.8758" height="71.8758" rx="35.9379" fill="#C9C490"/><path d="M572.341 98.584C588.029 94.2637 604.47 93.4189 620.518 96.1084C636.565 98.7979 651.835 104.957 665.265 114.157C678.694 123.357 689.96 135.378 698.279 149.382C706.598 163.386 711.77 179.038 713.436 195.247C713.827 199.055 714.159 202.84 714.016 206.575H714.053V316.671C714.052 333.17 700.678 346.545 684.179 346.545C667.68 346.545 654.305 333.169 654.305 316.67V206.575H654.788C654.389 204.848 654.103 203.104 653.926 201.379C653.15 193.828 650.741 186.538 646.866 180.015C642.991 173.491 637.743 167.892 631.487 163.606C625.232 159.321 618.119 156.452 610.644 155.199C603.168 153.946 595.51 154.339 588.202 156.352C580.894 158.364 574.112 161.947 568.327 166.852C562.542 171.756 557.894 177.864 554.706 184.75C551.518 191.636 549.866 199.135 549.866 206.726H549.791V316.671C549.791 333.17 536.415 346.545 519.916 346.545C503.417 346.545 490.042 333.169 490.042 316.67V206.575H490.043C490.065 190.332 493.609 174.286 500.432 159.549C507.276 144.766 517.255 131.653 529.674 121.125C542.092 110.597 556.652 102.904 572.341 98.584Z" fill="#EFF3FA"/><path d="M987 220.558C987 290.138 930.593 346.545 861.013 346.545C791.432 346.545 735.025 290.138 735.025 220.558C735.025 150.977 791.432 94.5703 861.013 94.5703C930.593 94.5703 987 150.977 987 220.558ZM793.355 220.558C793.355 257.924 823.647 288.215 861.013 288.215C898.379 288.215 928.67 257.924 928.67 220.558C928.67 183.191 898.379 152.9 861.013 152.9C823.647 152.9 793.355 183.191 793.355 220.558Z" fill="#EFF3FA"/></svg>
+    <a href="../">Calendar</a>
+  </div>
+
+  <section id="formView">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h1>Check in<span class="dot">.</span></h1>
+      <p class="lead">Every check-in earns Juno Loyalty Points for your room.</p>
+    </div>
+  </section>
+
+  <div class="event" id="eventCard">
+    <p class="eyebrow" id="eventWhen">Loading tonight's event</p>
+    <b id="eventTitle">One moment…</b>
+    <span id="eventWhere"></span>
+  </div>
+
+  <div class="field" id="eventPickWrap" hidden>
+    <label for="eventPick">Which event are you at?</label>
+    <select id="eventPick"></select>
+  </div>
+
+  <form id="form" novalidate>
+    <div class="field">
+      <label for="name">Your first name</label>
+      <input type="text" id="name" name="name" autocomplete="given-name" maxlength="60" required>
+    </div>
+    <div class="field">
+      <span class="label" id="buildingLabel">Your building</span>
+      <div class="seg" role="group" aria-labelledby="buildingLabel">
+        <button type="button" id="b-karimu" data-building="Karimu" aria-pressed="false">Karimu</button>
+        <button type="button" id="b-emily" data-building="Emily Akinola" aria-pressed="false">Emily Akinola</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="room">Your room number</label>
+      <input type="text" id="room" name="room" autocomplete="off" maxlength="12" required>
+    </div>
+    <label class="check"><input type="checkbox" id="remember" checked> Remember me on this phone</label>
+    <p class="msg" id="msg" role="alert" hidden></p>
+    <button type="submit" class="go" id="go">Check in</button>
+    <p class="note">Your room number stays inside Juno. It is never shared publicly.</p>
+  </form>
+
+  <section class="done" id="doneView" hidden>
+    <div class="tick" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#050F26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 id="doneTitle">You're checked in!</h2>
+    <p id="doneText"></p>
+    <a class="link" href="../">See what's on next →</a>
+  </section>
+
+  <p class="foot">Life at Juno · Karimu &amp; Emily Akinola, Yaba</p>
+</div>
+
+<script>
+// Paste the Apps Script web app URL here once it is deployed.
+const CHECKIN_URL = "";
+
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+  };
+  const lagosToday = new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Lagos" }).format(new Date());
+  const nowMinutes = (() => {
+    const p = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Lagos", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date());
+    const h = +p.find((x) => x.type === "hour").value, m = +p.find((x) => x.type === "minute").value;
+    return h * 60 + m;
+  })();
+  const params = new URLSearchParams(location.search);
+  const WHERE = { karimu: "Karimu", emily: "Emily Akinola", all: "Both buildings", away: "Match venue" };
+
+  let building = "";
+  let events = [];
+  let chosen = null;
+
+  function setBuilding(b) {
+    building = b;
+    document.querySelectorAll(".seg button").forEach((btn) => btn.setAttribute("aria-pressed", String(btn.dataset.building === b)));
+  }
+  document.querySelectorAll(".seg button").forEach((btn) => btn.addEventListener("click", () => setBuilding(btn.dataset.building)));
+
+  // Prefill from this phone, then from the QR code's building.
+  $("name").value = store.get("juno.name") || "";
+  $("room").value = store.get("juno.room") || "";
+  const savedB = store.get("juno.building");
+  const qrB = params.get("b") === "emily" ? "Emily Akinola" : params.get("b") === "karimu" ? "Karimu" : "";
+  if (savedB) setBuilding(savedB); else if (qrB) setBuilding(qrB);
+
+  function timeLabel(e) {
+    if (!e.time) return "All day";
+    const [h, m] = e.time.split(":").map(Number);
+    const hh = ((h + 11) % 12) + 1, ap = h < 12 ? "am" : "pm";
+    return m ? `${hh}:${String(m).padStart(2, "0")}${ap}` : `${hh}${ap}`;
+  }
+  function minutesOf(e) { if (!e.time) return 12 * 60; const [h, m] = e.time.split(":").map(Number); return h * 60 + m; }
+
+  function show(e) {
+    chosen = e;
+    if (!e) {
+      $("eventWhen").textContent = "No event today";
+      $("eventTitle").textContent = "There's nothing on the calendar today";
+      $("eventWhere").textContent = "Check-in opens on event days.";
+      $("form").hidden = true;
+      return;
+    }
+    $("form").hidden = false;
+    $("eventWhen").textContent = "Today · " + timeLabel(e);
+    $("eventTitle").textContent = e.title;
+    $("eventWhere").textContent = [WHERE[e.where] || "", e.venue || ""].filter(Boolean).join(" · ");
+  }
+
+  function pickDefault(list) {
+    const wanted = params.get("event");
+    if (wanted) { const hit = list.find((e) => e.id === wanted); if (hit) return hit; }
+    const qrWhere = params.get("b");
+    let pool = list.filter((e) => !e.allDay);
+    if (qrWhere) { const inB = pool.filter((e) => e.where === qrWhere || e.where === "all"); if (inB.length) pool = inB; }
+    if (!pool.length) pool = list;
+    // The event that started most recently, or the next one if none has started.
+    const started = pool.filter((e) => minutesOf(e) - 60 <= nowMinutes).sort((a, b) => minutesOf(b) - minutesOf(a));
+    return started[0] || pool.slice().sort((a, b) => minutesOf(a) - minutesOf(b))[0];
+  }
+
+  fetch("../", { cache: "no-store" })
+    .then((r) => r.text())
+    .then((html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const raw = JSON.parse(doc.getElementById("juno-events").textContent);
+      const all = Array.isArray(raw) ? raw : raw.events || [];
+      events = all.filter((e) => e.date === lagosToday).sort((a, b) => minutesOf(a) - minutesOf(b));
+      const def = events.length ? pickDefault(events) : null;
+      if (events.length > 1) {
+        const sel = $("eventPick");
+        events.forEach((e) => {
+          const o = document.createElement("option");
+          o.value = e.id;
+          o.textContent = `${timeLabel(e)} · ${e.title} · ${WHERE[e.where] || ""}`;
+          sel.appendChild(o);
+        });
+        sel.value = def.id;
+        sel.addEventListener("change", () => show(events.find((e) => e.id === sel.value)));
+        $("eventPickWrap").hidden = false;
+      }
+      show(def);
+    })
+    .catch(() => {
+      $("eventWhen").textContent = "Couldn't load the calendar";
+      $("eventTitle").textContent = "Check your connection and refresh";
+      $("eventWhere").textContent = "";
+    });
+
+  function fail(text) { const m = $("msg"); m.textContent = text; m.hidden = false; }
+
+  $("form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    $("msg").hidden = true;
+    const name = $("name").value.trim();
+    const room = $("room").value.trim();
+    if (!chosen) return fail("There's no event to check in to right now.");
+    if (!name) return fail("Add your first name.");
+    if (!building) return fail("Pick your building.");
+    if (!room) return fail("Add your room number.");
+    if (!CHECKIN_URL) return fail("Check-in isn't connected yet. Please let the Juno team know.");
+
+    if ($("remember").checked) {
+      store.set("juno.name", name); store.set("juno.room", room); store.set("juno.building", building);
+    } else {
+      store.del("juno.name"); store.del("juno.room"); store.del("juno.building");
+    }
+
+    const body = JSON.stringify({ name, building, room, eventId: chosen.id, eventTitle: chosen.title, eventDate: chosen.date });
+    $("go").disabled = true;
+    $("go").textContent = "Checking you in…";
+    fetch(CHECKIN_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body })
+      .then((r) => r.json())
+      .then((res) => {
+        if (!res.ok) {
+          if (res.error === "not-today") return fail("Check-in is only open on the day of the event.");
+          return fail("Something went wrong. Please try again.");
+        }
+        $("form").hidden = true; $("eventPickWrap").hidden = true;
+        $("doneTitle").textContent = res.duplicate ? `You're already in, ${name}!` : `You're checked in, ${name}!`;
+        const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+        const pts = typeof res.roomPoints === "number" ? ` Room ${esc(room.toUpperCase())} now has <strong>${res.roomPoints} Juno Loyalty Point${res.roomPoints === 1 ? "" : "s"}</strong>.` : "";
+        $("doneText").innerHTML = `Enjoy ${esc(chosen.title)}.` + pts;
+        $("doneView").hidden = false;
+      })
+      .catch(() => fail("Couldn't reach check-in. Check your connection and try again."))
+      .finally(() => { $("go").disabled = false; $("go").textContent = "Check in"; });
+  });
+})();
+</script>
+</body>
+</html>
