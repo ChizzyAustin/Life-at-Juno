@@ -7,6 +7,9 @@
  *
  * Each check-in adds one row to the "Check-ins" tab. A person can check in to
  * an event once, and only on the day of the event (Lagos time).
+ *
+ * The tag below limits the script to this one spreadsheet.
+ * @OnlyCurrentDoc
  */
 
 const SHEET_NAME = 'Check-ins';
