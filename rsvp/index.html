@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="RSVP for Juno at Five, Friday 30 October on the Karimu rooftop.">
+<meta name="theme-color" content="#00285E">
+<title>RSVP · Life at Juno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap">
+<style>
+/* Same frame as the check-in page, on the Juno brand blue: the invite, a short form, then a confirmation. */
+:root{
+  --bg:#00285E; --panel:#0A3470; --line:#24508F; --field:#012152; --ink:#EFF3FA; --muted:#B9C6DE;
+  --gold:#C9C490; --gold-ink:#050F26; --pick:#144587; --error:#FFB49A;
+  --f:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(ellipse 90% 50% at 50% 0%,#0E3A7A 0%,var(--bg) 70%) var(--bg) no-repeat}
+[hidden]{display:none!important}
+.wrap{max-width:520px;margin:0 auto;padding:28px max(20px,env(safe-area-inset-right,0px)) 40px max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:22px;min-height:100vh}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top svg{height:30px;width:auto;display:block}
+.top a{color:var(--muted);font-size:14px;font-weight:700;letter-spacing:.14em;text-decoration:none;text-transform:uppercase}
+.hero{display:flex;flex-direction:column;gap:10px}
+.eyebrow{margin:0;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+h1{margin:0;font-size:44px;line-height:1;font-weight:800;letter-spacing:-.03em;text-wrap:balance}
+h1 .dot,h1 .amp{color:var(--gold)}
+.lead{margin:0;color:var(--muted);font-size:17px;line-height:1.45}
+.event{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 20px;display:grid;grid-template-columns:auto 1fr;gap:10px 16px;align-items:baseline}
+.event dt{margin:0;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.event dd{margin:0;font-size:17px;font-weight:700;line-height:1.35}
+form{display:flex;flex-direction:column;gap:18px}
+label,.label{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.opt{font-weight:600;opacity:.8}
+.field{display:flex;flex-direction:column;gap:8px}
+input[type=text],input[type=tel]{font:inherit;font-size:18px;font-weight:600;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;width:100%;min-height:52px}
+input:focus{outline:none;border-color:var(--gold)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg button{font:inherit;font-size:16px;font-weight:700;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:14px 10px;min-height:52px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--pick);border-color:var(--gold)}
+.check{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted)}
+.check input{width:20px;height:20px;accent-color:var(--gold)}
+.go{font:inherit;font-size:18px;font-weight:800;color:var(--gold-ink);background:var(--gold);border:0;border-radius:999px;padding:16px;min-height:56px;cursor:pointer}
+.go:disabled{opacity:.6;cursor:wait}
+.go:focus-visible,.seg button:focus-visible,.cal a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.msg{margin:0;font-size:15px;line-height:1.4;color:var(--error)}
+.note{margin:0;font-size:13px;line-height:1.45;color:var(--muted)}
+.done{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--gold);display:grid;place-items:center}
+.done h2{margin:0;font-size:34px;line-height:1.05;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.done p{margin:0;font-size:17px;line-height:1.45;color:var(--muted)}
+.done strong{color:var(--ink)}
+.cal{display:flex;flex-wrap:wrap;gap:10px}
+.cal a{font-size:15px;font-weight:800;color:var(--ink);text-decoration:none;border:1.5px solid var(--gold);border-radius:999px;padding:11px 16px}
+.link{color:var(--gold);font-weight:800;text-decoration:none;font-size:17px;background:none;border:0;padding:0;font-family:inherit;cursor:pointer;text-align:left}
+.foot{margin-top:auto;font-size:12px;color:var(--muted);opacity:.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <svg viewBox="0 0 987 347" role="img" aria-label="Juno" xmlns="http://www.w3.org/2000/svg"><path d="M439.12 94.5703C455.619 94.5704 468.994 107.945 468.994 124.444V234.539H468.993C468.971 250.783 465.428 266.829 458.604 281.566C451.76 296.35 441.781 309.462 429.362 319.99C416.944 330.519 402.384 338.21 386.695 342.53C371.007 346.851 354.566 347.695 338.519 345.006C322.471 342.316 307.201 336.157 293.771 326.957C280.342 317.757 269.076 305.736 260.757 291.732C252.438 277.729 247.266 262.077 245.601 245.868C245.209 242.06 244.877 238.274 245.021 234.539H244.983V124.444C244.983 107.945 258.358 94.5705 274.857 94.5703C291.357 94.5703 304.732 107.945 304.732 124.444V234.539H304.248C304.648 236.266 304.933 238.012 305.11 239.736C305.886 247.287 308.295 254.577 312.17 261.101C316.045 267.624 321.293 273.223 327.549 277.509C333.804 281.794 340.917 284.663 348.393 285.916C355.868 287.169 363.526 286.775 370.834 284.763C378.142 282.75 384.924 279.167 390.709 274.263C396.494 269.358 401.142 263.25 404.33 256.364C407.518 249.478 409.17 241.979 409.17 234.389H409.246V124.444C409.246 107.945 422.621 94.5703 439.12 94.5703Z" fill="#EFF3FA"/><path d="M194.011 94.5703C210.537 94.5703 223.935 107.968 223.936 124.494L223.935 234.539C223.913 250.783 220.363 266.829 213.528 281.566C206.673 296.35 196.677 309.462 184.237 319.99C171.798 330.518 157.214 338.21 141.499 342.53C125.784 346.851 109.316 347.695 93.2412 345.006C77.1665 342.316 61.8708 336.157 48.4189 326.957C34.9672 317.757 23.6817 305.736 15.3486 291.732C7.14589 277.947 0.802155 261.158 0.0322266 244.934L0 244.161V243.266C0 226.739 13.398 213.341 29.9248 213.341C45.0502 213.341 57.5519 224.563 59.5635 239.136C59.6408 239.318 59.7124 239.517 59.7764 239.736C60.5534 247.287 62.967 254.577 66.8486 261.101C70.7303 267.624 75.9869 273.223 82.2529 277.509C88.519 281.794 95.644 284.663 103.132 285.916C110.62 287.169 118.291 286.775 125.611 284.763C132.931 282.75 139.725 279.167 145.52 274.263C151.314 269.358 155.97 263.25 159.163 256.364C162.356 249.478 164.011 241.979 164.011 234.389H164.087V124.494C164.087 107.968 177.484 94.5705 194.011 94.5703Z" fill="#EFF3FA"/><rect x="157.108" width="71.8758" height="71.8758" rx="35.9379" fill="#C9C490"/><path d="M572.341 98.584C588.029 94.2637 604.47 93.4189 620.518 96.1084C636.565 98.7979 651.835 104.957 665.265 114.157C678.694 123.357 689.96 135.378 698.279 149.382C706.598 163.386 711.77 179.038 713.436 195.247C713.827 199.055 714.159 202.84 714.016 206.575H714.053V316.671C714.052 333.17 700.678 346.545 684.179 346.545C667.68 346.545 654.305 333.169 654.305 316.67V206.575H654.788C654.389 204.848 654.103 203.104 653.926 201.379C653.15 193.828 650.741 186.538 646.866 180.015C642.991 173.491 637.743 167.892 631.487 163.606C625.232 159.321 618.119 156.452 610.644 155.199C603.168 153.946 595.51 154.339 588.202 156.352C580.894 158.364 574.112 161.947 568.327 166.852C562.542 171.756 557.894 177.864 554.706 184.75C551.518 191.636 549.866 199.135 549.866 206.726H549.791V316.671C549.791 333.17 536.415 346.545 519.916 346.545C503.417 346.545 490.042 333.169 490.042 316.67V206.575H490.043C490.065 190.332 493.609 174.286 500.432 159.549C507.276 144.766 517.255 131.653 529.674 121.125C542.092 110.597 556.652 102.904 572.341 98.584Z" fill="#EFF3FA"/><path d="M987 220.558C987 290.138 930.593 346.545 861.013 346.545C791.432 346.545 735.025 290.138 735.025 220.558C735.025 150.977 791.432 94.5703 861.013 94.5703C930.593 94.5703 987 150.977 987 220.558ZM793.355 220.558C793.355 257.924 823.647 288.215 861.013 288.215C898.379 288.215 928.67 257.924 928.67 220.558C928.67 183.191 898.379 152.9 861.013 152.9C823.647 152.9 793.355 183.191 793.355 220.558Z" fill="#EFF3FA"/></svg>
+    <a href="../">Calendar</a>
+  </div>
+
+  <section class="hero">
+    <p class="eyebrow" id="eyebrow">You're invited</p>
+    <h1 id="title">Juno at Five<span class="dot">.</span></h1>
+    <p class="lead" id="lead">Both buildings, one night on the Karimu rooftop. Let us know if you can make it.</p>
+  </section>
+
+  <dl class="event">
+    <dt>When</dt><dd id="when"></dd>
+    <dt>Where</dt><dd id="where"></dd>
+    <dt id="dressLabel">Dress</dt><dd id="dress"></dd>
+    <dt id="byLabel">Reply by</dt><dd id="by"></dd>
+  </dl>
+
+  <form id="form" novalidate>
+    <div class="field">
+      <span class="label" id="ansLabel">Will you be there?</span>
+      <div class="seg" role="group" aria-labelledby="ansLabel" data-group="response">
+        <button type="button" data-value="yes" aria-pressed="false">Yes, I'll be there</button>
+        <button type="button" data-value="no" aria-pressed="false">Can't make it</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="name">Your full name</label>
+      <input type="text" id="name" autocomplete="name" maxlength="80" required>
+    </div>
+    <div class="field" id="typeWrap">
+      <span class="label" id="typeLabel">Are you</span>
+      <div class="seg" role="group" aria-labelledby="typeLabel" data-group="type">
+        <button type="button" data-value="member" aria-pressed="false">A Juno resident</button>
+        <button type="button" data-value="guest" aria-pressed="false">A guest</button>
+      </div>
+    </div>
+    <div id="memberFields" hidden>
+      <div class="field" style="margin-bottom:18px">
+        <span class="label" id="buildingLabel">Your building</span>
+        <div class="seg" role="group" aria-labelledby="buildingLabel" data-group="building">
+          <button type="button" data-value="Karimu" aria-pressed="false">Karimu</button>
+          <button type="button" data-value="Emily Akinola" aria-pressed="false">Emily Akinola</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="room">Your room number</label>
+        <input type="text" id="room" autocomplete="off" maxlength="12">
+      </div>
+    </div>
+    <div id="guestFields" hidden>
+      <div class="field" style="margin-bottom:18px">
+        <label for="org">Organisation <span class="opt">(optional)</span></label>
+        <input type="text" id="org" autocomplete="organization" maxlength="80">
+      </div>
+      <div class="field">
+        <label for="phone">Phone number <span class="opt">(optional, for event updates)</span></label>
+        <input type="tel" id="phone" autocomplete="tel" maxlength="24">
+      </div>
+    </div>
+    <div class="field" id="dietWrap" hidden>
+      <label for="dietary">Any dietary needs? <span class="opt">(optional)</span></label>
+      <input type="text" id="dietary" maxlength="140">
+    </div>
+    <label class="check"><input type="checkbox" id="remember" checked> Remember me on this phone</label>
+    <p class="msg" id="msg" role="alert" hidden></p>
+    <button type="submit" class="go" id="go">Send my RSVP</button>
+    <p class="note" id="privacy">Your details are only used to plan this event.</p>
+  </form>
+
+  <section class="done" id="doneView" hidden>
+    <div class="tick" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#050F26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 id="doneTitle"></h2>
+    <p id="doneText"></p>
+    <div class="cal" id="calLinks" hidden>
+      <a id="gcal" href="#" target="_blank" rel="noopener">Add to Google Calendar</a>
+      <a id="ics" href="#" download="juno-at-five.ics">Add to Apple or Outlook</a>
+    </div>
+    <button type="button" class="link" id="change">Change my reply</button>
+  </section>
+
+  <p class="foot">Life at Juno · Karimu &amp; Emily Akinola, Yaba</p>
+</div>
+
+<script>
+// Same Apps Script web app as check-in. RSVPs go to the "RSVPs" tab of the Juno Check-ins sheet.
+const RSVP_URL = "https://script.google.com/macros/s/AKfycby7glLFdEq_B2WLJWjOk16iwSFwnNaf26Ho0BNxGuScizv9xANwqeOFW7qJd2aw7nDp/exec";
+
+// The event this page collects replies for.
+const EVENT = {
+  id: "2026-10-30-karimu-juno-at-five",
+  title: "Juno at Five",
+  when: "Friday 30 October, 6pm to 10pm",
+  where: "The Karimu rooftop",
+  whereIn: "on the Karimu rooftop",
+  dress: "Smart, with a touch of gold",
+  replyBy: "Wednesday 28 October",
+  startUtc: "20261030T170000Z",   // 6pm Lagos
+  endUtc: "20261030T210000Z",     // 10pm Lagos
+  location: "Juno Karimu rooftop, Sabo, Yaba, Lagos",
+};
+
+// Guest links: rsvp/?g=sankore opens the page for the Sankore team.
+const GUESTS = {
+  sankore: { org: "Sankore", title: 'Sankore at 16 <span class="amp">&amp;</span> Juno at 5', calTitle: "Sankore at 16 & Juno at 5",
+             lead: "An evening with a live band, dinner and drinks, and the Juno Awards. We'd love to host you." },
+};
+
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+  };
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const params = new URLSearchParams(location.search);
+  const guest = GUESTS[(params.get("g") || "").toLowerCase()] || null;
+  const state = { response: "", type: guest ? "guest" : "", building: "" };
+
+  // Event details
+  $("when").textContent = EVENT.when;
+  $("where").textContent = EVENT.where;
+  if (EVENT.dress) $("dress").textContent = EVENT.dress; else { $("dress").hidden = true; $("dressLabel").hidden = true; }
+  if (EVENT.replyBy) $("by").textContent = EVENT.replyBy; else { $("by").hidden = true; $("byLabel").hidden = true; }
+  if (guest) {
+    $("title").innerHTML = guest.title;
+    $("lead").textContent = guest.lead;
+    $("typeWrap").hidden = true;
+    $("org").value = guest.org;
+    document.title = "RSVP · " + guest.calTitle;
+  }
+
+  function pick(group, value) {
+    state[group] = value;
+    document.querySelectorAll(`[data-group="${group}"] button`).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.value === value)));
+    refresh();
+  }
+  document.querySelectorAll(".seg").forEach((seg) => seg.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => pick(seg.dataset.group, b.dataset.value))));
+
+  function refresh() {
+    $("memberFields").hidden = state.type !== "member";
+    $("guestFields").hidden = state.type !== "guest";
+    $("dietWrap").hidden = state.response !== "yes";
+    $("privacy").textContent = state.type === "member"
+      ? "Your room number stays inside Juno. It is never shared publicly."
+      : "Your details are only used to plan this event.";
+  }
+
+  // Prefill from this phone. Residents share their saved name, building and room with check-in.
+  $("name").value = store.get(guest ? "juno.guest.name" : "juno.name") || "";
+  if (guest) {
+    $("phone").value = store.get("juno.guest.phone") || "";
+  } else {
+    $("room").value = store.get("juno.room") || "";
+    const b = store.get("juno.building");
+    if (b) { pick("type", "member"); pick("building", b); }
+  }
+  refresh();
+
+  function fail(text) { const m = $("msg"); m.textContent = text; m.hidden = false; }
+
+  function calendarLinks(title) {
+    const details = `${title}. ${EVENT.where}. Dress: ${EVENT.dress}.`;
+    $("gcal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+      + "&text=" + encodeURIComponent(title)
+      + "&dates=" + EVENT.startUtc + "/" + EVENT.endUtc
+      + "&location=" + encodeURIComponent(EVENT.location)
+      + "&details=" + encodeURIComponent(details);
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Life at Juno//RSVP//EN", "CALSCALE:GREGORIAN", "BEGIN:VEVENT",
+      "UID:" + EVENT.id + "@life-at-juno", "DTSTAMP:" + stamp, "DTSTART:" + EVENT.startUtc, "DTEND:" + EVENT.endUtc,
+      "SUMMARY:" + title.replace(/[,;]/g, "\\$&"), "LOCATION:" + EVENT.location.replace(/[,;]/g, "\\$&"),
+      "DESCRIPTION:" + details.replace(/[,;]/g, "\\$&"), "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+    $("ics").href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+    $("calLinks").hidden = false;
+  }
+
+  $("form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    $("msg").hidden = true;
+    const name = $("name").value.trim();
+    const room = $("room").value.trim();
+    if (!state.response) return fail("Let us know if you'll be there.");
+    if (!name) return fail("Add your full name.");
+    if (!state.type) return fail("Tell us if you're a Juno resident or a guest.");
+    if (state.type === "member" && !state.building) return fail("Pick your building.");
+    if (state.type === "member" && !room) return fail("Add your room number.");
+    if (!RSVP_URL) return fail("RSVP isn't connected yet. Please let the Juno team know.");
+
+    if ($("remember").checked) {
+      if (state.type === "member") { store.set("juno.name", name); store.set("juno.room", room); store.set("juno.building", state.building); }
+      else { store.set("juno.guest.name", name); store.set("juno.guest.phone", $("phone").value.trim()); }
+    }
+
+    const title = guest ? guest.calTitle : EVENT.title;
+    const body = JSON.stringify({
+      type: "rsvp", eventId: EVENT.id, eventTitle: title, response: state.response, name, guestType: state.type,
+      building: state.building, room, organisation: $("org").value.trim(), phone: $("phone").value.trim(), dietary: $("dietary").value.trim(),
+    });
+    $("go").disabled = true;
+    $("go").textContent = "Sending…";
+    fetch(RSVP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body })
+      .then((r) => r.json())
+      .then((res) => {
+        if (!res.ok) return fail(res.error === "missing" ? "Some details are missing. Please check the form." : "Something went wrong. Please try again.");
+        $("form").hidden = true;
+        if (state.response === "yes") {
+          $("doneTitle").textContent = (res.updated ? "Updated. " : "") + `You're on the list, ${name.split(/\s+/)[0]}!`;
+          $("doneText").innerHTML = `See you on <strong>${esc(EVENT.when)}</strong> ${esc(EVENT.whereIn)}.`
+            + (state.type === "member" ? " Your room is in the Ultimate Raffle, and you have to be there to win." : " We look forward to hosting you.");
+          calendarLinks(title);
+        } else {
+          $("doneTitle").textContent = `Thanks for letting us know, ${name.split(/\s+/)[0]}.`;
+          $("doneText").textContent = "We'll miss you. If your plans change, you can update your reply here.";
+          $("calLinks").hidden = true;
+        }
+        $("doneView").hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      })
+      .catch(() => fail("Couldn't send your RSVP. Check your connection and try again."))
+      .finally(() => { $("go").disabled = false; $("go").textContent = "Send my RSVP"; });
+  });
+
+  $("change").addEventListener("click", () => { $("doneView").hidden = true; $("form").hidden = false; });
+})();
+</script>
+</body>
+</html>
