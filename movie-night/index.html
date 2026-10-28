@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Pick the film for movie night at Emily Akinola, Saturday 31 October. Watch the trailers, then vote in the WhatsApp poll.">
+<meta name="theme-color" content="#00285E">
+<meta property="og:title" content="Movie night picks · Life at Juno">
+<meta property="og:description" content="Seven films, one night. Watch the trailers, then vote in the Emily Akinola WhatsApp poll.">
+<title>Movie night picks · Life at Juno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&display=swap">
+<style>
+:root{
+  --bg:#00285E; --panel:#0A3470; --line:#24508F; --ink:#EFF3FA; --muted:#B9C6DE;
+  --gold:#C9C490; --gold-ink:#050F26; --deep:#050F26;
+  --f:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(ellipse 90% 40% at 50% 0%,#0E3A7A 0%,var(--bg) 70%) var(--bg) no-repeat}
+.wrap{max-width:760px;margin:0 auto;padding:28px max(20px,env(safe-area-inset-right,0px)) 40px max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:26px}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top svg{height:30px;width:auto;display:block}
+.top a{color:var(--muted);font-size:14px;font-weight:700;letter-spacing:.14em;text-decoration:none;text-transform:uppercase}
+.hero{display:flex;flex-direction:column;gap:12px}
+.eyebrow{margin:0;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+h1{margin:0;font-size:clamp(40px,9vw,60px);line-height:.98;font-weight:800;letter-spacing:-.035em;text-wrap:balance}
+h1 .dot{color:var(--gold)}
+.lead{margin:0;color:var(--muted);font-size:17px;line-height:1.5;max-width:58ch}
+.when{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.when div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.when b{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.when span{font-size:17px;font-weight:700;line-height:1.3}
+.vote{background:var(--gold);color:var(--gold-ink);border-radius:18px;padding:16px 18px;font-size:16px;font-weight:700;line-height:1.4}
+.vote strong{font-weight:900}
+.films{display:flex;flex-direction:column;gap:16px}
+.film{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:grid;grid-template-columns:260px minmax(0,1fr)}
+.poster{position:relative;display:block;background:var(--deep);min-height:160px;overflow:hidden}
+.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(5,15,38,.72);border:2px solid var(--gold);color:var(--gold);display:grid;place-items:center}
+.num{position:absolute;left:12px;top:12px;background:var(--gold);color:var(--gold-ink);font-size:13px;font-weight:900;letter-spacing:.08em;border-radius:999px;padding:4px 10px}
+.info{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.info h2{margin:0;font-size:22px;line-height:1.15;font-weight:800;letter-spacing:-.01em}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);border:1px solid var(--line);background:#062B63;border-radius:999px;padding:4px 9px}
+.run{font-size:13px;font-weight:700;color:var(--gold);margin-left:4px}
+.blurb{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.cast{margin:0;font-size:13px;line-height:1.4;color:var(--muted)}
+.trailer{align-self:flex-start;margin-top:4px;font-size:14px;font-weight:800;color:var(--gold);text-decoration:none;border:1.5px solid var(--gold);border-radius:999px;padding:8px 14px}
+.trailer:focus-visible,.poster:focus-visible,.top a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.foot{font-size:13px;line-height:1.5;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.foot a{color:var(--gold);font-weight:700}
+@media (max-width:620px){
+  .film{grid-template-columns:1fr}
+  .poster{min-height:0;aspect-ratio:16/9}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <svg viewBox="0 0 987 347" role="img" aria-label="Juno" xmlns="http://www.w3.org/2000/svg"><path d="M439.12 94.5703C455.619 94.5704 468.994 107.945 468.994 124.444V234.539H468.993C468.971 250.783 465.428 266.829 458.604 281.566C451.76 296.35 441.781 309.462 429.362 319.99C416.944 330.519 402.384 338.21 386.695 342.53C371.007 346.851 354.566 347.695 338.519 345.006C322.471 342.316 307.201 336.157 293.771 326.957C280.342 317.757 269.076 305.736 260.757 291.732C252.438 277.729 247.266 262.077 245.601 245.868C245.209 242.06 244.877 238.274 245.021 234.539H244.983V124.444C244.983 107.945 258.358 94.5705 274.857 94.5703C291.357 94.5703 304.732 107.945 304.732 124.444V234.539H304.248C304.648 236.266 304.933 238.012 305.11 239.736C305.886 247.287 308.295 254.577 312.17 261.101C316.045 267.624 321.293 273.223 327.549 277.509C333.804 281.794 340.917 284.663 348.393 285.916C355.868 287.169 363.526 286.775 370.834 284.763C378.142 282.75 384.924 279.167 390.709 274.263C396.494 269.358 401.142 263.25 404.33 256.364C407.518 249.478 409.17 241.979 409.17 234.389H409.246V124.444C409.246 107.945 422.621 94.5703 439.12 94.5703Z" fill="#EFF3FA"/><path d="M194.011 94.5703C210.537 94.5703 223.935 107.968 223.936 124.494L223.935 234.539C223.913 250.783 220.363 266.829 213.528 281.566C206.673 296.35 196.677 309.462 184.237 319.99C171.798 330.518 157.214 338.21 141.499 342.53C125.784 346.851 109.316 347.695 93.2412 345.006C77.1665 342.316 61.8708 336.157 48.4189 326.957C34.9672 317.757 23.6817 305.736 15.3486 291.732C7.14589 277.947 0.802155 261.158 0.0322266 244.934L0 244.161V243.266C0 226.739 13.398 213.341 29.9248 213.341C45.0502 213.341 57.5519 224.563 59.5635 239.136C59.6408 239.318 59.7124 239.517 59.7764 239.736C60.5534 247.287 62.967 254.577 66.8486 261.101C70.7303 267.624 75.9869 273.223 82.2529 277.509C88.519 281.794 95.644 284.663 103.132 285.916C110.62 287.169 118.291 286.775 125.611 284.763C132.931 282.75 139.725 279.167 145.52 274.263C151.314 269.358 155.97 263.25 159.163 256.364C162.356 249.478 164.011 241.979 164.011 234.389H164.087V124.494C164.087 107.968 177.484 94.5705 194.011 94.5703Z" fill="#EFF3FA"/><rect x="157.108" width="71.8758" height="71.8758" rx="35.9379" fill="#C9C490"/><path d="M572.341 98.584C588.029 94.2637 604.47 93.4189 620.518 96.1084C636.565 98.7979 651.835 104.957 665.265 114.157C678.694 123.357 689.96 135.378 698.279 149.382C706.598 163.386 711.77 179.038 713.436 195.247C713.827 199.055 714.159 202.84 714.016 206.575H714.053V316.671C714.052 333.17 700.678 346.545 684.179 346.545C667.68 346.545 654.305 333.169 654.305 316.67V206.575H654.788C654.389 204.848 654.103 203.104 653.926 201.379C653.15 193.828 650.741 186.538 646.866 180.015C642.991 173.491 637.743 167.892 631.487 163.606C625.232 159.321 618.119 156.452 610.644 155.199C603.168 153.946 595.51 154.339 588.202 156.352C580.894 158.364 574.112 161.947 568.327 166.852C562.542 171.756 557.894 177.864 554.706 184.75C551.518 191.636 549.866 199.135 549.866 206.726H549.791V316.671C549.791 333.17 536.415 346.545 519.916 346.545C503.417 346.545 490.042 333.169 490.042 316.67V206.575H490.043C490.065 190.332 493.609 174.286 500.432 159.549C507.276 144.766 517.255 131.653 529.674 121.125C542.092 110.597 556.652 102.904 572.341 98.584Z" fill="#EFF3FA"/><path d="M987 220.558C987 290.138 930.593 346.545 861.013 346.545C791.432 346.545 735.025 290.138 735.025 220.558C735.025 150.977 791.432 94.5703 861.013 94.5703C930.593 94.5703 987 150.977 987 220.558ZM793.355 220.558C793.355 257.924 823.647 288.215 861.013 288.215C898.379 288.215 928.67 257.924 928.67 220.558C928.67 183.191 898.379 152.9 861.013 152.9C823.647 152.9 793.355 183.191 793.355 220.558Z" fill="#EFF3FA"/></svg>
+    <a href="../">Calendar</a>
+  </div>
+
+  <section class="hero">
+    <p class="eyebrow">Movie night · Emily Akinola</p>
+    <h1>Pick Saturday's film<span class="dot">.</span></h1>
+    <p class="lead">Seven films, one night in the second-floor lounge. Watch the trailers here, then vote for your favourite in the Emily Akinola WhatsApp poll. The film with the most votes is the one we watch.</p>
+  </section>
+
+  <div class="when">
+    <div><b>Townhall</b><span>Sat 31 Oct, 6:30pm to 7pm</span></div>
+    <div><b>Movie night</b><span>Sat 31 Oct, from 7:30pm</span></div>
+  </div>
+
+  <p class="vote"><strong>Voting closes Friday night.</strong> Tap a poster to watch the trailer, then cast your vote in the group poll.</p>
+
+  <section class="films" aria-label="The shortlist">
+  <article class="film">
+    <a class="poster" href="https://www.youtube.com/watch?v=nmf9kHqA_XM" target="_blank" rel="noopener" aria-label="Watch the Verity trailer on YouTube">
+      <img src="https://i.ytimg.com/vi/nmf9kHqA_XM/hqdefault.jpg" alt="" loading="lazy" width="480" height="270" onerror="this.remove()">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="num">01</span>
+    </a>
+    <div class="info">
+      <h2>Verity</h2>
+      <div class="meta"><span class="chip">Thriller</span><span class="chip">Horror</span></div>
+      <p class="blurb">A struggling writer is hired to finish a bestselling author&#x27;s series, moves into her house, and finds a manuscript she was never meant to read.</p>
+      <p class="cast">Anne Hathaway, Dakota Johnson</p>
+      <a class="trailer" href="https://www.youtube.com/watch?v=nmf9kHqA_XM" target="_blank" rel="noopener">Watch the trailer</a>
+    </div>
+  </article>
+  <article class="film">
+    <a class="poster" href="https://www.youtube.com/watch?v=pyZI5oM6hWk" target="_blank" rel="noopener" aria-label="Watch the The Sheep Detectives trailer on YouTube">
+      <img src="https://i.ytimg.com/vi/pyZI5oM6hWk/hqdefault.jpg" alt="" loading="lazy" width="480" height="270" onerror="this.remove()">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="num">02</span>
+    </a>
+    <div class="info">
+      <h2>The Sheep Detectives</h2>
+      <div class="meta"><span class="chip">Comedy</span><span class="chip">Mystery</span><span class="run">1h 49m</span></div>
+      <p class="blurb">A flock of sheep raised on their shepherd&#x27;s detective novels decide to crack the case themselves when trouble comes to the farm.</p>
+      <p class="cast">Hugh Jackman, Emma Thompson</p>
+      <a class="trailer" href="https://www.youtube.com/watch?v=pyZI5oM6hWk" target="_blank" rel="noopener">Watch the trailer</a>
+    </div>
+  </article>
+  <article class="film">
+    <a class="poster" href="https://www.youtube.com/watch?v=0Q4v7IKWO_E" target="_blank" rel="noopener" aria-label="Watch the Hope trailer on YouTube">
+      <img src="https://i.ytimg.com/vi/0Q4v7IKWO_E/hqdefault.jpg" alt="" loading="lazy" width="480" height="270" onerror="this.remove()">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="num">03</span>
+    </a>
+    <div class="info">
+      <h2>Hope</h2>
+      <div class="meta"><span class="chip">Sci-fi</span><span class="chip">Horror</span><span class="chip">Korean</span><span class="run">2h 36m</span></div>
+      <p class="blurb">In a village near the Korean border, a police chief and his rookie deputy face something in the mountains that nobody can explain. In Korean with subtitles.</p>
+      <p class="cast">Hwang Jung-min, Michael Fassbender, Alicia Vikander</p>
+      <a class="trailer" href="https://www.youtube.com/watch?v=0Q4v7IKWO_E" target="_blank" rel="noopener">Watch the trailer</a>
+    </div>
+  </article>
+  <article class="film">
+    <a class="poster" href="https://www.youtube.com/watch?v=62bIsvRcPv0" target="_blank" rel="noopener" aria-label="Watch the Spider-Man: Brand New Day trailer on YouTube">
+      <img src="https://i.ytimg.com/vi/62bIsvRcPv0/hqdefault.jpg" alt="" loading="lazy" width="480" height="270" onerror="this.remove()">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="num">04</span>
+    </a>
+    <div class="info">
+      <h2>Spider-Man: Brand New Day</h2>
+      <div class="meta"><span class="chip">Action</span><span class="run">2h 30m</span></div>
+      <p class="blurb">Peter Parker, now on his own, takes on his biggest line-up of villains yet.</p>
+      <p class="cast">Tom Holland, Zendaya</p>
+      <a class="trailer" href="https://www.youtube.com/watch?v=62bIsvRcPv0" target="_blank" rel="noopener">Watch the trailer</a>
+    </div>
+  </article>
+  <article class="film">
+    <a class="poster" href="https://www.youtube.com/watch?v=0fZ58S-7QP0" target="_blank" rel="noopener" aria-label="Watch the Scary Movie 6 trailer on YouTube">
+      <img src="https://i.ytimg.com/vi/0fZ58S-7QP0/hqdefault.jpg" alt="" loading="lazy" width="480" height="270" onerror="this.remove()">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="num">05</span>
+    </a>
+    <div class="info">
+      <h2>Scary Movie 6</h2>
+      <div class="meta"><span class="chip">Comedy</span><span class="chip">Horror spoof</span><span class="run">1h 36m</span></div>
+      <p class="blurb">The spoof is back, taking aim at the horror hits of the last few years.</p>
+      <p class="cast">Anna Faris, Regina Hall</p>
+      <a class="trailer" href="https://www.youtube.com/watch?v=0fZ58S-7QP0" target="_blank" rel="noopener">Watch the trailer</a>
+    </div>
+  </article>
+  <article class="film">
+    <a class="poster" href="https://www.youtube.com/watch?v=dSS4yqd0x6o" target="_blank" rel="noopener" aria-label="Watch the Mercy trailer on YouTube">
+      <img src="https://i.ytimg.com/vi/dSS4yqd0x6o/hqdefault.jpg" alt="" loading="lazy" width="480" height="270" onerror="this.remove()">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="num">06</span>
+    </a>
+    <div class="info">
+      <h2>Mercy</h2>
+      <div class="meta"><span class="chip">Sci-fi</span><span class="chip">Thriller</span><span class="run">1h 40m</span></div>
+      <p class="blurb">A detective accused of murder has 90 minutes to prove his innocence to an AI judge before it decides his fate.</p>
+      <p class="cast">Chris Pratt, Rebecca Ferguson</p>
+      <a class="trailer" href="https://www.youtube.com/watch?v=dSS4yqd0x6o" target="_blank" rel="noopener">Watch the trailer</a>
+    </div>
+  </article>
+  <article class="film">
+    <a class="poster" href="https://www.youtube.com/watch?v=aLAKJu9aJys" target="_blank" rel="noopener" aria-label="Watch the Talk to Me trailer on YouTube">
+      <img src="https://i.ytimg.com/vi/aLAKJu9aJys/hqdefault.jpg" alt="" loading="lazy" width="480" height="270" onerror="this.remove()">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="num">07</span>
+    </a>
+    <div class="info">
+      <h2>Talk to Me</h2>
+      <div class="meta"><span class="chip">Horror</span><span class="run">1h 35m</span></div>
+      <p class="blurb">A group of friends find a hand that lets them talk to the dead, and turn it into a party game until someone goes too far.</p>
+      <p class="cast">Sophie Wilde, Alexandra Jensen</p>
+      <a class="trailer" href="https://www.youtube.com/watch?v=aLAKJu9aJys" target="_blank" rel="noopener">Watch the trailer</a>
+    </div>
+  </article>
+  </section>
+
+  <div class="foot">
+    <p style="margin:0">Life at Juno · Juno Emily Akinola, Akoka, Yaba</p>
+    <p style="margin:0"><a href="../">See the full Life at Juno calendar</a></p>
+  </div>
+</div>
+</body>
+</html>
