@@ -2,7 +2,7 @@
 
 The community events calendar for Juno Karimu Ikotun (Sabo, Yaba) and Juno Emily Akinola (Akoka, Yaba): what's on today, this week and this month.
 
-Served with GitHub Pages from `index.html` on the `main` branch.
+Served with GitHub Pages from `index.html` on the `main` branch, at https://life.juno.africa (the `CNAME` file sets the domain; keep it in the repository). Old chizzyaustin.github.io/Life-at-Juno links redirect there.
 
 Calendar by Chidiverse Consulting Ltd.
 
