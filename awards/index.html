@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#00285E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Juno Awards: nominations are open">
-<meta property="og:description" content="Nominate the neighbours who make Juno feel like home. Winners announced at Juno at Five, Friday 6 November.">
+<meta property="og:description" content="Five awards for the people who make Juno home. Nominate by Wednesday 4 November; winners revealed at Juno at Five on Friday.">
 <meta property="og:url" content="https://chizzyaustin.github.io/Life-at-Juno/awards/">
 <meta property="og:image" content="https://chizzyaustin.github.io/Life-at-Juno/awards/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -84,7 +84,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 
 .ico svg{width:26px;height:26px;stroke:var(--gold-hi);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .card h2{margin:0;font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.1}
 .card .what{margin-top:4px;font-size:15px;line-height:1.45;color:#D5DEEE}
-.tag{display:inline-block;align-self:flex-start;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold);border-radius:999px;padding:6px 10px}
+.tag{display:inline-block;align-self:flex-start;font-size:11px;font-weight:900;letter-spacing:.12em;line-height:1.35;text-transform:uppercase;color:var(--gold-ink);background:var(--gold);border-radius:10px;padding:6px 10px}
 .card.filled{border-color:var(--gold)}
 .two{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px}
 
@@ -143,7 +143,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 
     <div class="titles">
       <p class="eyebrow rise" style="animation-delay:.1s">Juno at Five · Friday 6 November</p>
       <h1 class="rise" style="animation-delay:.2s">The Juno <span class="shine">Awards</span></h1>
-      <p class="lead rise" id="lead" style="animation-delay:.3s">Four awards and a winner in each building. Nominate the neighbours who make Juno feel like home, then vote for your favourites.</p>
+      <p class="lead rise" id="lead" style="animation-delay:.3s">Five awards for the people who make Juno home. Nominate your neighbours for three of them, then vote for your favourites on Thursday.</p>
     </div>
     <div class="steps rise" style="animation-delay:.4s" aria-label="How it works">
       <div class="step" id="st1"><b>Nominate</b><span>Until Wed 4 Nov</span></div>
@@ -212,6 +212,7 @@ const ICONS = {
   star: '<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>',
   heart: '<path d="M12 20s-7-4.3-9.2-8.8A5 5 0 0 1 12 6.4a5 5 0 0 1 9.2 4.8C19 15.7 12 20 12 20z"/>',
   flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+  homes: '<path d="M2 20h20M3.5 20v-8l5-4 5 4v8M12.5 20v-5.5l4-3.2 4 3.2V20"/>',
 };
 const AWARDS = [
   { id: "pioneer", name: "The Juno Pioneer Award", icon: "hourglass", records: true,
@@ -222,6 +223,8 @@ const AWARDS = [
     what: "Someone who is considerate, respectful and thoughtful towards other residents, and always willing to lend a helping hand." },
   { id: "trailblazer", name: "The Juno Trailblazer Award", icon: "flag",
     what: "A member who has introduced new ideas or initiatives that have positively influenced the community." },
+  { id: "legacy", name: "The Juno Legacy Award", icon: "homes", records: true, both: true,
+    what: "For members whose journey reflects the growth and evolution of Juno: those who have called both Karimu and Emily Akinola home. Chosen from Juno's records." },
 ];
 
 // The voting shortlist, filled in from the nominations once they close (up to three names per award, per building).
@@ -262,7 +265,7 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
     if (!state.building) { $("form").hidden = true; return; }
     if (phase === "nominate") {
       cards.innerHTML = AWARDS.map((a) => a.records
-        ? `<section class="card">${head(a)}<span class="tag">From Juno's records</span></section>`
+        ? `<section class="card">${head(a)}<span class="tag">${a.both ? "From Juno's records · Both buildings" : "From Juno's records"}</span></section>`
         : `<section class="card" data-award="${a.id}">${head(a)}
             <div class="two">
               <div class="field"><label class="label" for="n-${a.id}">Who do you nominate?</label><input type="text" id="n-${a.id}" maxlength="80" placeholder="Their full name"></div>
@@ -278,7 +281,7 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
       if (!ready) { $("form").hidden = true; $("notice").hidden = false;
         $("notice").textContent = "Nominations are being counted. The shortlist for " + state.building + " will be up here shortly, so check back soon."; return; }
       cards.innerHTML = AWARDS.map((a) => a.records
-        ? `<section class="card">${head(a)}<span class="tag">From Juno's records</span></section>`
+        ? `<section class="card">${head(a)}<span class="tag">${a.both ? "From Juno's records · Both buildings" : "From Juno's records"}</span></section>`
         : `<section class="card" data-award="${a.id}">${head(a)}<div class="choices" role="radiogroup" aria-label="${a.name}">
             ${(list[a.id] || []).map((n) => `<button type="button" class="choice" role="radio" aria-checked="${state.picks[a.id] === n}" data-award="${a.id}" data-name="${esc(n)}"><span class="dot"></span>${esc(n)}</button>`).join("") || '<p class="hint">No nominations in this building yet.</p>'}
           </div></section>`).join("");
