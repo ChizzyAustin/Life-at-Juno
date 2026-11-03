@@ -13,6 +13,11 @@
  * RSVPs: each reply adds a row to the "RSVPs" tab. If the same person replies
  * again for the same event, their row is updated rather than duplicated.
  *
+ * Juno Awards: nominations go to the "Award nominations" tab and votes to the
+ * "Award votes" tab, one row per room per award per building (sending again
+ * updates that row). The "Awards tally" tab counts both. Nominations close at the
+ * end of Wednesday 4 November and voting at the end of Thursday 5 November, Lagos time.
+ *
  * The tag below limits the script to this one spreadsheet.
  * @OnlyCurrentDoc
  */
@@ -21,6 +26,16 @@ const SHEET_NAME = 'Check-ins';
 const POINTS_PER_CHECKIN = 1;
 const TIMEZONE = 'Africa/Lagos';
 const HEADERS = ['Timestamp', 'Event date', 'Event', 'Event ID', 'Building', 'Room', 'Name', 'Points'];
+
+const NOM_SHEET = 'Award nominations';
+const NOM_HEADERS = ['Updated', 'Building', 'Award', 'Nominee', 'Nominee key', 'Nominee room', 'Why', 'Nominated by', 'Their room', 'First sent'];
+const VOTE_SHEET = 'Award votes';
+const VOTE_HEADERS = ['Updated', 'Building', 'Award', 'Vote for', 'Voter', 'Voter room', 'First vote'];
+const TALLY_SHEET = 'Awards tally';
+const AWARD_IDS = { engaged: 'The Most Engaged Member', neighbour: 'The Ultimate Good Neighbour', trailblazer: 'The Juno Trailblazer Award' };
+const BUILDINGS = ['Karimu', 'Emily Akinola'];
+const NOMINATIONS_CLOSE = new Date('2026-11-04T23:59:59+01:00');
+const VOTING_CLOSE = new Date('2026-11-05T23:59:59+01:00');
 
 const RSVP_SHEET = 'RSVPs';
 const RSVP_HEADERS = ['Updated', 'Event ID', 'Event', 'Response', 'Name', 'Guest type',
@@ -51,6 +66,8 @@ function doPost(e) {
   try {
     const d = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (d.type === 'rsvp') return rsvp_(d);
+    if (d.type === 'nominate') return nominate_(d);
+    if (d.type === 'vote') return vote_(d);
     return checkin_(d);
   } catch (err) {
     return json_({ ok: false, error: 'server' });
@@ -126,10 +143,95 @@ function rsvp_(d) {
   return json_({ ok: true, updated: at > 0 });
 }
 
-// The web app only accepts check-ins and RSVPs. Room totals and guest lists stay
+// Juno Awards ---------------------------------------------------------------
+
+function key_(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+// Writes one row per room, building and award; sending again updates that row.
+function upsert_(sh, rows, keyOf, mine, row, firstCol) {
+  for (let i = 1; i < rows.length; i++) {
+    if (keyOf(rows[i]) === mine) {
+      row[firstCol] = rows[i][firstCol] || row[firstCol];
+      sh.getRange(i + 1, 1, 1, row.length).setValues([row]);
+      return true;
+    }
+  }
+  sh.appendRow(row);
+  rows.push(row);
+  return false;
+}
+
+function nominate_(d) {
+  if (new Date() > NOMINATIONS_CLOSE) return json_({ ok: false, error: 'closed' });
+  const building = clean_(d.building, 40);
+  const name = clean_(d.name, 80);
+  const room = clean_(d.room, 12).toUpperCase();
+  const list = Array.isArray(d.nominations) ? d.nominations.slice(0, 3) : [];
+  if (BUILDINGS.indexOf(building) < 0 || !name || !room || !list.length) return json_({ ok: false, error: 'missing' });
+
+  const sh = tab_(NOM_SHEET, NOM_HEADERS);
+  const rows = sh.getDataRange().getValues();
+  const now = new Date();
+  let saved = 0;
+  list.forEach(function (n) {
+    const award = AWARD_IDS[clean_(n.award, 20)];
+    const nominee = clean_(n.nominee, 80);
+    if (!award || !nominee || key_(nominee) === key_(name)) return;
+    const row = [now, building, award, nominee, key_(nominee), clean_(n.nomineeRoom, 12).toUpperCase(),
+                 clean_(n.reason, 240), name, room, now];
+    upsert_(sh, rows, function (r) { return [r[1], r[2], String(r[8]).toUpperCase()].join('|'); },
+            [building, award, room].join('|'), row, 9);
+    saved++;
+  });
+  tally_();
+  return json_({ ok: saved > 0, saved: saved, error: saved ? '' : 'missing' });
+}
+
+function vote_(d) {
+  const now = new Date();
+  if (now <= NOMINATIONS_CLOSE || now > VOTING_CLOSE) return json_({ ok: false, error: 'closed' });
+  const building = clean_(d.building, 40);
+  const name = clean_(d.name, 80);
+  const room = clean_(d.room, 12).toUpperCase();
+  const list = Array.isArray(d.votes) ? d.votes.slice(0, 3) : [];
+  if (BUILDINGS.indexOf(building) < 0 || !name || !room || !list.length) return json_({ ok: false, error: 'missing' });
+
+  const sh = tab_(VOTE_SHEET, VOTE_HEADERS);
+  const rows = sh.getDataRange().getValues();
+  let saved = 0;
+  list.forEach(function (v) {
+    const award = AWARD_IDS[clean_(v.award, 20)];
+    const nominee = clean_(v.nominee, 80);
+    if (!award || !nominee) return;
+    const row = [now, building, award, nominee, name, room, now];
+    upsert_(sh, rows, function (r) { return [r[1], r[2], String(r[5]).toUpperCase()].join('|'); },
+            [building, award, room].join('|'), row, 6);
+    saved++;
+  });
+  tally_();
+  return json_({ ok: saved > 0, saved: saved, error: saved ? '' : 'missing' });
+}
+
+// Builds the "Awards tally" tab once: live counts of nominations (by name) and votes.
+function tally_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (ss.getSheetByName(TALLY_SHEET)) return;
+  tab_(NOM_SHEET, NOM_HEADERS);
+  tab_(VOTE_SHEET, VOTE_HEADERS);
+  const sh = ss.insertSheet(TALLY_SHEET);
+  sh.getRange('A1').setValue('Nominations (by building, award and name)').setFontWeight('bold');
+  sh.getRange('A2').setFormula("=IFERROR(QUERY('" + NOM_SHEET + "'!B:E, \"select B, C, E, count(D) where B is not null group by B, C, E order by B, C, count(D) desc label E 'Nominee', count(D) 'Nominations'\", 1), \"No nominations yet\")");
+  sh.getRange('G1').setValue('Votes (by building, award and name)').setFontWeight('bold');
+  sh.getRange('G2').setFormula("=IFERROR(QUERY('" + VOTE_SHEET + "'!B:D, \"select B, C, D, count(D) where B is not null group by B, C, D order by B, C, count(D) desc label count(D) 'Votes'\", 1), \"No votes yet\")");
+  sh.setFrozenRows(2);
+}
+
+// The web app only accepts check-ins, RSVPs, award nominations and votes. Room totals and guest lists stay
 // inside the Sheet (and AppSheet, if you add it), so room numbers are never public.
 function doGet() {
-  return json_({ ok: true, service: 'Life at Juno check-in and RSVP' });
+  return json_({ ok: true, service: 'Life at Juno check-in, RSVP and awards' });
 }
 
 function json_(obj) {

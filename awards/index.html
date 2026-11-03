@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Nominate and vote for the Juno Awards. Winners are announced at Juno at Five on Friday 6 November.">
+<meta name="theme-color" content="#00285E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Juno Awards: nominations are open">
+<meta property="og:description" content="Nominate the neighbours who make Juno feel like home. Winners announced at Juno at Five, Friday 6 November.">
+<meta property="og:url" content="https://chizzyaustin.github.io/Life-at-Juno/awards/">
+<meta property="og:image" content="https://chizzyaustin.github.io/Life-at-Juno/awards/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>The Juno Awards · Life at Juno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Urbanist:wght@500;600;700;800;900&display=swap">
+<style>
+/* The Juno Awards: nominate (until Wed 4 Nov), vote on a shortlist (Thu 5 Nov), winners at Juno at Five (Fri 6 Nov). */
+:root{
+  --bg:#00285E; --deep:#050F26; --panel:#0A3470; --line:#24508F; --field:#012152; --ink:#EFF3FA; --muted:#B9C6DE;
+  --gold:#C9C490; --gold-hi:#F3EBC6; --gold-lo:#9A8440; --gold-ink:#050F26; --pick:#144587; --error:#FFB49A;
+  --f:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(ellipse 120% 60% at 50% 0%,#0E3A7A 0%,var(--bg) 55%) var(--bg)}
+[hidden]{display:none!important}
+p{margin:0}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;isolation:isolate;padding-block:calc(18px + env(safe-area-inset-top,0px)) 34px;
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+#sparkle{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hero-in{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top svg{height:28px;width:auto;display:block}
+.top a{color:var(--ink);font-size:13px;font-weight:800;letter-spacing:.16em;text-decoration:none;text-transform:uppercase;padding:9px 14px;border:1px solid rgba(239,243,250,.3);border-radius:999px}
+.crest{display:flex;justify-content:center;margin-top:6px}
+.crest svg{width:132px;height:auto;display:block;filter:drop-shadow(0 10px 26px rgba(0,0,0,.35))}
+.crest .rays{transform-box:view-box;transform-origin:80px 80px;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.titles{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h1{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(52px,14vw,80px);line-height:.95;text-wrap:balance}
+.shine{font-style:italic;font-weight:500;background:linear-gradient(100deg,var(--gold) 0%,var(--gold-hi) 18%,var(--gold) 36%,var(--gold-lo) 60%,var(--gold) 80%,var(--gold-hi) 100%);
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shine 7s linear infinite;padding-right:.04em}
+@keyframes shine{from{background-position:100% 0}to{background-position:-160% 0}}
+.lead{color:#D5DEEE;font-size:17px;line-height:1.5;max-width:30em;text-wrap:pretty}
+
+/* Timeline */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
+.step{border:1px solid var(--line);border-radius:14px;padding:12px 10px;background:rgba(10,52,112,.55);text-align:center}
+.step b{display:block;font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.step span{display:block;margin-top:5px;font-size:13.5px;font-weight:700;line-height:1.3}
+.step.on{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,196,144,.18),rgba(10,52,112,.6))}
+.step.on b{color:var(--gold)}
+.step.done{opacity:.55}
+
+.rise{opacity:0;transform:translateY(14px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* Content */
+.wrap{max-width:560px;margin:0 auto;padding-block:6px 70px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.label{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.hint{font-size:13px;line-height:1.45;color:var(--muted)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg button{font:inherit;font-size:16px;font-weight:700;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:14px 10px;min-height:52px;cursor:pointer;transition:background .2s,border-color .2s}
+.seg button[aria-pressed="true"]{background:var(--pick);border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,196,144,.14)}
+.field{display:flex;flex-direction:column;gap:8px}
+input[type=text],textarea{font:inherit;font-size:17px;font-weight:600;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:13px 15px;width:100%;min-height:50px}
+textarea{min-height:76px;resize:vertical;font-weight:500;font-size:16px;line-height:1.4}
+input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,196,144,.16)}
+.opt{font-weight:600;opacity:.8}
+
+.card{position:relative;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(11,58,124,.9),rgba(6,40,90,.92));padding:20px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.card::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card-h{display:flex;gap:14px;align-items:flex-start}
+.ico{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(201,196,144,.14);border:1px solid rgba(201,196,144,.4)}
+.ico svg{width:26px;height:26px;stroke:var(--gold-hi);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h2{margin:0;font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.1}
+.card .what{margin-top:4px;font-size:15px;line-height:1.45;color:#D5DEEE}
+.tag{display:inline-block;align-self:flex-start;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold);border-radius:999px;padding:6px 10px}
+.card.filled{border-color:var(--gold)}
+.two{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px}
+
+/* Voting choices */
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice{font:inherit;text-align:left;display:flex;align-items:center;gap:12px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;min-height:54px;cursor:pointer;font-size:17px;font-weight:700}
+.choice .dot{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--muted);display:grid;place-items:center}
+.choice[aria-checked="true"]{border-color:var(--gold);background:var(--pick)}
+.choice[aria-checked="true"] .dot{border-color:var(--gold);background:var(--gold);box-shadow:inset 0 0 0 4px var(--pick)}
+
+.go{position:relative;overflow:hidden;font:inherit;font-size:18px;font-weight:800;color:var(--gold-ink);background:linear-gradient(180deg,#D8D3A0,var(--gold));border:0;border-radius:999px;padding:16px;min-height:56px;cursor:pointer;box-shadow:0 10px 30px rgba(201,196,144,.18)}
+.go::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:sweep 4.5s ease-in-out infinite 1.5s}
+@keyframes sweep{0%,60%{left:-60%}100%{left:130%}}
+.go:disabled{opacity:.6;cursor:wait}
+.go:disabled::after{animation:none}
+.ghost{font:inherit;font-size:16px;font-weight:800;color:var(--ink);background:transparent;border:1.5px solid var(--gold);border-radius:999px;padding:13px 18px;cursor:pointer;text-decoration:none;text-align:center}
+.link{color:var(--gold);font-weight:800;font-size:16px;background:none;border:0;padding:0;font-family:inherit;cursor:pointer;text-align:left}
+.go:focus-visible,.ghost:focus-visible,.seg button:focus-visible,.choice:focus-visible,.top a:focus-visible,.link:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.msg{font-size:15px;line-height:1.4;color:var(--error)}
+.note{font-size:13px;line-height:1.45;color:var(--muted)}
+.notice{border:1px dashed rgba(201,196,144,.6);border-radius:18px;padding:18px;font-size:16px;line-height:1.5;color:#D5DEEE;text-align:center}
+.done{display:flex;flex-direction:column;gap:14px;align-items:flex-start;scroll-margin-top:16px}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--gold);display:grid;place-items:center;animation:pop .6s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.done h2{margin:0;font-size:32px;line-height:1.08;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.done p{font-size:17px;line-height:1.45;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.foot{margin-top:6px;padding-top:18px;border-top:1px solid rgba(36,80,143,.7);display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.foot .credit a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.foot .credit strong{color:var(--ink)}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+@media (max-width:420px){.two{grid-template-columns:1fr}.step span{font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){.crest .rays,.shine,.go::after,.tick{animation:none!important}.rise{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <canvas id="sparkle" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <div class="top"><svg viewBox="0 0 987 347" role="img" aria-label="Juno" xmlns="http://www.w3.org/2000/svg"><path d="M439.12 94.5703C455.619 94.5704 468.994 107.945 468.994 124.444V234.539H468.993C468.971 250.783 465.428 266.829 458.604 281.566C451.76 296.35 441.781 309.462 429.362 319.99C416.944 330.519 402.384 338.21 386.695 342.53C371.007 346.851 354.566 347.695 338.519 345.006C322.471 342.316 307.201 336.157 293.771 326.957C280.342 317.757 269.076 305.736 260.757 291.732C252.438 277.729 247.266 262.077 245.601 245.868C245.209 242.06 244.877 238.274 245.021 234.539H244.983V124.444C244.983 107.945 258.358 94.5705 274.857 94.5703C291.357 94.5703 304.732 107.945 304.732 124.444V234.539H304.248C304.648 236.266 304.933 238.012 305.11 239.736C305.886 247.287 308.295 254.577 312.17 261.101C316.045 267.624 321.293 273.223 327.549 277.509C333.804 281.794 340.917 284.663 348.393 285.916C355.868 287.169 363.526 286.775 370.834 284.763C378.142 282.75 384.924 279.167 390.709 274.263C396.494 269.358 401.142 263.25 404.33 256.364C407.518 249.478 409.17 241.979 409.17 234.389H409.246V124.444C409.246 107.945 422.621 94.5703 439.12 94.5703Z" fill="#EFF3FA"/><path d="M194.011 94.5703C210.537 94.5703 223.935 107.968 223.936 124.494L223.935 234.539C223.913 250.783 220.363 266.829 213.528 281.566C206.673 296.35 196.677 309.462 184.237 319.99C171.798 330.518 157.214 338.21 141.499 342.53C125.784 346.851 109.316 347.695 93.2412 345.006C77.1665 342.316 61.8708 336.157 48.4189 326.957C34.9672 317.757 23.6817 305.736 15.3486 291.732C7.14589 277.947 0.802155 261.158 0.0322266 244.934L0 244.161V243.266C0 226.739 13.398 213.341 29.9248 213.341C45.0502 213.341 57.5519 224.563 59.5635 239.136C59.6408 239.318 59.7124 239.517 59.7764 239.736C60.5534 247.287 62.967 254.577 66.8486 261.101C70.7303 267.624 75.9869 273.223 82.2529 277.509C88.519 281.794 95.644 284.663 103.132 285.916C110.62 287.169 118.291 286.775 125.611 284.763C132.931 282.75 139.725 279.167 145.52 274.263C151.314 269.358 155.97 263.25 159.163 256.364C162.356 249.478 164.011 241.979 164.011 234.389H164.087V124.494C164.087 107.968 177.484 94.5705 194.011 94.5703Z" fill="#EFF3FA"/><rect x="157.108" width="71.8758" height="71.8758" rx="35.9379" fill="#C9C490"/><path d="M572.341 98.584C588.029 94.2637 604.47 93.4189 620.518 96.1084C636.565 98.7979 651.835 104.957 665.265 114.157C678.694 123.357 689.96 135.378 698.279 149.382C706.598 163.386 711.77 179.038 713.436 195.247C713.827 199.055 714.159 202.84 714.016 206.575H714.053V316.671C714.052 333.17 700.678 346.545 684.179 346.545C667.68 346.545 654.305 333.169 654.305 316.67V206.575H654.788C654.389 204.848 654.103 203.104 653.926 201.379C653.15 193.828 650.741 186.538 646.866 180.015C642.991 173.491 637.743 167.892 631.487 163.606C625.232 159.321 618.119 156.452 610.644 155.199C603.168 153.946 595.51 154.339 588.202 156.352C580.894 158.364 574.112 161.947 568.327 166.852C562.542 171.756 557.894 177.864 554.706 184.75C551.518 191.636 549.866 199.135 549.866 206.726H549.791V316.671C549.791 333.17 536.415 346.545 519.916 346.545C503.417 346.545 490.042 333.169 490.042 316.67V206.575H490.043C490.065 190.332 493.609 174.286 500.432 159.549C507.276 144.766 517.255 131.653 529.674 121.125C542.092 110.597 556.652 102.904 572.341 98.584Z" fill="#EFF3FA"/><path d="M987 220.558C987 290.138 930.593 346.545 861.013 346.545C791.432 346.545 735.025 290.138 735.025 220.558C735.025 150.977 791.432 94.5703 861.013 94.5703C930.593 94.5703 987 150.977 987 220.558ZM793.355 220.558C793.355 257.924 823.647 288.215 861.013 288.215C898.379 288.215 928.67 257.924 928.67 220.558C928.67 183.191 898.379 152.9 861.013 152.9C823.647 152.9 793.355 183.191 793.355 220.558Z" fill="#EFF3FA"/></svg><a href="../">Calendar</a></div>
+    <div class="crest rise" aria-hidden="true">
+      <svg viewBox="0 0 160 160">
+        <defs><linearGradient id="cg" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#F3EBC6"/><stop offset=".5" stop-color="#C9C490"/><stop offset="1" stop-color="#9A8440"/></linearGradient></defs>
+        <g class="rays" stroke="#C9C490" stroke-opacity=".35" stroke-width="1.2">
+          <line x1="80" y1="4" x2="80" y2="22"/><line x1="80" y1="138" x2="80" y2="156"/><line x1="4" y1="80" x2="22" y2="80"/><line x1="138" y1="80" x2="156" y2="80"/>
+          <line x1="26" y1="26" x2="39" y2="39"/><line x1="121" y1="121" x2="134" y2="134"/><line x1="26" y1="134" x2="39" y2="121"/><line x1="121" y1="39" x2="134" y2="26"/>
+        </g>
+        <circle cx="80" cy="80" r="50" fill="rgba(5,15,38,.45)" stroke="url(#cg)" stroke-width="2"/>
+        <path d="M60 52h40v10a20 20 0 0 1-40 0z" fill="url(#cg)"/>
+        <path d="M60 56h-8a8 8 0 0 0 10 12M100 56h8a8 8 0 0 1-10 12" fill="none" stroke="url(#cg)" stroke-width="3" stroke-linecap="round"/>
+        <rect x="76" y="82" width="8" height="12" fill="url(#cg)"/>
+        <rect x="66" y="94" width="28" height="7" rx="2" fill="url(#cg)"/>
+        <rect x="62" y="102" width="36" height="6" rx="2" fill="url(#cg)"/>
+      </svg>
+    </div>
+    <div class="titles">
+      <p class="eyebrow rise" style="animation-delay:.1s">Juno at Five · Friday 6 November</p>
+      <h1 class="rise" style="animation-delay:.2s">The Juno <span class="shine">Awards</span></h1>
+      <p class="lead rise" id="lead" style="animation-delay:.3s">Four awards and a winner in each building. Nominate the neighbours who make Juno feel like home, then vote for your favourites.</p>
+    </div>
+    <div class="steps rise" style="animation-delay:.4s" aria-label="How it works">
+      <div class="step" id="st1"><b>Nominate</b><span>Until Wed 4 Nov</span></div>
+      <div class="step" id="st2"><b>Vote</b><span>Thu 5 Nov</span></div>
+      <div class="step" id="st3"><b>Winners</b><span>Fri 6 Nov, at Juno at Five</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="field rise" style="animation-delay:.5s" id="buildingWrap">
+    <span class="label" id="bLabel">Which building do you live in?</span>
+    <div class="seg" role="group" aria-labelledby="bLabel" data-group="building">
+      <button type="button" data-value="Karimu" aria-pressed="false">Karimu</button>
+      <button type="button" data-value="Emily Akinola" aria-pressed="false">Emily Akinola</button>
+    </div>
+    <p class="hint">You nominate and vote for members of your own building. Each building has its own winners.</p>
+  </section>
+
+  <form id="form" novalidate hidden>
+    <div id="cards" style="display:flex;flex-direction:column;gap:16px"></div>
+
+    <section class="card" id="you" style="margin-top:16px">
+      <div class="card-h"><div><h2 style="font-size:23px">Your details</h2><p class="what">Each room gets one nomination or vote per award. Sending again updates what you sent before.</p></div></div>
+      <div class="two">
+        <div class="field"><label class="label" for="name">Your full name</label><input type="text" id="name" autocomplete="name" maxlength="80"></div>
+        <div class="field"><label class="label" for="room">Your room</label><input type="text" id="room" autocomplete="off" maxlength="12"></div>
+      </div>
+      <p class="note">Your room number stays inside Juno. It is never shown on this page.</p>
+    </section>
+
+    <p class="msg" id="msg" role="alert" hidden style="margin-top:14px"></p>
+    <button type="submit" class="go" id="go" style="margin-top:16px;width:100%">Send my nominations</button>
+  </form>
+
+  <p class="notice" id="notice" hidden></p>
+
+  <section class="done" id="doneView" hidden>
+    <div class="tick" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#050F26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 id="doneTitle"></h2>
+    <p id="doneText"></p>
+    <div class="row">
+      <a class="ghost" id="share" target="_blank" rel="noopener">Tell your neighbours on WhatsApp</a>
+      <button type="button" class="link" id="again">Change what I sent</button>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Life at Juno · Karimu &amp; Emily Akinola, Yaba</p>
+    <p class="credit">Designed by <a href="https://chidiverseconsulting.com" target="_blank" rel="noopener"><strong>Chidiverse Consulting Ltd</strong></a></p>
+  </footer>
+</main>
+<canvas id="confetti" aria-hidden="true" hidden></canvas>
+
+<script>
+// Same Apps Script web app as check-in and RSVP. Nominations and votes go to their own tabs in the Juno Check-ins sheet.
+const API_URL = "https://script.google.com/macros/s/AKfycby7glLFdEq_B2WLJWjOk16iwSFwnNaf26Ho0BNxGuScizv9xANwqeOFW7qJd2aw7nDp/exec";
+const PAGE_URL = "https://chizzyaustin.github.io/Life-at-Juno/awards/";
+
+// Lagos time. Nominations close at the end of Wednesday, voting at the end of Thursday.
+const NOMINATIONS_CLOSE = Date.parse("2026-11-04T23:59:59+01:00");
+const VOTING_CLOSE = Date.parse("2026-11-05T23:59:59+01:00");
+
+const ICONS = {
+  hourglass: '<path d="M7 3h10M7 21h10M8 3c0 5 8 6 8 9s-8 4-8 9M16 3c0 5-8 6-8 9s8 4 8 9"/>',
+  star: '<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>',
+  heart: '<path d="M12 20s-7-4.3-9.2-8.8A5 5 0 0 1 12 6.4a5 5 0 0 1 9.2 4.8C19 15.7 12 20 12 20z"/>',
+  flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+};
+const AWARDS = [
+  { id: "pioneer", name: "The Juno Pioneer Award", icon: "hourglass", records: true,
+    what: "Our longest-staying member, chosen from Juno's own records. There's nothing to nominate, just be there to cheer." },
+  { id: "engaged", name: "The Most Engaged Member", icon: "star",
+    what: "A member who consistently shows up for Juno events and activities." },
+  { id: "neighbour", name: "The Ultimate Good Neighbour", icon: "heart",
+    what: "Someone who is considerate, respectful and thoughtful towards other residents, and always willing to lend a helping hand." },
+  { id: "trailblazer", name: "The Juno Trailblazer Award", icon: "flag",
+    what: "A member who has introduced new ideas or initiatives that have positively influenced the community." },
+];
+
+// The voting shortlist, filled in from the nominations once they close (up to three names per award, per building).
+const SHORTLIST = {
+  "Karimu": { engaged: [], neighbour: [], trailblazer: [] },
+  "Emily Akinola": { engaged: [], neighbour: [], trailblazer: [] },
+};
+
+const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  };
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const params = new URLSearchParams(location.search);
+  const now = Date.now();
+  let phase = now <= NOMINATIONS_CLOSE ? "nominate" : now <= VOTING_CLOSE ? "vote" : "closed";
+  if (["nominate", "vote", "closed"].includes(params.get("preview"))) phase = params.get("preview");
+  const state = { building: "", picks: {} };
+
+  // Timeline
+  const idx = { nominate: 0, vote: 1, closed: 2 }[phase];
+  ["st1", "st2", "st3"].forEach((id, i) => { $(id).classList.toggle("on", i === idx); $(id).classList.toggle("done", i < idx); });
+  if (phase === "vote") $("lead").textContent = "Here's the shortlist from your nominations. Pick one person for each award, and the winners are revealed at Juno at Five on Friday.";
+  if (phase === "closed") $("lead").textContent = "Nominations and voting are closed. Thank you for taking part. The winners are revealed at Juno at Five on Friday 6 November on the Karimu rooftop.";
+
+  const icon = (n) => `<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg></div>`;
+  const head = (a) => `<div class="card-h">${icon(a.icon)}<div><h2>${a.name}</h2><p class="what">${a.what}</p></div></div>`;
+
+  function render() {
+    const cards = $("cards");
+    $("notice").hidden = true;
+    if (phase === "closed") { $("buildingWrap").hidden = true; $("form").hidden = true; $("notice").hidden = false;
+      $("notice").textContent = "See you on the rooftop on Friday from 6pm. Every winner is announced on the night."; return; }
+    if (!state.building) { $("form").hidden = true; return; }
+    if (phase === "nominate") {
+      cards.innerHTML = AWARDS.map((a) => a.records
+        ? `<section class="card">${head(a)}<span class="tag">From Juno's records</span></section>`
+        : `<section class="card" data-award="${a.id}">${head(a)}
+            <div class="two">
+              <div class="field"><label class="label" for="n-${a.id}">Who do you nominate?</label><input type="text" id="n-${a.id}" maxlength="80" placeholder="Their full name"></div>
+              <div class="field"><label class="label" for="r-${a.id}">Their room <span class="opt">(optional)</span></label><input type="text" id="r-${a.id}" maxlength="12"></div>
+            </div>
+            <div class="field"><label class="label" for="w-${a.id}">Why do they deserve it? <span class="opt">(optional)</span></label><textarea id="w-${a.id}" maxlength="240" placeholder="A line or two. The best ones may be read out on the night."></textarea></div>
+          </section>`).join("");
+      cards.querySelectorAll("[data-award] input:first-of-type").forEach((inp) => inp.addEventListener("input", () => inp.closest(".card").classList.toggle("filled", !!inp.value.trim())));
+      $("go").textContent = "Send my nominations";
+    } else {
+      const list = SHORTLIST[state.building] || {};
+      const ready = AWARDS.some((a) => !a.records && (list[a.id] || []).length);
+      if (!ready) { $("form").hidden = true; $("notice").hidden = false;
+        $("notice").textContent = "Nominations are being counted. The shortlist for " + state.building + " will be up here shortly, so check back soon."; return; }
+      cards.innerHTML = AWARDS.map((a) => a.records
+        ? `<section class="card">${head(a)}<span class="tag">From Juno's records</span></section>`
+        : `<section class="card" data-award="${a.id}">${head(a)}<div class="choices" role="radiogroup" aria-label="${a.name}">
+            ${(list[a.id] || []).map((n) => `<button type="button" class="choice" role="radio" aria-checked="${state.picks[a.id] === n}" data-award="${a.id}" data-name="${esc(n)}"><span class="dot"></span>${esc(n)}</button>`).join("") || '<p class="hint">No nominations in this building yet.</p>'}
+          </div></section>`).join("");
+      cards.querySelectorAll(".choice").forEach((b) => b.addEventListener("click", () => {
+        state.picks[b.dataset.award] = b.dataset.name;
+        cards.querySelectorAll(`.choice[data-award="${b.dataset.award}"]`).forEach((x) => x.setAttribute("aria-checked", String(x === b)));
+        b.closest(".card").classList.add("filled");
+      }));
+      $("go").textContent = "Cast my votes";
+    }
+    $("form").hidden = false;
+  }
+
+  function pick(value) {
+    state.building = value; state.picks = {};
+    document.querySelectorAll('[data-group="building"] button').forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.value === value)));
+    render();
+  }
+  document.querySelectorAll('[data-group="building"] button').forEach((b) => b.addEventListener("click", () => pick(b.dataset.value)));
+
+  // Prefill from this phone: residents share their saved name, building and room with check-in and RSVP.
+  $("name").value = store.get("juno.name") || "";
+  $("room").value = store.get("juno.room") || "";
+  const saved = ({ karimu: "Karimu", emily: "Emily Akinola" })[(params.get("b") || "").toLowerCase()] || store.get("juno.building");
+  if (saved === "Karimu" || saved === "Emily Akinola") pick(saved); else render();
+
+  const fail = (t) => { $("msg").textContent = t; $("msg").hidden = false; };
+  const norm = (s) => s.trim().replace(/\s+/g, " ").toLowerCase();
+
+  $("form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    $("msg").hidden = true;
+    const name = $("name").value.trim(), room = $("room").value.trim();
+    let body;
+    if (phase === "nominate") {
+      const noms = AWARDS.filter((a) => !a.records).map((a) => ({ award: a.id, awardName: a.name,
+        nominee: $("n-" + a.id).value.trim(), nomineeRoom: $("r-" + a.id).value.trim(), reason: $("w-" + a.id).value.trim() })).filter((n) => n.nominee);
+      if (!noms.length) return fail("Nominate someone for at least one award.");
+      if (!name) return fail("Add your full name.");
+      if (!room) return fail("Add your room number.");
+      if (noms.some((n) => norm(n.nominee) === norm(name))) return fail("You can't nominate yourself. Pick someone who deserves it!");
+      body = { type: "nominate", building: state.building, name, room, nominations: noms };
+    } else {
+      const votes = Object.keys(state.picks).map((k) => ({ award: k, awardName: (AWARDS.find((a) => a.id === k) || {}).name, nominee: state.picks[k] }));
+      if (!votes.length) return fail("Pick at least one person to vote for.");
+      if (!name) return fail("Add your full name.");
+      if (!room) return fail("Add your room number.");
+      body = { type: "vote", building: state.building, name, room, votes };
+    }
+    store.set("juno.name", name); store.set("juno.room", room); store.set("juno.building", state.building);
+    $("go").disabled = true; const label = $("go").textContent; $("go").textContent = "Sending…";
+    fetch(API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
+      .then((r) => r.json())
+      .then((res) => {
+        if (!res.ok) return fail(res.error === "closed" ? "This round has closed. Thank you for taking part!" : res.error === "missing" ? "Some details are missing. Please check the form." : "Something went wrong. Please try again.");
+        const first = name.split(/\s+/)[0];
+        $("form").hidden = true; $("buildingWrap").hidden = true;
+        $("doneTitle").textContent = phase === "nominate" ? `Your nominations are in, ${first}!` : `Your votes are in, ${first}!`;
+        $("doneText").textContent = phase === "nominate"
+          ? "Voting opens on Thursday 5 November with a shortlist for each award. Winners are revealed at Juno at Five on Friday."
+          : "Thank you for voting. The winners are revealed at Juno at Five on Friday 6 November, from 6pm on the Karimu rooftop.";
+        const msg = phase === "nominate"
+          ? "Nominations for the Juno Awards are open! Nominate your neighbours by Wednesday night: " + PAGE_URL
+          : "Voting for the Juno Awards is open today! Cast your votes here: " + PAGE_URL;
+        $("share").href = "https://wa.me/?text=" + encodeURIComponent(msg);
+        $("doneView").hidden = false;
+        $("doneView").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
+        celebrate();
+      })
+      .catch(() => fail("Couldn't send. Check your connection and try again."))
+      .finally(() => { $("go").disabled = false; $("go").textContent = label; });
+  });
+  $("again").addEventListener("click", () => { $("doneView").hidden = true; $("buildingWrap").hidden = false; $("form").hidden = false; });
+})();
+
+// Gold sparkles drifting over the header.
+(function () {
+  const cv = document.getElementById("sparkle");
+  const cx = cv.getContext("2d");
+  let w = 0, h = 0, dpr = 1, dots = [], raf = 0, visible = true;
+  function size() {
+    const r = cv.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = r.width; h = r.height;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(70, Math.max(28, (w * h) / 9000)));
+    dots = Array.from({ length: n }, () => make(true));
+  }
+  function make(anywhere) {
+    return { x: Math.random() * w, y: anywhere ? Math.random() * h : h + 10, r: 0.6 + Math.random() * 1.9,
+             vy: 0.12 + Math.random() * 0.35, vx: (Math.random() - 0.5) * 0.18, ph: Math.random() * Math.PI * 2, sp: 0.01 + Math.random() * 0.03 };
+  }
+  function draw(step) {
+    cx.clearRect(0, 0, w, h);
+    for (const d of dots) {
+      if (step) { d.y -= d.vy; d.x += d.vx + Math.sin(d.ph) * 0.12; d.ph += d.sp; if (d.y < -10) Object.assign(d, make(false)); }
+      const a = 0.25 + 0.55 * (0.5 + 0.5 * Math.sin(d.ph * 2));
+      const g = cx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r * 4);
+      g.addColorStop(0, `rgba(243,235,198,${a})`); g.addColorStop(0.35, `rgba(201,196,144,${a * 0.55})`); g.addColorStop(1, "rgba(201,196,144,0)");
+      cx.fillStyle = g; cx.beginPath(); cx.arc(d.x, d.y, d.r * 4, 0, Math.PI * 2); cx.fill();
+    }
+  }
+  function loop() { draw(true); raf = requestAnimationFrame(loop); }
+  function run() { cancelAnimationFrame(raf); if (!REDUCED && visible && !document.hidden) loop(); else draw(false); }
+  size(); run();
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { size(); run(); }, 150); });
+  document.addEventListener("visibilitychange", run);
+  if ("IntersectionObserver" in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; run(); }).observe(cv);
+})();
+
+// Confetti when someone says yes.
+function celebrate() {
+  if (REDUCED) return;
+  const cv = document.getElementById("confetti");
+  cv.hidden = false;
+  const cx = cv.getContext("2d"), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = window.innerWidth, h = window.innerHeight;
+  cv.width = w * dpr; cv.height = h * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const colors = ["#C9C490", "#F3EBC6", "#9A8440", "#EFF3FA", "#3B6FC4"];
+  const bits = Array.from({ length: 140 }, () => ({
+    x: w / 2 + (Math.random() - 0.5) * w * 0.3, y: h * 0.35, vx: (Math.random() - 0.5) * 9, vy: -4 - Math.random() * 9,
+    s: 5 + Math.random() * 7, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3, c: colors[(Math.random() * colors.length) | 0] }));
+  const t0 = performance.now();
+  (function frame(t) {
+    const age = (t - t0) / 1000;
+    cx.clearRect(0, 0, w, h);
+    for (const b of bits) {
+      b.vy += 0.22; b.vx *= 0.992; b.x += b.vx; b.y += b.vy; b.rot += b.vr;
+      cx.save(); cx.translate(b.x, b.y); cx.rotate(b.rot); cx.globalAlpha = Math.max(0, 1 - age / 3.2);
+      cx.fillStyle = b.c; cx.fillRect(-b.s / 2, -b.s / 4, b.s, b.s / 2); cx.restore();
+    }
+    if (age < 3.4) requestAnimationFrame(frame); else { cx.clearRect(0, 0, w, h); cv.hidden = true; }
+  })(t0);
+}
+</script>
+</body>
+</html>
