@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Nominate and vote for the Juno Awards. Winners are announced at Juno at Five on Friday 6 November.">
+<meta name="description" content="Nominate and vote for the Juno Awards. Winners collect their awards and prizes at Juno at Five on Friday 6 November.">
 <meta name="theme-color" content="#00285E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Juno Awards: nominations are open">
-<meta property="og:description" content="Five awards for the people who make Juno home. Nominate by Wednesday 4 November; winners revealed at Juno at Five on Friday.">
+<meta property="og:description" content="Nominate the neighbours who make Juno home by Wednesday 4 November. Vote on Thursday; awards and prizes at Juno at Five on Friday.">
 <meta property="og:url" content="https://life.juno.africa/awards/">
 <meta property="og:image" content="https://life.juno.africa/awards/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Urbanist:wght@500;600;700;800;900&display=swap">
 <style>
-/* The Juno Awards: nominate (until Wed 4 Nov), vote on a shortlist (Thu 5 Nov), winners at Juno at Five (Fri 6 Nov). */
+/* The Juno Awards: nominate (until Wed 4 Nov), vote on a shortlist (Thu 5 Nov), winners shown here when voting closes, awards and prizes at Juno at Five (Fri 6 Nov). */
 :root{
   --bg:#00285E; --deep:#050F26; --panel:#0A3470; --line:#24508F; --field:#012152; --ink:#EFF3FA; --muted:#B9C6DE;
   --gold:#C9C490; --gold-hi:#F3EBC6; --gold-lo:#9A8440; --gold-ink:#050F26; --pick:#144587; --error:#FFB49A;
@@ -115,6 +115,12 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 
 .foot{margin-top:6px;padding-top:18px;border-top:1px solid rgba(36,80,143,.7);display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
 .foot .credit a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .foot .credit strong{color:var(--ink)}
+.also{display:flex;gap:14px;align-items:flex-start;border:1px dashed rgba(201,196,144,.55);border-radius:22px;padding:18px 20px;background:rgba(5,15,38,.25)}
+.also b{display:block;font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.also p{font-size:15px;line-height:1.5;color:#D5DEEE}
+.also strong{color:var(--ink)}
+.winner{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.wname{font-family:var(--serif);font-weight:600;font-size:32px;line-height:1.05;color:var(--gold-hi)}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
 @media (max-width:420px){.two{grid-template-columns:1fr}.step span{font-size:12.5px}}
 @media (prefers-reduced-motion:reduce){.crest .rays,.shine,.go::after,.tick{animation:none!important}.rise{animation:none;opacity:1;transform:none}}
@@ -143,12 +149,12 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 
     <div class="titles">
       <p class="eyebrow rise" style="animation-delay:.1s">Juno at Five · Friday 6 November</p>
       <h1 class="rise" style="animation-delay:.2s">The Juno <span class="shine">Awards</span></h1>
-      <p class="lead rise" id="lead" style="animation-delay:.3s">Five awards for the people who make Juno home. Nominate your neighbours for three of them, then vote for your favourites on Thursday.</p>
+      <p class="lead rise" id="lead" style="animation-delay:.3s">Three awards and a winner in each building, chosen by you. Nominate your neighbours, vote on the shortlist, and the winners collect their awards and prizes at Juno at Five on Friday.</p>
     </div>
     <div class="steps rise" style="animation-delay:.4s" aria-label="How it works">
       <div class="step" id="st1"><b>Nominate</b><span>Until Wed 4 Nov</span></div>
       <div class="step" id="st2"><b>Vote</b><span>Thu 5 Nov</span></div>
-      <div class="step" id="st3"><b>Winners</b><span>Fri 6 Nov, at Juno at Five</span></div>
+      <div class="step" id="st3"><b>Awards</b><span>Fri 6 Nov at Juno at Five</span></div>
     </div>
   </div>
 </header>
@@ -180,6 +186,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 
   </form>
 
   <p class="notice" id="notice" hidden></p>
+  <div id="results" hidden style="display:flex;flex-direction:column;gap:16px"></div>
 
   <section class="done" id="doneView" hidden>
     <div class="tick" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#050F26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
@@ -215,22 +222,30 @@ const ICONS = {
   homes: '<path d="M2 20h20M3.5 20v-8l5-4 5 4v8M12.5 20v-5.5l4-3.2 4 3.2V20"/>',
 };
 const AWARDS = [
-  { id: "pioneer", name: "The Juno Pioneer Award", icon: "hourglass", records: true,
-    what: "Our longest-staying member, chosen from Juno's own records. There's nothing to nominate, just be there to cheer." },
   { id: "engaged", name: "The Most Engaged Member", icon: "star",
     what: "A member who consistently shows up for Juno events and activities." },
   { id: "neighbour", name: "The Ultimate Good Neighbour", icon: "heart",
     what: "Someone who is considerate, respectful and thoughtful towards other residents, and always willing to lend a helping hand." },
   { id: "trailblazer", name: "The Juno Trailblazer Award", icon: "flag",
     what: "A member who has introduced new ideas or initiatives that have positively influenced the community." },
-  { id: "legacy", name: "The Juno Legacy Award", icon: "homes", records: true, both: true,
-    what: "For members whose journey reflects the growth and evolution of Juno: those who have called both Karimu and Emily Akinola home. Chosen from Juno's records." },
 ];
+
+// Presented on the night from Juno's records, so they have no nominations or votes.
+const ALSO = '<div class="also">' + '<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS.homes + '</svg></div>' +
+  '<p><b>Also presented on Friday</b><strong>The Juno Pioneer Award</strong> for our longest-staying member in each building, and ' +
+  '<strong>the Juno Legacy Award</strong> for members who have called both Karimu and Emily Akinola home. ' +
+  "Both come from Juno's records, so there's nothing to nominate.</p></div>";
 
 // The voting shortlist, filled in from the nominations once they close (up to three names per award, per building).
 const SHORTLIST = {
   "Karimu": { engaged: [], neighbour: [], trailblazer: [] },
   "Emily Akinola": { engaged: [], neighbour: [], trailblazer: [] },
+};
+
+// The winners, filled in from the votes once voting closes. They show on this page; awards and prizes are presented on Friday.
+const WINNERS = {
+  "Karimu": { engaged: "", neighbour: "", trailblazer: "" },
+  "Emily Akinola": { engaged: "", neighbour: "", trailblazer: "" },
 };
 
 const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -251,8 +266,13 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
   // Timeline
   const idx = { nominate: 0, vote: 1, closed: 2 }[phase];
   ["st1", "st2", "st3"].forEach((id, i) => { $(id).classList.toggle("on", i === idx); $(id).classList.toggle("done", i < idx); });
-  if (phase === "vote") $("lead").textContent = "Here's the shortlist from your nominations. Pick one person for each award, and the winners are revealed at Juno at Five on Friday.";
-  if (phase === "closed") $("lead").textContent = "Nominations and voting are closed. Thank you for taking part. The winners are revealed at Juno at Five on Friday 6 November on the Karimu rooftop.";
+  const hasWinners = (b) => Object.values(WINNERS[b] || {}).some(Boolean);
+  const anyWinners = hasWinners("Karimu") || hasWinners("Emily Akinola");
+  if (phase === "vote") $("lead").textContent = "Here's the shortlist from your nominations. Pick one person for each award. The winners show here once voting closes, and collect their awards and prizes at Juno at Five on Friday.";
+  if (phase === "closed") $("lead").textContent = anyWinners
+    ? "Voting has closed and the results are in. Pick your building to see its winners, who collect their awards and prizes at Juno at Five on Friday 6 November."
+    : "Voting has closed. Thank you for taking part! The winners will show here shortly, and collect their awards and prizes at Juno at Five on Friday.";
+  let cheered = false;
 
   const icon = (n) => `<div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg></div>`;
   const head = (a) => `<div class="card-h">${icon(a.icon)}<div><h2>${a.name}</h2><p class="what">${a.what}</p></div></div>`;
@@ -260,8 +280,18 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
   function render() {
     const cards = $("cards");
     $("notice").hidden = true;
-    if (phase === "closed") { $("buildingWrap").hidden = true; $("form").hidden = true; $("notice").hidden = false;
-      $("notice").textContent = "See you on the rooftop on Friday from 6pm. Every winner is announced on the night."; return; }
+    $("results").hidden = true;
+    if (phase === "closed") {
+      $("form").hidden = true;
+      if (!state.building) return;
+      if (!hasWinners(state.building)) { $("notice").hidden = false;
+        $("notice").textContent = "The winners for " + state.building + " will show here shortly. Awards and prizes are presented at Juno at Five on Friday from 6pm on the Karimu rooftop."; return; }
+      const w = WINNERS[state.building];
+      $("results").innerHTML = AWARDS.map((a) => `<section class="card filled">${head(a)}<div class="winner"><span class="tag">${w[a.id] ? "Winner" : "To be announced"}</span>${w[a.id] ? `<p class="wname">${esc(w[a.id])}</p>` : ""}</div></section>`).join("") + ALSO;
+      $("results").hidden = false;
+      if (!cheered) { cheered = true; celebrate(); }
+      return;
+    }
     if (!state.building) { $("form").hidden = true; return; }
     if (phase === "nominate") {
       cards.innerHTML = AWARDS.map((a) => a.records
@@ -272,7 +302,7 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
               <div class="field"><label class="label" for="r-${a.id}">Their room <span class="opt">(optional)</span></label><input type="text" id="r-${a.id}" maxlength="12"></div>
             </div>
             <div class="field"><label class="label" for="w-${a.id}">Why do they deserve it? <span class="opt">(optional)</span></label><textarea id="w-${a.id}" maxlength="240" placeholder="A line or two. The best ones may be read out on the night."></textarea></div>
-          </section>`).join("");
+          </section>`).join("") + ALSO;
       cards.querySelectorAll("[data-award] input:first-of-type").forEach((inp) => inp.addEventListener("input", () => inp.closest(".card").classList.toggle("filled", !!inp.value.trim())));
       $("go").textContent = "Send my nominations";
     } else {
@@ -284,7 +314,7 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
         ? `<section class="card">${head(a)}<span class="tag">${a.both ? "From Juno's records · Both buildings" : "From Juno's records"}</span></section>`
         : `<section class="card" data-award="${a.id}">${head(a)}<div class="choices" role="radiogroup" aria-label="${a.name}">
             ${(list[a.id] || []).map((n) => `<button type="button" class="choice" role="radio" aria-checked="${state.picks[a.id] === n}" data-award="${a.id}" data-name="${esc(n)}"><span class="dot"></span>${esc(n)}</button>`).join("") || '<p class="hint">No nominations in this building yet.</p>'}
-          </div></section>`).join("");
+          </div></section>`).join("") + ALSO;
       cards.querySelectorAll(".choice").forEach((b) => b.addEventListener("click", () => {
         state.picks[b.dataset.award] = b.dataset.name;
         cards.querySelectorAll(`.choice[data-award="${b.dataset.award}"]`).forEach((x) => x.setAttribute("aria-checked", String(x === b)));
@@ -341,8 +371,8 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
         $("form").hidden = true; $("buildingWrap").hidden = true;
         $("doneTitle").textContent = phase === "nominate" ? `Your nominations are in, ${first}!` : `Your votes are in, ${first}!`;
         $("doneText").textContent = phase === "nominate"
-          ? "Voting opens on Thursday 5 November with a shortlist for each award. Winners are revealed at Juno at Five on Friday."
-          : "Thank you for voting. The winners are revealed at Juno at Five on Friday 6 November, from 6pm on the Karimu rooftop.";
+          ? "Voting opens on Thursday 5 November with a shortlist for each award. The winners show here when voting closes, and collect their awards and prizes at Juno at Five on Friday."
+          : "Thank you for voting. The winners show here when voting closes on Thursday night, and awards and prizes are presented at Juno at Five on Friday from 6pm.";
         const msg = phase === "nominate"
           ? "Nominations for the Juno Awards are open! Nominate your neighbours by Wednesday night: " + PAGE_URL
           : "Voting for the Juno Awards is open today! Cast your votes here: " + PAGE_URL;
