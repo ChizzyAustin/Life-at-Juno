@@ -16,7 +16,7 @@
  * Juno Awards: nominations go to the "Award nominations" tab and votes to the
  * "Award votes" tab, one row per room per award per building (sending again
  * updates that row). The "Awards tally" tab counts both. Nominations close at the
- * end of Wednesday 4 November and voting at the end of Thursday 5 November, Lagos time.
+ * end of Thursday 5 November and voting at 5pm on Friday 6 November, Lagos time.
  *
  * The tag below limits the script to this one spreadsheet.
  * @OnlyCurrentDoc
@@ -34,8 +34,8 @@ const VOTE_HEADERS = ['Updated', 'Building', 'Award', 'Vote for', 'Voter', 'Vote
 const TALLY_SHEET = 'Awards tally';
 const AWARD_IDS = { engaged: 'The Most Engaged Member', neighbour: 'The Ultimate Good Neighbour', trailblazer: 'The Juno Trailblazer Award' };
 const BUILDINGS = ['Karimu', 'Emily Akinola'];
-const NOMINATIONS_CLOSE = new Date('2026-11-04T23:59:59+01:00');
-const VOTING_CLOSE = new Date('2026-11-05T23:59:59+01:00');
+const NOMINATIONS_CLOSE = new Date('2026-11-05T23:59:59+01:00');
+const VOTING_CLOSE = new Date('2026-11-06T17:00:00+01:00');
 
 const RSVP_SHEET = 'RSVPs';
 const RSVP_HEADERS = ['Updated', 'Event ID', 'Event', 'Response', 'Name', 'Guest type',

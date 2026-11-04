@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#00285E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Juno Awards: nominations are open">
-<meta property="og:description" content="Nominate the neighbours who make Juno home by Wednesday 4 November. Vote on Thursday; awards and prizes at Juno at Five on Friday.">
+<meta property="og:description" content="Nominations now close on Thursday 5 November. Vote on Friday until 5pm; awards and prizes at Juno at Five on Friday night.">
 <meta property="og:url" content="https://life.juno.africa/awards/">
 <meta property="og:image" content="https://life.juno.africa/awards/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&family=Urbanist:wght@500;600;700;800;900&display=swap">
 <style>
-/* The Juno Awards: nominate (until Wed 4 Nov), vote on a shortlist (Thu 5 Nov), winners shown here when voting closes, awards and prizes at Juno at Five (Fri 6 Nov). */
+/* The Juno Awards: nominate (until Thu 5 Nov), vote on a shortlist (Fri 6 Nov until 5pm), winners shown here when voting closes, awards and prizes at Juno at Five (Fri 6 Nov). */
 :root{
   --bg:#00285E; --deep:#050F26; --panel:#0A3470; --line:#24508F; --field:#012152; --ink:#EFF3FA; --muted:#B9C6DE;
   --gold:#C9C490; --gold-hi:#F3EBC6; --gold-lo:#9A8440; --gold-ink:#050F26; --pick:#144587; --error:#FFB49A;
@@ -152,8 +152,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 
       <p class="lead rise" id="lead" style="animation-delay:.3s">Three awards and a winner in each building, chosen by you. Nominate your neighbours, vote on the shortlist, and the winners collect their awards and prizes at Juno at Five on Friday.</p>
     </div>
     <div class="steps rise" style="animation-delay:.4s" aria-label="How it works">
-      <div class="step" id="st1"><b>Nominate</b><span>Until Wed 4 Nov</span></div>
-      <div class="step" id="st2"><b>Vote</b><span>Thu 5 Nov</span></div>
+      <div class="step" id="st1"><b>Nominate</b><span>Until Thu 5 Nov</span></div>
+      <div class="step" id="st2"><b>Vote</b><span>Fri 6 Nov, until 5pm</span></div>
       <div class="step" id="st3"><b>Awards</b><span>Fri 6 Nov at Juno at Five</span></div>
     </div>
   </div>
@@ -210,9 +210,9 @@ input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 
 const API_URL = "https://script.google.com/macros/s/AKfycby7glLFdEq_B2WLJWjOk16iwSFwnNaf26Ho0BNxGuScizv9xANwqeOFW7qJd2aw7nDp/exec";
 const PAGE_URL = "https://life.juno.africa/awards/";
 
-// Lagos time. Nominations close at the end of Wednesday, voting at the end of Thursday.
-const NOMINATIONS_CLOSE = Date.parse("2026-11-04T23:59:59+01:00");
-const VOTING_CLOSE = Date.parse("2026-11-05T23:59:59+01:00");
+// Lagos time. Nominations close at the end of Thursday 5 November, voting at 5pm on Friday 6 November.
+const NOMINATIONS_CLOSE = Date.parse("2026-11-05T23:59:59+01:00");
+const VOTING_CLOSE = Date.parse("2026-11-06T17:00:00+01:00");
 
 const ICONS = {
   hourglass: '<path d="M7 3h10M7 21h10M8 3c0 5 8 6 8 9s-8 4-8 9M16 3c0 5-8 6-8 9s8 4 8 9"/>',
@@ -371,10 +371,10 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
         $("form").hidden = true; $("buildingWrap").hidden = true;
         $("doneTitle").textContent = phase === "nominate" ? `Your nominations are in, ${first}!` : `Your votes are in, ${first}!`;
         $("doneText").textContent = phase === "nominate"
-          ? "Voting opens on Thursday 5 November with a shortlist for each award. The winners show here when voting closes, and collect their awards and prizes at Juno at Five on Friday."
-          : "Thank you for voting. The winners show here when voting closes on Thursday night, and awards and prizes are presented at Juno at Five on Friday from 6pm.";
+          ? "Voting opens on Friday 6 November with a shortlist for each award, and closes at 5pm. The winners show here when voting closes, and collect their awards and prizes at Juno at Five that evening."
+          : "Thank you for voting. The winners show here when voting closes at 5pm, and awards and prizes are presented at Juno at Five from 6pm tonight.";
         const msg = phase === "nominate"
-          ? "Nominations for the Juno Awards are open! Nominate your neighbours by Wednesday night: " + PAGE_URL
+          ? "Nominations for the Juno Awards are open until Thursday night! Nominate your neighbours here: " + PAGE_URL
           : "Voting for the Juno Awards is open today! Cast your votes here: " + PAGE_URL;
         $("share").href = "https://wa.me/?text=" + encodeURIComponent(msg);
         $("doneView").hidden = false;
