@@ -238,8 +238,16 @@ const ALSO = '<div class="also">' + '<div class="ico"><svg viewBox="0 0 24 24" a
 
 // The voting shortlist, filled in from the nominations once they close (up to three names per award, per building).
 const SHORTLIST = {
-  "Karimu": { engaged: [], neighbour: [], trailblazer: [] },
-  "Emily Akinola": { engaged: [], neighbour: [], trailblazer: [] },
+  "Karimu": {
+    engaged: ["Chidi Austin", "Stephen Buah", "Sukanmi"],
+    neighbour: ["Michael Okeje", "Glorious", "Nanring", "Okoli Godswill", "Stephen Buah"],
+    trailblazer: ["Chidi Austin", "Sequoia Ogbonnia"],
+  },
+  "Emily Akinola": {
+    engaged: ["Destiny Eguabor", "Adebusola (Busola) Badejo", "Agabaraolorunlomuseya", "Ehigie Osahaede Samuel", "Ochuko", "Oluwakanyinsola Obadeyi"],
+    neighbour: ["Destiny Eguabor", "Ehigie Osahaede Samuel", "Naomi Efijemueh", "Ochuko", "Oluwakanyinsola Obadeyi", "Temiloluwa"],
+    trailblazer: ["Destiny Eguabor", "Loni (Ayoola Oluwalonimi)", "Adebusola (Busola) Badejo", "Ehigie Osahaede Samuel", "Paul Ebam"],
+  },
 };
 
 // The winners, filled in from the votes once voting closes. They show on this page; awards and prizes are presented on Friday.
