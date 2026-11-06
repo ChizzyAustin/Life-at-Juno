@@ -216,6 +216,10 @@ input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,
       <dt id="byLabel">Reply by</dt><dd id="by"></dd>
     </dl>
 
+    <div id="closedNote" hidden style="margin:22px 0 8px;padding:20px 22px;border:1.5px solid rgba(201,196,144,.6);border-radius:16px;background:rgba(3,22,58,.55);text-align:center">
+      <p style="margin:0 0 6px;font-weight:800;font-size:1.15rem;color:#E9DFAE">Registration is now closed</p>
+      <p style="margin:0;color:#E2E9F5;line-height:1.5">If you've registered, we'll see you on the Karimu rooftop at 6pm tonight.</p>
+    </div>
     <form id="form" class="rise" style="animation-delay:.8s" novalidate>
       <div class="field">
         <span class="label" id="ansLabel">Will you be there?</span>
@@ -332,6 +336,12 @@ const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:
   $("where").textContent = EVENT.where;
   if (EVENT.dress) $("dress").textContent = EVENT.dress; else { $("dress").hidden = true; $("dressLabel").hidden = true; }
   if (EVENT.replyBy) $("by").textContent = EVENT.replyBy; else { $("by").hidden = true; $("byLabel").hidden = true; }
+  // Registration closes at 10:59am on the day; add ?preview=open to test the form after that.
+  const RSVP_CLOSES = Date.parse("2026-11-06T10:59:00+01:00");
+  if (Date.now() >= RSVP_CLOSES && params.get("preview") !== "open") {
+    $("form").style.display = "none";
+    $("closedNote").hidden = false;
+  }
   if (guest) {
     $("title").innerHTML = guest.title;
     $("lead").textContent = guest.lead;
