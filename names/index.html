@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Vote for your Juno building's new house name. Your vote is private. Voting closes Thursday 12 November, 9pm.">
+<meta name="theme-color" content="#00285E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Choose your house name">
+<meta property="og:description" content="Karimu and Emily Akinola are each choosing a house name for the Derby. Your vote is private. Closes Thursday 12 November, 9pm.">
+<meta property="og:url" content="https://life.juno.africa/names/">
+<meta property="og:image" content="https://life.juno.africa/names/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>House name vote · Life at Juno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Urbanist:wght@600;700;800;900&display=swap">
+<style>
+/* House name vote: the countdown, your building, the two names with their artwork, then your details. Results stay private. */
+
+/* Juno Derby sign-up: the pitch-line hero, the countdown to the close, the games, then a confirmation. */
+:root{
+  --bg:#00285E; --deep:#050F26; --line:#24508F; --field:#012152; --ink:#EFF3FA; --muted:#B9C6DE;
+  --gold:#C9C490; --gold-hi:#F3EBC6; --gold-lo:#9A8440; --gold-ink:#050F26; --pick:#144587; --error:#FFB49A;
+  --f:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(ellipse 120% 60% at 50% 100%,#0E3A7A 0%,var(--bg) 60%) var(--bg) fixed}
+[hidden]{display:none!important}
+.hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 90% 80% at 50% 25%,#174C97 0%,#00285E 58%,#00285E 100%)}
+.pitch{position:absolute;left:50%;top:0;width:760px;max-width:none;height:100%;transform:translateX(-50%);z-index:-1}
+.hero-in{max-width:600px;margin:0 auto;padding-block:calc(20px + env(safe-area-inset-top,0px)) 34px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:64px}
+.top{display:flex;align-items:center;justify-content:space-between}
+.top svg{height:30px;width:auto;display:block}
+.top a{color:var(--ink);font-size:13px;font-weight:800;letter-spacing:.16em;text-decoration:none;text-transform:uppercase;padding:9px 14px;border:1px solid rgba(239,243,250,.35);border-radius:999px;background:rgba(5,15,38,.35)}
+.titles{display:flex;flex-direction:column;gap:12px}
+.eyebrow{margin:0;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h1{margin:0;font-family:var(--serif);font-size:clamp(58px,16vw,96px);line-height:.92;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.shine{font-style:italic;font-weight:500;padding-right:.04em;background:linear-gradient(100deg,var(--gold) 0%,var(--gold-hi) 18%,var(--gold) 36%,var(--gold-lo) 60%,var(--gold) 80%,var(--gold-hi) 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shine 7s linear infinite}
+@keyframes shine{from{background-position:100% 0}to{background-position:-160% 0}}
+.lead{margin:0;color:#D5DEEE;font-size:17px;line-height:1.45;text-wrap:pretty}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-top:10px;padding:14px 18px;border:1px solid rgba(201,196,144,.45);border-radius:16px;background:rgba(5,15,38,.35)}
+.vs span{font-weight:900;font-size:clamp(15px,4.4vw,19px);letter-spacing:.08em;text-transform:uppercase}
+.vs span:last-child{text-align:right}
+.vs b{font-family:var(--serif);font-style:italic;font-weight:500;font-size:26px;color:var(--gold)}
+.wrap{max-width:600px;margin:0 auto;padding-block:18px 80px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.count{display:flex;flex-direction:column;gap:10px}
+.count-k{margin:0;font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.count-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.unit{background:linear-gradient(180deg,#0B3A7C 0%,#062B5F 100%);border:1px solid var(--line);border-radius:16px;padding:12px 4px 10px;text-align:center}
+.num{display:block;font-size:32px;line-height:1.05;font-weight:900;font-variant-numeric:tabular-nums}
+.u{display:block;margin-top:4px;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.event{position:relative;background:linear-gradient(180deg,rgba(10,52,112,.92),rgba(6,40,90,.92));border:1px solid var(--line);border-radius:20px;padding:18px 20px;display:grid;grid-template-columns:auto 1fr;gap:10px 16px;align-items:baseline;margin:0}
+.event::before{content:"";position:absolute;left:20px;right:20px;top:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.event dt{margin:0;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.event dd{margin:0;font-size:16px;font-weight:700;line-height:1.35}
+form{display:flex;flex-direction:column;gap:22px}
+.label,label{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.opt{font-weight:600;opacity:.8}
+.field{display:flex;flex-direction:column;gap:8px}
+.hint{margin:0;font-size:13px;color:var(--muted)}
+input[type=text]{font:inherit;font-size:18px;font-weight:600;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;width:100%;min-height:52px}
+input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,196,144,.16)}
+
+.hero-in{gap:40px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{font:inherit;color:var(--ink);text-align:left;background:var(--field);border:1.5px solid var(--line);border-radius:18px;padding:10px 10px 14px;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0;transition:background .2s,border-color .2s,transform .15s}
+.opt:active{transform:scale(.98)}
+.opt .pic{display:block;aspect-ratio:3/4;border-radius:999px 999px 12px 12px;overflow:hidden;border:2px solid rgba(201,196,144,.55);margin-bottom:6px}
+.opt img{width:100%;height:100%;object-fit:cover;display:block}
+.opt .jn{display:block;font-size:11px;font-weight:800;letter-spacing:.4em;color:var(--muted)}
+.opt .nm{display:block;font-family:var(--serif);font-size:clamp(30px,8vw,42px);line-height:1;font-weight:600;color:var(--gold-hi)}
+.opt .tg{display:block;font-family:var(--serif);font-style:italic;font-weight:500;font-size:18px;line-height:1.2;color:#E9DFAE}
+.opt .mn{display:block;font-size:13px;line-height:1.4;color:var(--muted);font-weight:600}
+.opt[aria-pressed="true"]{background:var(--pick);border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,196,144,.18)}
+.opt[aria-pressed="true"] .pic{border-color:var(--gold)}
+.opt[aria-pressed="true"] .nm::after{content:"\00a0\2713";color:var(--gold);font-size:.6em;vertical-align:middle}
+.opt:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.box a{color:var(--gold);font-weight:800}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <div class="top"><svg viewBox="0 0 987 347" role="img" aria-label="Juno" xmlns="http://www.w3.org/2000/svg"><path d="M439.12 94.5703C455.619 94.5704 468.994 107.945 468.994 124.444V234.539H468.993C468.971 250.783 465.428 266.829 458.604 281.566C451.76 296.35 441.781 309.462 429.362 319.99C416.944 330.519 402.384 338.21 386.695 342.53C371.007 346.851 354.566 347.695 338.519 345.006C322.471 342.316 307.201 336.157 293.771 326.957C280.342 317.757 269.076 305.736 260.757 291.732C252.438 277.729 247.266 262.077 245.601 245.868C245.209 242.06 244.877 238.274 245.021 234.539H244.983V124.444C244.983 107.945 258.358 94.5705 274.857 94.5703C291.357 94.5703 304.732 107.945 304.732 124.444V234.539H304.248C304.648 236.266 304.933 238.012 305.11 239.736C305.886 247.287 308.295 254.577 312.17 261.101C316.045 267.624 321.293 273.223 327.549 277.509C333.804 281.794 340.917 284.663 348.393 285.916C355.868 287.169 363.526 286.775 370.834 284.763C378.142 282.75 384.924 279.167 390.709 274.263C396.494 269.358 401.142 263.25 404.33 256.364C407.518 249.478 409.17 241.979 409.17 234.389H409.246V124.444C409.246 107.945 422.621 94.5703 439.12 94.5703Z" fill="#EFF3FA"/><path d="M194.011 94.5703C210.537 94.5703 223.935 107.968 223.936 124.494L223.935 234.539C223.913 250.783 220.363 266.829 213.528 281.566C206.673 296.35 196.677 309.462 184.237 319.99C171.798 330.518 157.214 338.21 141.499 342.53C125.784 346.851 109.316 347.695 93.2412 345.006C77.1665 342.316 61.8708 336.157 48.4189 326.957C34.9672 317.757 23.6817 305.736 15.3486 291.732C7.14589 277.947 0.802155 261.158 0.0322266 244.934L0 244.161V243.266C0 226.739 13.398 213.341 29.9248 213.341C45.0502 213.341 57.5519 224.563 59.5635 239.136C59.6408 239.318 59.7124 239.517 59.7764 239.736C60.5534 247.287 62.967 254.577 66.8486 261.101C70.7303 267.624 75.9869 273.223 82.2529 277.509C88.519 281.794 95.644 284.663 103.132 285.916C110.62 287.169 118.291 286.775 125.611 284.763C132.931 282.75 139.725 279.167 145.52 274.263C151.314 269.358 155.97 263.25 159.163 256.364C162.356 249.478 164.011 241.979 164.011 234.389H164.087V124.494C164.087 107.968 177.484 94.5705 194.011 94.5703Z" fill="#EFF3FA"/><rect x="157.108" width="71.8758" height="71.8758" rx="35.9379" fill="#C9C490"/><path d="M572.341 98.584C588.029 94.2637 604.47 93.4189 620.518 96.1084C636.565 98.7979 651.835 104.957 665.265 114.157C678.694 123.357 689.96 135.378 698.279 149.382C706.598 163.386 711.77 179.038 713.436 195.247C713.827 199.055 714.159 202.84 714.016 206.575H714.053V316.671C714.052 333.17 700.678 346.545 684.179 346.545C667.68 346.545 654.305 333.169 654.305 316.67V206.575H654.788C654.389 204.848 654.103 203.104 653.926 201.379C653.15 193.828 650.741 186.538 646.866 180.015C642.991 173.491 637.743 167.892 631.487 163.606C625.232 159.321 618.119 156.452 610.644 155.199C603.168 153.946 595.51 154.339 588.202 156.352C580.894 158.364 574.112 161.947 568.327 166.852C562.542 171.756 557.894 177.864 554.706 184.75C551.518 191.636 549.866 199.135 549.866 206.726H549.791V316.671C549.791 333.17 536.415 346.545 519.916 346.545C503.417 346.545 490.042 333.169 490.042 316.67V206.575H490.043C490.065 190.332 493.609 174.286 500.432 159.549C507.276 144.766 517.255 131.653 529.674 121.125C542.092 110.597 556.652 102.904 572.341 98.584Z" fill="#EFF3FA"/><path d="M987 220.558C987 290.138 930.593 346.545 861.013 346.545C791.432 346.545 735.025 290.138 735.025 220.558C735.025 150.977 791.432 94.5703 861.013 94.5703C930.593 94.5703 987 150.977 987 220.558ZM793.355 220.558C793.355 257.924 823.647 288.215 861.013 288.215C898.379 288.215 928.67 257.924 928.67 220.558C928.67 183.191 898.379 152.9 861.013 152.9C823.647 152.9 793.355 183.191 793.355 220.558Z" fill="#EFF3FA"/></svg><a href="../">Calendar</a></div>
+    <section class="titles">
+      <p class="eyebrow">House name vote · Derby 2026</p>
+      <h1>Choose your <span class="shine">house name</span></h1>
+      <p class="lead">Ahead of the Derby, each Juno building takes on a house name, and the winning name goes on the Derby jerseys. Your vote is private. Results are announced on Friday morning.</p>
+    </section>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="count" id="count" aria-label="Countdown to the close of voting">
+    <p class="count-k">Voting closes in</p>
+    <div class="count-row" role="timer" aria-live="off">
+      <div class="unit"><span class="num" id="cD">0</span><span class="u">Days</span></div>
+      <div class="unit"><span class="num" id="cH">00</span><span class="u">Hours</span></div>
+      <div class="unit"><span class="num" id="cM">00</span><span class="u">Mins</span></div>
+      <div class="unit"><span class="num" id="cS">00</span><span class="u">Secs</span></div>
+    </div>
+  </section>
+
+  <div class="box" id="closedNote" hidden>
+    <p class="t">Voting has closed</p>
+    <p>Thank you for voting. The new house names are announced on Friday morning in each building's group.</p>
+  </div>
+
+  <form id="form" novalidate>
+    <div class="field">
+      <span class="label" id="buildingLabel">Your building</span>
+      <div class="seg" role="group" aria-labelledby="buildingLabel" data-group="building">
+        <button type="button" data-value="Karimu" aria-pressed="false">Karimu</button>
+        <button type="button" data-value="Emily Akinola" aria-pressed="false">Emily Akinola</button>
+      </div>
+    </div>
+    <div class="field" id="optsWrap" hidden>
+      <span class="label" id="optsLabel">Pick a name for <span id="bname"></span></span>
+      <div class="opts" id="opts" role="group" aria-labelledby="optsLabel"></div>
+    </div>
+    <div class="field">
+      <label for="name">Your full name</label>
+      <input type="text" id="name" autocomplete="name" maxlength="80" required>
+    </div>
+    <div class="field">
+      <label for="room">Your room number</label>
+      <input type="text" id="room" autocomplete="off" maxlength="12">
+    </div>
+    <label class="check"><input type="checkbox" id="remember" checked> Remember me on this phone</label>
+    <p class="msg" id="msg" role="alert" hidden></p>
+    <button type="submit" class="go" id="go">Cast my vote</button>
+    <p class="note">One vote per member. Only the Juno team sees individual votes, and room numbers are never shared. You can change your vote until the close.</p>
+  </form>
+
+  <section class="done" id="doneView" hidden>
+    <div class="tick-badge" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#050F26" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 id="doneTitle"></h2>
+    <p id="doneText"></p>
+    <div class="box"><p class="t">Playing in the Derby?</p><p>Sign up at <a href="../derby/">life.juno.africa/derby</a> by Thursday 12 November, 9pm, so your jersey comes in your size.</p></div>
+    <button type="button" class="link" id="change">Change my vote</button>
+  </section>
+
+  <footer class="foot">
+    <p>Life at Juno · Karimu &amp; Emily Akinola, Yaba</p>
+    <p>Designed by <a href="https://chidiverseconsulting.com" target="_blank" rel="noopener"><strong>Chidiverse Consulting Ltd</strong></a></p>
+  </footer>
+</main>
+
+<script>
+// Same Apps Script web app as the RSVP page. Votes go to the "RSVPs" tab of the Juno Check-ins sheet under the
+// event id below, with the chosen name in the notes column. Sending again with the same name and room updates the vote.
+const VOTE_URL = "https://script.google.com/macros/s/AKfycby7glLFdEq_B2WLJWjOk16iwSFwnNaf26Ho0BNxGuScizv9xANwqeOFW7qJd2aw7nDp/exec";
+const EVENT = { id: "2026-11-12-house-name-vote", title: "House name vote" };
+const CLOSES = Date.parse("2026-11-12T21:00:00+01:00");
+const OPTIONS = {
+  "Karimu": [
+    { name: "Belvedere", tag: "An Elevated Life.", meaning: "A building raised up for the view. Fitting for the house with the rooftop.", img: "belvedere.jpg" },
+    { name: "Beacon", tag: "Live Bright, Dream Bigger.", meaning: "The light that guides everyone home.", img: "beacon.jpg" },
+  ],
+  "Emily Akinola": [
+    { name: "Atlas", tag: "The World Is Yours.", meaning: "In the old story, Atlas holds up the whole sky. A house for people going places.", img: "atlas.jpg" },
+    { name: "Aurora", tag: "New Beginnings.", meaning: "The first light of a new day. A house for fresh starts.", img: "aurora.jpg" },
+  ],
+};
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  const open = params.get("preview") === "open";
+  const store = {
+    get(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  };
+  const state = { building: "", choice: "" };
+
+  function renderOptions() {
+    const list = OPTIONS[state.building];
+    $("optsWrap").hidden = !list;
+    if (!list) return;
+    $("bname").textContent = state.building;
+    $("opts").innerHTML = "";
+    list.forEach((o) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "opt"; b.dataset.value = o.name;
+      b.setAttribute("aria-pressed", o.name === state.choice ? "true" : "false");
+      b.innerHTML = '<span class="pic"><img alt="" src="' + o.img + '"></span><span class="jn">JUNO</span><span class="nm"></span><span class="tg"></span><span class="mn"></span>';
+      b.querySelector(".nm").textContent = o.name;
+      b.querySelector(".tg").textContent = "“" + o.tag + "”";
+      b.querySelector(".mn").textContent = o.meaning;
+      b.addEventListener("click", () => { state.choice = o.name; paint(); });
+      $("opts").appendChild(b);
+    });
+  }
+  function paint() {
+    document.querySelectorAll('[data-group="building"] button').forEach((b) => b.setAttribute("aria-pressed", b.dataset.value === state.building ? "true" : "false"));
+    document.querySelectorAll("#opts .opt").forEach((b) => b.setAttribute("aria-pressed", b.dataset.value === state.choice ? "true" : "false"));
+  }
+  document.querySelectorAll('[data-group="building"] button').forEach((b) => b.addEventListener("click", () => {
+    if (state.building !== b.dataset.value) { state.building = b.dataset.value; state.choice = ""; renderOptions(); }
+    paint();
+  }));
+
+  const pb = (params.get("b") || "").toLowerCase();
+  state.building = pb.startsWith("k") ? "Karimu" : pb.startsWith("e") ? "Emily Akinola" : store.get("juno.building");
+  $("name").value = store.get("juno.name");
+  $("room").value = store.get("juno.room");
+  renderOptions(); paint();
+
+  function fail(text) { $("msg").textContent = text; $("msg").hidden = false; $("go").disabled = false; $("go").textContent = "Cast my vote"; }
+  $("form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    $("msg").hidden = true;
+    const name = $("name").value.trim();
+    const room = $("room").value.trim();
+    if (!state.building) return fail("Pick your building.");
+    if (!state.choice) return fail("Pick a name for " + state.building + ".");
+    if (!name) return fail("Add your full name.");
+    if (!room) return fail("Add your room number.");
+    if ($("remember").checked) { store.set("juno.name", name); store.set("juno.room", room); store.set("juno.building", state.building); }
+    const body = JSON.stringify({ type: "rsvp", eventId: EVENT.id, eventTitle: EVENT.title, response: "yes", name, guestType: "member",
+      building: state.building, room, organisation: "", phone: "", dietary: "Juno " + state.choice });
+    $("go").disabled = true;
+    $("go").textContent = "Sending…";
+    fetch(VOTE_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body })
+      .then((r) => r.json())
+      .then((res) => {
+        if (!res.ok) return fail(res.error === "missing" ? "Some details are missing. Please check the form." : "Something went wrong. Please try again.");
+        $("doneTitle").textContent = "Your vote is in, " + name.split(/\s+/)[0] + ".";
+        $("doneText").innerHTML = "";
+        const s = document.createElement("strong"); s.textContent = "Juno " + state.choice;
+        $("doneText").append(document.createTextNode("You voted for "), s, document.createTextNode(" for " + state.building + ". Results are announced on Friday morning, and you can change your vote until Thursday 9pm."));
+        $("form").hidden = true; $("doneView").hidden = false;
+        $("go").disabled = false; $("go").textContent = "Cast my vote";
+        $("doneView").scrollIntoView({ behavior: "smooth", block: "start" });
+      })
+      .catch(() => fail("Couldn't send. Check your connection and try again."));
+  });
+  $("change").addEventListener("click", () => { $("doneView").hidden = true; $("form").hidden = false; });
+
+  const pad = (n) => String(n).padStart(2, "0");
+  function tick() {
+    const left = CLOSES - Date.now();
+    if (left <= 0 && !open) { $("count").hidden = true; $("form").hidden = true; $("doneView").hidden = true; $("closedNote").hidden = false; return; }
+    const s = Math.max(0, Math.floor(left / 1000));
+    $("cD").textContent = Math.floor(s / 86400);
+    $("cH").textContent = pad(Math.floor(s / 3600) % 24);
+    $("cM").textContent = pad(Math.floor(s / 60) % 60);
+    $("cS").textContent = pad(s % 60);
+    setTimeout(tick, 1000);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>
