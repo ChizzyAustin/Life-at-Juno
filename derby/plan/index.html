@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#00285E">
+<meta name="description" content="How the Juno Derby Series comes together, from sign-ups to the Juno Derby Cup.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Juno Derby Plan">
+<meta property="og:description" content="Karimu against Emily Akinola: the stages, every day from sign-ups to the Cup, the Derby Day plan and the points.">
+<meta property="og:url" content="https://life.juno.africa/derby/plan/">
+<meta property="og:image" content="https://life.juno.africa/derby/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<title>The Juno Derby Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Urbanist:wght@500;600;700;800;900&display=swap">
+<style>
+/* Layout: one Juno-navy scroll with gold as the thread. The stages run left to right into the Cup, then the days, the pitch, the points and the people. */
+:root{
+  --bg:#00285E; --deep:#021A44; --panel:#06306B; --line:#24508F; --ink:#EFF3FA; --muted:#B9C6DE;
+  --gold:#C9C490; --gold-hi:#F3EBC6; --karimu:#A9C8FF; --emily:#E9DFAE; --pitch:#9FE0B5; --grass:#2F7D55;
+  --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --body:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{margin:0;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(34px,6vw,50px);line-height:1;margin:6px 0 10px;text-wrap:balance}
+h3{margin:0;font-size:18px;font-weight:800;line-height:1.25}
+.sub{color:var(--muted);max-width:64ch;margin:0 0 26px}
+section{padding-block:56px 0}
+.pts{display:inline-block;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;background:rgba(201,196,144,.14);color:var(--gold-hi);border:1px solid rgba(201,196,144,.45);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 90% at 50% 10%,#174C97 0%,var(--bg) 62%)}
+.hero .lines{position:absolute;left:50%;top:0;width:1100px;height:100%;transform:translateX(-50%);pointer-events:none}
+.hero-in{position:relative;padding-block:56px 44px}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(60px,12vw,120px);line-height:.9;margin:12px 0 0;letter-spacing:-.01em}
+h1 em{font-style:italic;font-weight:500;color:var(--gold)}
+.vs{display:inline-flex;align-items:center;gap:14px;margin-top:20px;padding:10px 18px;border:1px solid rgba(201,196,144,.5);border-radius:999px;background:rgba(2,26,68,.45);font-weight:900;letter-spacing:.1em;text-transform:uppercase;font-size:15px}
+.vs b{font-family:var(--display);font-style:italic;font-weight:500;color:var(--gold);font-size:22px;letter-spacing:0;text-transform:none}
+.lead{max-width:62ch;margin:22px 0 0;font-size:18px;color:#D5DEEE}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:34px 0 0}
+.facts div{border-top:1px solid rgba(201,196,144,.55);padding-top:10px;min-width:0}
+.facts dt{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.facts dd{margin:4px 0 0;font-size:18px;font-weight:800}
+
+/* Flow */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;position:relative}
+.flow::before{content:"";position:absolute;left:22px;right:8%;top:21px;height:2px;background:linear-gradient(90deg,var(--gold),rgba(201,196,144,.35))}
+.flow li{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0}
+.flow .n{width:44px;height:44px;border-radius:50%;background:var(--bg);border:2px solid var(--gold);display:grid;place-items:center;font-weight:900;color:var(--gold);position:relative;z-index:1}
+.flow .when{margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.flow p{margin:0;color:var(--muted);font-size:15px}
+.flow .out{font-size:13.5px;color:var(--ink);font-weight:700}
+.cup{margin-top:26px;display:flex;align-items:center;gap:18px;padding:18px 22px;border:1.5px solid var(--gold);border-radius:18px;background:linear-gradient(90deg,rgba(201,196,144,.14),rgba(201,196,144,0))}
+.cup svg{flex:none}
+.cup p{margin:0;font-size:17px;font-weight:700}
+.cup p span{display:block;color:var(--muted);font-weight:600;font-size:15px}
+
+/* Days */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 18px}
+.tag{font-size:12px;font-weight:800;padding:2px 9px;border-radius:999px;border:1px solid;white-space:nowrap}
+.tag.k{color:var(--karimu);border-color:rgba(169,200,255,.5)}
+.tag.e{color:var(--emily);border-color:rgba(233,223,174,.5)}
+.tag.b{color:var(--ink);border-color:rgba(239,243,250,.45)}
+.tag.p{color:var(--pitch);border-color:rgba(159,224,181,.5)}
+.days{display:grid;gap:10px}
+.day{display:grid;grid-template-columns:92px minmax(0,1fr);gap:16px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.day.key{border-color:rgba(201,196,144,.75)}
+.day.derby{border:1.5px solid var(--gold);background:linear-gradient(90deg,rgba(201,196,144,.16),var(--panel) 60%)}
+.date span{display:block;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.date b{display:block;font-family:var(--display);font-size:38px;line-height:1;font-weight:600}
+.date small{display:block;font-size:12px;color:var(--muted);font-weight:700}
+.evs{display:flex;flex-direction:column;gap:9px;min-width:0;justify-content:center}
+.ev{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.ev .t{font-weight:800;font-variant-numeric:tabular-nums;color:var(--muted);min-width:62px}
+.ev .w{font-weight:700}
+
+/* Derby Day */
+.bar{display:flex;height:64px;border-radius:14px;overflow:hidden;border:1px solid var(--line);margin-bottom:8px}
+.bar div{min-width:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--ink);border-right:1px solid rgba(2,26,68,.6);overflow:hidden;white-space:nowrap}
+.bar .a{background:#0B3A7C}.bar .o{background:var(--gold);color:#021A44}.bar .c{background:#E9DFAE;color:#021A44}
+.bar .m{background:var(--grass)}.bar .s{background:#3E6FB5}.bar .x{background:repeating-linear-gradient(135deg,#0B3A7C 0 8px,#06306B 8px 16px)}
+.scale{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:22px}
+.runs{display:grid;gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.run{display:grid;grid-template-columns:118px minmax(0,1fr) auto;gap:14px;align-items:baseline;padding:14px 18px;background:var(--panel)}
+.run+.run{border-top:1px solid var(--line)}
+.run .t{font-weight:800;font-variant-numeric:tabular-nums;color:var(--gold)}
+.run p{margin:2px 0 0;color:var(--muted);font-size:15px}
+.run.main{background:linear-gradient(90deg,rgba(47,125,85,.35),var(--panel) 70%)}
+.games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+.game{padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--deep);display:flex;flex-direction:column;gap:6px;min-width:0}
+.game p{margin:0;color:var(--muted);font-size:14.5px}
+.note{margin:16px 0 0;color:var(--muted);font-size:15px;max-width:70ch}
+
+/* Points */
+.split{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.split div{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.split b{display:block;font-family:var(--display);font-size:46px;line-height:1;font-weight:600;color:var(--gold-hi);font-variant-numeric:tabular-nums}
+.split span{font-size:14px;font-weight:700;color:var(--muted)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;min-width:560px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);font-size:15px;vertical-align:top}
+th{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:var(--deep)}
+td.n,th.n{text-align:right;white-space:nowrap}
+td small{display:block;color:var(--muted);font-size:13px}
+tr.grp td{background:rgba(201,196,144,.08);font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-hi)}
+tbody tr:last-child td{border-bottom:0}
+
+/* Roles and to-dos */
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.role{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--panel);display:flex;flex-direction:column;gap:6px;min-width:0}
+.role p{margin:0;color:var(--muted);font-size:15px}
+.todo{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.todo li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.todo li::before{content:"";width:16px;height:16px;border:2px solid var(--gold);border-radius:4px;transform:translateY(2px)}
+.todo b{font-weight:800}
+.todo span{color:var(--muted)}
+.todo em{font-style:normal;font-size:13px;font-weight:800;color:var(--gold);white-space:nowrap}
+footer a{color:var(--ink)}
+footer{margin-top:64px;padding-block:22px 48px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+
+@media (max-width:860px){
+  .games{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .roles{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .facts,.split{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr;gap:22px}
+  .flow::before{left:21px;right:auto;top:8px;bottom:8px;width:2px;height:auto;background:linear-gradient(180deg,var(--gold),rgba(201,196,144,.35))}
+  .flow li{padding-left:62px}
+  .flow .n{position:absolute;left:0;top:0}
+  .flow .when{margin-top:10px}
+  .day{grid-template-columns:70px minmax(0,1fr);gap:12px;padding:14px}
+  .date b{font-size:32px}
+  .run{grid-template-columns:1fr auto;gap:4px 12px}
+  .run .t{grid-column:1/-1}
+  .bar div span{display:none}
+}
+@media (max-width:520px){
+  .games,.roles{grid-template-columns:1fr}
+  .todo li{grid-template-columns:22px minmax(0,1fr)}
+  .todo em{grid-column:2}
+}
+</style>
+
+</head>
+<body>
+<header class="hero">
+  <svg class="lines" viewBox="0 0 1100 520" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+    <g fill="none" stroke="#C9C490" stroke-opacity=".14" stroke-width="2">
+      <rect x="40" y="40" width="1020" height="640"/><path d="M550 40V680"/><circle cx="550" cy="360" r="110"/>
+      <rect x="40" y="200" width="150" height="320"/><rect x="910" y="200" width="150" height="320"/>
+    </g>
+  </svg>
+  <div class="wrap hero-in">
+    <p class="eyebrow">Derby Series 2026 · Plan for the team</p>
+    <h1>The Juno <em>Derby</em></h1>
+    <div class="vs"><span>Karimu</span><b>vs</b><span>Emily Akinola</span></div>
+    <p class="lead">Twelve days from sign-ups to Derby Day. Every final in the build-up adds points to a building's tally, and the tally is settled on the pitch on Saturday 21 November. The building with the most points lifts the Juno Derby Cup.</p>
+    <dl class="facts">
+      <div><dt>Sign-ups and name vote close</dt><dd>Thursday 12 November, 9pm</dd></div>
+      <div><dt>Build-up</dt><dd>Saturday 14 to Friday 20 November</dd></div>
+      <div><dt>Derby Day</dt><dd>Saturday 21 November, 4 to 5 hours on the pitch</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="wrap">
+  <section aria-labelledby="flow-h">
+    <p class="eyebrow">How it comes together</p>
+    <h2 id="flow-h">Five stages, one tally</h2>
+    <p class="sub">Each stage hands the next one what it needs. The sign-ups give us squads and sizes, the vote gives us the names on the jerseys, and every competition after that feeds the points tally.</p>
+    <ol class="flow">
+      <li><span class="n">1</span><span class="when">10 to 12 Nov</span><h3>Sign up and vote</h3><p>Members pick their games at life.juno.africa/derby and vote for their house name in their building's poll.</p><span class="out">Gives us: players, jersey sizes, house names</span></li>
+      <li><span class="n">2</span><span class="when">Fri 13 Nov</span><h3>Lock it in</h3><p>House names announced. Jerseys ordered with the new names. Brackets drawn and posted in both groups.</p><span class="out">Gives us: kit on order, fixtures out</span></li>
+      <li><span class="n">3</span><span class="when">14 to 19 Nov</span><h3>The build-up</h3><p>Squad training, then tennis, snooker, chess, board games and FC 27 run across both buildings.</p><span class="pts">Every final scores</span></li>
+      <li><span class="n">4</span><span class="when">Fri 20 Nov</span><h3>Derby Eve</h3><p>Kit collection at Karimu, the Wizard of Juno quiz and the FC 27 final on the big screen.</p><span class="pts">Quiz and FC 27 score</span></li>
+      <li><span class="n">5</span><span class="when">Sat 21 Nov</span><h3>Derby Day</h3><p>Side games and the chess final while everyone arrives, then the walk-out in the new names, the match and the final tally.</p><span class="pts">The biggest points of the series</span></li>
+    </ol>
+    <div class="cup">
+      <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><g fill="none" stroke="#C9C490" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M15 6h22v12a11 11 0 0 1-22 0z"/><path d="M15 10H8v4a7 7 0 0 0 7 7M37 10h7v4a7 7 0 0 1-7 7"/><path d="M26 29v8M18 46h16M20 46l2-9h8l2 9"/></g></svg>
+      <p>Every point goes into one tally.<span>The Juno Derby Cup goes to the building with the most points after the last side game on Derby Day.</span></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="days-h">
+    <p class="eyebrow">Day by day</p>
+    <h2 id="days-h">From sign-ups to the Cup</h2>
+    <p class="sub">Everything below is on the Life at Juno calendar except the Friday 13 November lock-in, which is team work behind the scenes.</p>
+    <div class="legend"><span class="tag k">Karimu</span><span class="tag e">Emily Akinola</span><span class="tag b">Both buildings</span><span class="tag p">The pitch</span></div>
+    <div class="days">
+      <div class="day key"><div class="date"><span>Tue to Thu</span><b>10–12</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">All week</span><span class="w">Sign-ups at life.juno.africa/derby</span><span class="tag b">Both</span></div>
+        <div class="ev"><span class="t">All week</span><span class="w">House-name vote in each building's WhatsApp poll</span><span class="tag b">Both</span><span class="pts">+1 turnout</span></div>
+        <div class="ev"><span class="t">Thu 9pm</span><span class="w">Sign-ups and voting close</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Fri</span><b>13</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">Morning</span><span class="w">House names announced in both groups</span><span class="tag b">Both</span></div>
+        <div class="ev"><span class="t">Day</span><span class="w">Jersey order placed with names and sizes; brackets drawn and posted</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Sat</span><b>14</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">7:00am</span><span class="w">Derby training 1, open to anyone</span><span class="tag p">Pitch</span></div>
+        <div class="ev"><span class="t">10:00am</span><span class="w">Tennis round 1</span><span class="tag k">Karimu court</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Sun</span><b>15</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">7:00am</span><span class="w">Derby training 2</span><span class="tag p">Pitch</span></div>
+        <div class="ev"><span class="t">10:00am</span><span class="w">Tennis final</span><span class="tag k">Karimu court</span><span class="pts">+3 / +1</span></div>
+        <div class="ev"><span class="t">4:00pm</span><span class="w">Snooker round 1</span><span class="tag e">Emily Akinola</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Mon</span><b>16</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">7:30pm</span><span class="w">Pre-Derby night: FC 27 round 1</span><span class="tag k">Karimu</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Tue</span><b>17</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">7:30pm</span><span class="w">Chess and board games round 1</span><span class="tag b">Both</span></div>
+        <div class="ev"><span class="t">8:00pm</span><span class="w">Snooker, next round</span><span class="tag e">Emily Akinola</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Wed</span><b>18</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">7:30pm</span><span class="w">Pre-Derby night: FC 27 knockouts, down to the last two</span><span class="tag k">Karimu</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Thu</span><b>19</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">8:00pm</span><span class="w">Snooker semi-finals</span><span class="tag e">Emily Akinola</span></div>
+        <div class="ev"><span class="t">9:30pm</span><span class="w">Snooker final</span><span class="tag e">Emily Akinola</span><span class="pts">+3 / +1</span></div>
+      </div></div>
+      <div class="day key"><div class="date"><span>Fri</span><b>20</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">7:30pm</span><span class="w">Derby Eve: kit collection</span><span class="tag k">Karimu</span></div>
+        <div class="ev"><span class="t">Then</span><span class="w">Wizard of Juno quiz</span><span class="pts">+3</span></div>
+        <div class="ev"><span class="t">Then</span><span class="w">FC 27 final on the big screen</span><span class="pts">+3 / +1</span></div>
+      </div></div>
+      <div class="day derby"><div class="date"><span>Sat</span><b>21</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="w">Derby Day: side games, the chess final, the walk-out, the match, the tally and the Juno Derby Cup</span><span class="tag p">Pitch</span><span class="pts">Up to 19 points</span></div>
+      </div></div>
+      <div class="day"><div class="date"><span>Sun</span><b>22</b><small>November</small></div><div class="evs">
+        <div class="ev"><span class="t">11:00am</span><span class="w">Recovery brunch</span><span class="tag e">Emily Akinola</span></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="pitch-h">
+    <p class="eyebrow">Derby Day on the pitch</p>
+    <h2 id="pitch-h">Five hours, no dead time</h2>
+    <p class="sub">Times count from when we get the pitch. The side games open the day while everyone arrives and give every member, not only the squads, a way to score. The match comes last, about two hours in, when the crowd is at its biggest.</p>
+    <div class="bar" role="img" aria-label="Five-hour Derby Day split: arrivals 30 minutes, welcome and chant battle 10, side games 60, refuel 20, walk-out 15, the match 70, the Cup 25, photos 30, buffer 40">
+      <div class="a" style="flex:30"><span>Arrive</span></div>
+      <div class="c" style="flex:10"></div>
+      <div class="s" style="flex:60"><span>Side games</span></div>
+      <div class="a" style="flex:20"></div>
+      <div class="o" style="flex:15"></div>
+      <div class="m" style="flex:70"><span>The match</span></div>
+      <div class="o" style="flex:25"><span>Cup</span></div>
+      <div class="a" style="flex:30"><span>Photos</span></div>
+      <div class="x" style="flex:40"></div>
+    </div>
+    <div class="scale" aria-hidden="true"><span>0:00</span><span>1:00</span><span>2:00</span><span>3:00</span><span>4:00</span><span>5:00</span></div>
+    <div class="runs">
+      <div class="run"><span class="t">0:00 to 0:30</span><div><h3>Gates open</h3><p>Arrivals, music and warm-ups. Supporters settle in by building, and the squads do their kit check.</p></div></div>
+      <div class="run"><span class="t">0:30 to 0:40</span><div><h3>Welcome and chant battle</h3><p>A quick welcome, then each building's supporters get one go. The crowd's noise decides it.</p></div><span class="pts">+1</span></div>
+      <div class="run"><span class="t">0:40 to 1:40</span><div><h3>Side games</h3><p>Four games, two points each, open to every member who came. The chess final runs alongside, in the shade.</p></div><span class="pts">Up to +8</span></div>
+      <div class="run"><span class="t">1:40 to 2:00</span><div><h3>Refuel</h3><p>Water, food and shade for everyone while the squads warm up.</p></div></div>
+      <div class="run"><span class="t">2:00 to 2:15</span><div><h3>The walk-out</h3><p>Both squads walk out in jerseys carrying the new house names. The names are unveiled, then team photos and the coin toss.</p></div></div>
+      <div class="run main"><span class="t">2:15 to 3:25</span><div><h3>The match</h3><p>Two 30-minute halves in front of the full crowd. At half-time, supporters take on the crossbar challenge just for fun.</p></div><span class="pts">Win +10 · Draw +5 each</span></div>
+      <div class="run"><span class="t">3:25 to 3:50</span><div><h3>The tally and the Cup</h3><p>Final points revealed, the Juno Derby Cup, Player of the Match and Best Supporter.</p></div></div>
+      <div class="run"><span class="t">3:50 to 4:20</span><div><h3>Photos and music</h3><p>Group photos for both buildings, then a wind-down.</p></div></div>
+      <div class="run"><span class="t">4:20 to 5:00</span><div><h3>Buffer and pack-down</h3><p>Covers a late start or a long half-time. With only 4 hours, drop this, cut the side games to three and keep the photos short.</p></div></div>
+    </div>
+    <div class="games">
+      <div class="game"><h3>Tug of war</h3><p>8 a side, mixed teams.</p><span class="pts">+2</span></div>
+      <div class="game"><h3>Relay race</h3><p>4 a side, mixed teams.</p><span class="pts">+2</span></div>
+      <div class="game"><h3>Penalty shootout</h3><p>5 a side, nobody from the match squad.</p><span class="pts">+2</span></div>
+      <div class="game"><h3>Sack race</h3><p>3 a side, any member.</p><span class="pts">+2</span></div>
+    </div>
+    <p class="note">The training bibs cover the side-game teams. The extra kit is a tug-of-war rope, sacks and cones.</p>
+  </section>
+
+  <section aria-labelledby="points-h">
+    <p class="eyebrow">Points, proposed for sign-off</p>
+    <h2 id="points-h">How the tally adds up</h2>
+    <p class="sub">Points go to the player's building, so a final between two players from the same building earns that building both the winner's and the runner-up's points.</p>
+    <div class="split">
+      <div><b>24</b><span>points in the build-up</span></div>
+      <div><b>19</b><span>points on Derby Day</span></div>
+      <div><b>43</b><span>points in total. Winning the match alone doesn't win the Cup.</span></div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Competition</th><th>When</th><th class="n">Winner</th><th class="n">Runner-up</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="4">The build-up</td></tr>
+          <tr><td>House-name vote turnout<small>Higher share of the building's members voting</small></td><td>Closes Thu 12 Nov</td><td class="n">1</td><td class="n">–</td></tr>
+          <tr><td>Tennis</td><td>Sat 14 to Sun 15 Nov</td><td class="n">3</td><td class="n">1</td></tr>
+          <tr><td>Snooker</td><td>Sun 15 to Thu 19 Nov</td><td class="n">3</td><td class="n">1</td></tr>
+          <tr><td>Board games</td><td>From Tue 17 Nov</td><td class="n">3</td><td class="n">1</td></tr>
+          <tr><td>Chess<small>The final is played on Derby Day</small></td><td>Tue 17 to Sat 21 Nov</td><td class="n">3</td><td class="n">1</td></tr>
+          <tr><td>FC 27</td><td>Mon 16 to Fri 20 Nov</td><td class="n">3</td><td class="n">1</td></tr>
+          <tr><td>Wizard of Juno quiz</td><td>Fri 20 Nov</td><td class="n">3</td><td class="n">–</td></tr>
+          <tr class="grp"><td colspan="4">Derby Day</td></tr>
+          <tr><td>Supporters' chant battle</td><td>Sat 21 Nov</td><td class="n">1</td><td class="n">–</td></tr>
+          <tr><td>The match<small>A draw gives each building 5</small></td><td>Sat 21 Nov</td><td class="n">10</td><td class="n">–</td></tr>
+          <tr><td>Side games<small>Tug of war, relay, penalty shootout, sack race</small></td><td>Sat 21 Nov</td><td class="n">2 each</td><td class="n">–</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">If the tally is level, the match result decides. If the match was drawn too, the two captains take one penalty each until one misses.</p>
+  </section>
+
+  <section aria-labelledby="roles-h">
+    <p class="eyebrow">Who runs what</p>
+    <h2 id="roles-h">The team</h2>
+    <div class="roles">
+      <div class="role"><h3>Chidi</h3><p>Overall plan, sign-ups, member messages and the points tally.</p></div>
+      <div class="role"><h3>Pre-Derby games master</h3><p>Runs the build-up: brackets, match times, results and points after every final.</p></div>
+      <div class="role"><h3>Derby games master</h3><p>Runs Derby Day on the pitch: the walk-out, the side games and the timings.</p></div>
+      <div class="role"><h3>Building captains</h3><p>Rally members to vote and sign up, pick the squads and bring the supporters.</p></div>
+      <div class="role"><h3>Juno management</h3><p>The pitch booking, jerseys, the Cup and prizes, and food and water.</p></div>
+      <div class="role"><h3>Media team</h3><p>Photos and video at the finals, Derby Eve and all of Derby Day.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="lock-h">
+    <p class="eyebrow">To lock this week</p>
+    <h2 id="lock-h">What has to be settled</h2>
+    <ul class="todo">
+      <li><span><b>Pitch and start time.</b> <span>Book 4 to 5 hours and set the Derby Day start time.</span></span><em>Juno · by Fri 13 Nov</em></li>
+      <li><span><b>Jerseys.</b> <span>Order with the house names and the sizes from the sign-up sheet.</span></span><em>Juno · Fri 13 Nov</em></li>
+      <li><span><b>Points table.</b> <span>Sign off the points above so the tally can start with tennis.</span></span><em>Team · by Sat 14 Nov</em></li>
+      <li><span><b>FC 27 setup.</b> <span>A console, the game, 2 to 4 controllers and a screen.</span></span><em>Captains · by Mon 16 Nov</em></li>
+      <li><span><b>The Cup and prizes.</b> <span>The Juno Derby Cup, plus winner and runner-up prizes for each competition.</span></span><em>Juno · by Fri 20 Nov</em></li>
+      <li><span><b>Pitch kit.</b> <span>A referee, first aid, water, cones, the bibs, a tug-of-war rope and sacks.</span></span><em>Games master · by Sat 21 Nov</em></li>
+      <li><span><b>Getting there.</b> <span>Transport from both buildings to the pitch and back.</span></span><em>Juno · by Fri 20 Nov</em></li>
+    </ul>
+  </section>
+
+  <footer>Life at Juno · Karimu and Emily Akinola, Yaba · Designed by <a href="https://chidiverseconsulting.com" target="_blank" rel="noopener">Chidiverse Consulting Ltd</a></footer>
+</main>
+
+</body>
+</html>
