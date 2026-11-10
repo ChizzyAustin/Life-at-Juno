@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Sign up for the Juno Derby Series: the football squads, tennis, snooker, chess and board games. Karimu against Emily Akinola, Derby Day on Saturday 21 November.">
+<meta name="description" content="Sign up for the Juno Derby Series: the football squads, FC 27, tennis, snooker, chess and board games. Karimu against Emily Akinola, Derby Day on Saturday 21 November.">
 <meta name="theme-color" content="#00285E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sign up for the Juno Derby">
@@ -68,6 +68,7 @@ input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,
 .games button,.seg button{font:inherit;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:14px;cursor:pointer;transition:background .2s,border-color .2s,transform .15s}
 .games button{text-align:left;padding:14px;min-height:78px;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
 .games strong{font-size:17px;font-weight:800}
+.games button[data-value="Supporting"]{grid-column:1/-1}
 .games small{font-size:13px;font-weight:600;color:var(--muted);line-height:1.3}
 .games button[aria-pressed="true"] strong::before{content:"\2713\00a0";color:var(--gold)}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -148,6 +149,7 @@ button[aria-pressed="true"]{background:var(--pick)!important;border-color:var(--
       <span class="label" id="gamesLabel">What are you signing up for? <span class="opt">Pick as many as you like</span></span>
       <div class="games" role="group" aria-labelledby="gamesLabel" id="games">
         <button type="button" data-value="Football" aria-pressed="false"><strong>Football squad</strong><small>Derby Day, Saturday 21 November</small></button>
+        <button type="button" data-value="FC 27" aria-pressed="false"><strong>FC 27</strong><small>Derby week, 16 to 20 November</small></button>
         <button type="button" data-value="Tennis" aria-pressed="false"><strong>Tennis</strong><small>Karimu court, from Saturday 14 November</small></button>
         <button type="button" data-value="Snooker" aria-pressed="false"><strong>Snooker</strong><small>Emily Akinola table, from Sunday 15 November</small></button>
         <button type="button" data-value="Chess" aria-pressed="false"><strong>Chess</strong><small>From Tuesday 17 November</small></button>
@@ -256,7 +258,7 @@ const CLOSES = Date.parse("2026-11-12T21:00:00+01:00");
 
   function fail(text) { $("msg").textContent = text; $("msg").hidden = false; $("go").disabled = false; $("go").textContent = "Sign me up"; }
   function summary() {
-    const order = ["Football", "Tennis", "Snooker", "Chess", "Board games", "Supporting"];
+    const order = ["Football", "FC 27", "Tennis", "Snooker", "Chess", "Board games", "Supporting"];
     const list = order.filter((g) => state.games.includes(g)).map((g) => g === "Football" && state.pos ? "Football (" + state.pos + ")" : g === "Supporting" ? "Just supporting" : g);
     let s = list.join(", ");
     if (state.games.some((g) => g !== "Supporting") && state.size) s += " · Jersey " + state.size;
