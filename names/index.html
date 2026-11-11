@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Vote for your Juno building's new house name. Your vote is private. Voting closes Thursday 12 November, 9pm.">
+<meta name="description" content="Vote for your Juno building's new house name. Your vote is private. Voting closes Friday 13 November, 12 noon.">
 <meta name="theme-color" content="#00285E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Choose your house name">
-<meta property="og:description" content="Karimu and Emily Akinola are each choosing a house name for the Derby. Your vote is private. Closes Thursday 12 November, 9pm.">
+<meta property="og:description" content="Karimu and Emily Akinola are each choosing a house name for the Derby. Your vote is private. Closes Friday 13 November, 12 noon.">
 <meta property="og:url" content="https://life.juno.africa/names/">
 <meta property="og:image" content="https://life.juno.africa/names/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -128,7 +128,7 @@ button[aria-pressed="true"]{background:var(--pick)!important;border-color:var(--
     <section class="titles">
       <p class="eyebrow">House name vote · Derby 2026</p>
       <h1>Choose your <span class="shine">house name</span></h1>
-      <p class="lead">Ahead of the Derby, each Juno building takes on a house name, and the winning name goes on the Derby jerseys. Your vote is private. Results are announced on Friday morning.</p>
+      <p class="lead">Ahead of the Derby, each Juno building takes on a house name, and the winning name goes on the Derby jerseys. Your vote is private. Results are announced on Friday.</p>
     </section>
   </div>
 </header>
@@ -146,7 +146,7 @@ button[aria-pressed="true"]{background:var(--pick)!important;border-color:var(--
 
   <div class="box" id="closedNote" hidden>
     <p class="t">Voting has closed</p>
-    <p>Thank you for voting. The new house names are announced on Friday morning in each building's group.</p>
+    <p>Thank you for voting. The new house names are announced on Friday in each building's group.</p>
   </div>
 
   <form id="form" novalidate>
@@ -194,7 +194,7 @@ button[aria-pressed="true"]{background:var(--pick)!important;border-color:var(--
 // event id below, with the chosen name in the notes column. Sending again with the same name and room updates the vote.
 const VOTE_URL = "https://script.google.com/macros/s/AKfycby7glLFdEq_B2WLJWjOk16iwSFwnNaf26Ho0BNxGuScizv9xANwqeOFW7qJd2aw7nDp/exec";
 const EVENT = { id: "2026-11-12-house-name-vote", title: "House name vote" };
-const CLOSES = Date.parse("2026-11-12T21:00:00+01:00");
+const CLOSES = Date.parse("2026-11-13T12:00:00+01:00");
 const OPTIONS = {
   "Karimu": [
     { name: "Belvedere", tag: "An Elevated Life.", meaning: "A building raised up for the view. Fitting for the house with the rooftop.", img: "belvedere.jpg" },
@@ -271,7 +271,7 @@ const OPTIONS = {
         $("doneTitle").textContent = "Your vote is in, " + name.split(/\s+/)[0] + ".";
         $("doneText").innerHTML = "";
         const s = document.createElement("strong"); s.textContent = "Juno " + state.choice;
-        $("doneText").append(document.createTextNode("You voted for "), s, document.createTextNode(" for " + state.building + ". Results are announced on Friday morning, and you can change your vote until Thursday 9pm."));
+        $("doneText").append(document.createTextNode("You voted for "), s, document.createTextNode(" for " + state.building + ". Results are announced on Friday, and you can change your vote until Friday at 12 noon."));
         $("form").hidden = true; $("doneView").hidden = false;
         $("go").disabled = false; $("go").textContent = "Cast my vote";
         $("doneView").scrollIntoView({ behavior: "smooth", block: "start" });
