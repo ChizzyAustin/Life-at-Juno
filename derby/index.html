@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Sign up for the Juno Derby Series: the football squads, FC 27, tennis, snooker, chess and board games. Karimu against Emily Akinola, Derby Day on Saturday 21 November.">
+<meta name="description" content="Sign up for the Juno Derby Series: the football squads, FC 27, table tennis, snooker, chess and board games. Karimu against Emily Akinola, Derby Day on Saturday 21 November.">
 <meta name="theme-color" content="#00285E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sign up for the Juno Derby">
@@ -149,11 +149,11 @@ button[aria-pressed="true"]{background:var(--pick)!important;border-color:var(--
       <span class="label" id="gamesLabel">What are you signing up for? <span class="opt">Pick as many as you like</span></span>
       <div class="games" role="group" aria-labelledby="gamesLabel" id="games">
         <button type="button" data-value="Football" aria-pressed="false"><strong>Football squad</strong><small>Derby Day, Saturday 21 November</small></button>
-        <button type="button" data-value="FC 27" aria-pressed="false"><strong>FC 27</strong><small>Derby week, 16 to 20 November</small></button>
-        <button type="button" data-value="Tennis" aria-pressed="false"><strong>Tennis</strong><small>Karimu court, from Saturday 14 November</small></button>
+        <button type="button" data-value="FC 27" aria-pressed="false"><strong>FC 27</strong><small>Qualifiers Saturday 14 November, final on Derby night</small></button>
+        <button type="button" data-value="Table tennis" aria-pressed="false"><strong>Table tennis</strong><small>Karimu Ikotun, from Saturday 14 November</small></button>
         <button type="button" data-value="Snooker" aria-pressed="false"><strong>Snooker</strong><small>Emily Akinola table, from Sunday 15 November</small></button>
-        <button type="button" data-value="Chess" aria-pressed="false"><strong>Chess</strong><small>From Tuesday 17 November</small></button>
-        <button type="button" data-value="Board games" aria-pressed="false"><strong>Board games</strong><small>From Tuesday 17 November</small></button>
+        <button type="button" data-value="Chess" aria-pressed="false"><strong>Chess</strong><small>From Monday 16 November</small></button>
+        <button type="button" data-value="Board games" aria-pressed="false"><strong>Board games</strong><small>From Monday 16 November</small></button>
         <button type="button" data-value="Supporting" aria-pressed="false"><strong>Just supporting</strong><small>Come and cheer on Derby Day</small></button>
       </div>
     </div>
@@ -258,7 +258,7 @@ const CLOSES = Date.parse("2026-11-13T12:00:00+01:00");
 
   function fail(text) { $("msg").textContent = text; $("msg").hidden = false; $("go").disabled = false; $("go").textContent = "Sign me up"; }
   function summary() {
-    const order = ["Football", "FC 27", "Tennis", "Snooker", "Chess", "Board games", "Supporting"];
+    const order = ["Football", "FC 27", "Table tennis", "Snooker", "Chess", "Board games", "Supporting"];
     const list = order.filter((g) => state.games.includes(g)).map((g) => g === "Football" && state.pos ? "Football (" + state.pos + ")" : g === "Supporting" ? "Just supporting" : g);
     let s = list.join(", ");
     if (state.games.some((g) => g !== "Supporting") && state.size) s += " · Jersey " + state.size;
