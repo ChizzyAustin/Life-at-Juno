@@ -128,7 +128,7 @@ button[aria-pressed="true"]{background:var(--pick)!important;border-color:var(--
     <section class="titles">
       <p class="eyebrow">House name vote · Derby 2026</p>
       <h1>Choose your <span class="shine">house name</span></h1>
-      <p class="lead">Ahead of the Derby, each Juno building takes on a house name, and the winning name goes on the Derby jerseys. Your vote is private. Results are announced on Friday.</p>
+      <p class="lead">Ahead of the Derby, each Juno building takes on a house name, and the winning name goes on the Derby jerseys. Your vote is private. The new names are revealed on Derby Day, Saturday 21 November.</p>
     </section>
   </div>
 </header>
@@ -146,7 +146,7 @@ button[aria-pressed="true"]{background:var(--pick)!important;border-color:var(--
 
   <div class="box" id="closedNote" hidden>
     <p class="t">Voting has closed</p>
-    <p>Thank you for voting. The new house names are announced on Friday in each building's group.</p>
+    <p>Thank you for voting. The new house names are revealed on Derby Day, Saturday 21 November.</p>
   </div>
 
   <form id="form" novalidate>
@@ -271,7 +271,7 @@ const OPTIONS = {
         $("doneTitle").textContent = "Your vote is in, " + name.split(/\s+/)[0] + ".";
         $("doneText").innerHTML = "";
         const s = document.createElement("strong"); s.textContent = "Juno " + state.choice;
-        $("doneText").append(document.createTextNode("You voted for "), s, document.createTextNode(" for " + state.building + ". Results are announced on Friday, and you can change your vote until Friday at 12 noon."));
+        $("doneText").append(document.createTextNode("You voted for "), s, document.createTextNode(" for " + state.building + ". The new names are revealed on Derby Day, and you can change your vote until Friday at 12 noon."));
         $("form").hidden = true; $("doneView").hidden = false;
         $("go").disabled = false; $("go").textContent = "Cast my vote";
         $("doneView").scrollIntoView({ behavior: "smooth", block: "start" });
